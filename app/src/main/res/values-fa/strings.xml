@@ -81,6 +81,10 @@
     <string name="settings_account">حساب کاربری</string>
     <string name="settings_version">نسخه برنامه</string>
 
+    <!-- Common -->
+    <string name="menu">منو</string>
+    <string name="level">سطح</string>
+
     <!-- Ranks -->
     <string name="rank_initiate">آغازگر</string>
     <string name="rank_survivor">بازمانده</string>

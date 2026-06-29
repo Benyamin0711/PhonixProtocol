@@ -81,6 +81,10 @@
     <string name="settings_account">Account</string>
     <string name="settings_version">App Version</string>
 
+    <!-- Common -->
+    <string name="menu">Menu</string>
+    <string name="level">Level</string>
+
     <!-- Ranks -->
     <string name="rank_initiate">Initiate</string>
     <string name="rank_survivor">Survivor</string>

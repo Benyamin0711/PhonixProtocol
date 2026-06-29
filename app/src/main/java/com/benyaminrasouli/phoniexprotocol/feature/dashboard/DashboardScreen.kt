@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -26,16 +25,16 @@ import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.benyaminrasouli.phoniexprotocol.R
 import com.benyaminrasouli.phoniexprotocol.feature.drawer.DrawerScreen
 import com.benyaminrasouli.phoniexprotocol.ui.theme.BackgroundDark
 import com.benyaminrasouli.phoniexprotocol.ui.theme.PhoenixOrange
-import com.benyaminrasouli.phoniexprotocol.ui.theme.TextSecondary
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -74,7 +73,7 @@ fun DashboardScreen(
                         }) {
                             Icon(
                                 imageVector = Icons.Filled.Menu,
-                                contentDescription = "Menu",
+                                contentDescription = stringResource(R.string.menu),
                                 tint = MaterialTheme.colorScheme.onBackground
                             )
                         }
@@ -87,7 +86,7 @@ fun DashboardScreen(
                 // Greeting
                 state.profile?.let { profile ->
                     Text(
-                        text = "Welcome, ${profile.fullName}",
+                        text = "${stringResource(R.string.dashboard_welcome)} ${profile.fullName}",
                         style = MaterialTheme.typography.headlineMedium,
                         color = MaterialTheme.colorScheme.onBackground,
                         modifier = Modifier.padding(horizontal = 16.dp)
@@ -123,7 +122,7 @@ fun DashboardScreen(
 
                 // Priority Tasks
                 TaskListSection(
-                    title = "TODAY'S PRIORITY",
+                    title = stringResource(R.string.dashboard_priority_tasks),
                     tasks = state.activeTasks,
                     onTaskComplete = viewModel::completeTask
                 )
@@ -134,7 +133,7 @@ fun DashboardScreen(
                 state.stats?.let { stats ->
                     if (stats.shadowLevel > 0) {
                         Text(
-                            text = "SHADOW LEVEL: ${stats.shadowLevel}",
+                            text = "${stringResource(R.string.dashboard_shadow_level)}: ${stats.shadowLevel}",
                             style = MaterialTheme.typography.labelLarge,
                             color = MaterialTheme.colorScheme.error,
                             modifier = Modifier.padding(horizontal = 16.dp)

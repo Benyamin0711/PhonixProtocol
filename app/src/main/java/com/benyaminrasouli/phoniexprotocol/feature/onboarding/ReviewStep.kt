@@ -10,7 +10,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.benyaminrasouli.phoniexprotocol.R
 import com.benyaminrasouli.phoniexprotocol.ui.theme.PhoenixOrange
 import com.benyaminrasouli.phoniexprotocol.ui.theme.TextSecondary
 
@@ -26,7 +28,7 @@ fun ReviewStep(
         modifier = Modifier.fillMaxWidth()
     ) {
         Text(
-            text = "Review Your Profile",
+            text = stringResource(R.string.onboarding_review),
             style = MaterialTheme.typography.headlineMedium,
             color = MaterialTheme.colorScheme.onBackground
         )
@@ -34,20 +36,23 @@ fun ReviewStep(
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
-            text = "Confirm your details",
+            text = stringResource(R.string.onboarding_confirm),
             style = MaterialTheme.typography.bodyMedium,
             color = TextSecondary
         )
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        ReviewRow(label = "Name", value = fullName)
-        ReviewRow(label = "Username", value = "@$username")
+        ReviewRow(label = stringResource(R.string.onboarding_full_name), value = fullName)
+        ReviewRow(label = stringResource(R.string.onboarding_username), value = "@$username")
         if (birthYear.isNotBlank()) {
-            ReviewRow(label = "Birth Year", value = birthYear)
+            ReviewRow(label = stringResource(R.string.onboarding_birth_year), value = birthYear)
         }
-        ReviewRow(label = "Identity Path", value = identityPath)
-        ReviewRow(label = "Language", value = if (language == "en") "English" else "Persian")
+        ReviewRow(label = stringResource(R.string.onboarding_choose_path), value = identityPath)
+        ReviewRow(
+            label = stringResource(R.string.drawer_language),
+            value = if (language == "en") stringResource(R.string.onboarding_english) else stringResource(R.string.onboarding_persian)
+        )
     }
 }
 

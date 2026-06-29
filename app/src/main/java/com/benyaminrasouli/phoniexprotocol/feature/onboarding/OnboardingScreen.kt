@@ -19,10 +19,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import com.benyaminrasouli.phoniexprotocol.R
 import com.benyaminrasouli.phoniexprotocol.core.navigation.Screen
 import com.benyaminrasouli.phoniexprotocol.core.ui.components.PhoenixButton
 import com.benyaminrasouli.phoniexprotocol.ui.theme.BackgroundDark
@@ -93,14 +95,14 @@ fun OnboardingScreen(
             // Navigation buttons
             if (state.currentStep > 0) {
                 PhoenixButton(
-                    text = "Back",
+                    text = stringResource(R.string.onboarding_back),
                     onClick = viewModel::previousStep,
                     modifier = Modifier.padding(bottom = 8.dp)
                 )
             }
 
             PhoenixButton(
-                text = if (state.currentStep == 3) "Complete Setup" else "Next",
+                text = if (state.currentStep == 3) stringResource(R.string.onboarding_complete) else stringResource(R.string.onboarding_next),
                 onClick = {
                     if (state.currentStep == 3) {
                         viewModel.saveProfile {

@@ -12,10 +12,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.benyaminrasouli.phoniexprotocol.R
 import com.benyaminrasouli.phoniexprotocol.ui.theme.PhoenixOrange
-import com.benyaminrasouli.phoniexprotocol.ui.theme.SurfaceDark
 import com.benyaminrasouli.phoniexprotocol.ui.theme.TextSecondary
 
 @Composable
@@ -32,7 +33,7 @@ fun ProfileStep(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Create Your Profile",
+            text = stringResource(R.string.onboarding_create_profile),
             style = MaterialTheme.typography.headlineMedium,
             color = MaterialTheme.colorScheme.onBackground
         )
@@ -40,7 +41,7 @@ fun ProfileStep(
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
-            text = "Tell us about yourself",
+            text = stringResource(R.string.onboarding_tell_us),
             style = MaterialTheme.typography.bodyMedium,
             color = TextSecondary
         )
@@ -50,7 +51,7 @@ fun ProfileStep(
         OutlinedTextField(
             value = fullName,
             onValueChange = onFullNameChange,
-            label = { Text("Full Name") },
+            label = { Text(stringResource(R.string.onboarding_full_name)) },
             modifier = Modifier.fillMaxWidth(),
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = PhoenixOrange,
@@ -66,7 +67,7 @@ fun ProfileStep(
         OutlinedTextField(
             value = username,
             onValueChange = onUsernameChange,
-            label = { Text("Username") },
+            label = { Text(stringResource(R.string.onboarding_username)) },
             modifier = Modifier.fillMaxWidth(),
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = PhoenixOrange,
@@ -82,7 +83,7 @@ fun ProfileStep(
         OutlinedTextField(
             value = birthYear,
             onValueChange = onBirthYearChange,
-            label = { Text("Birth Year (Optional)") },
+            label = { Text(stringResource(R.string.onboarding_birth_year)) },
             modifier = Modifier.fillMaxWidth(),
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = PhoenixOrange,

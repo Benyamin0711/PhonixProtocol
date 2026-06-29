@@ -15,7 +15,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.benyaminrasouli.phoniexprotocol.R
 import com.benyaminrasouli.phoniexprotocol.ui.theme.PhoenixOrange
 import com.benyaminrasouli.phoniexprotocol.ui.theme.SurfaceDark
 import com.benyaminrasouli.phoniexprotocol.ui.theme.TextSecondary
@@ -30,7 +32,7 @@ fun LanguageStep(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Choose Language",
+            text = stringResource(R.string.onboarding_choose_language),
             style = MaterialTheme.typography.headlineMedium,
             color = MaterialTheme.colorScheme.onBackground
         )
@@ -38,7 +40,7 @@ fun LanguageStep(
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
-            text = "Select your preferred language",
+            text = stringResource(R.string.onboarding_select_language),
             style = MaterialTheme.typography.bodyMedium,
             color = TextSecondary
         )
@@ -50,13 +52,13 @@ fun LanguageStep(
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             LanguageOption(
-                label = "English",
+                label = stringResource(R.string.onboarding_english),
                 isSelected = selectedLanguage == "en",
                 onClick = { onLanguageSelected("en") },
                 modifier = Modifier.weight(1f)
             )
             LanguageOption(
-                label = "Persian",
+                label = stringResource(R.string.onboarding_persian),
                 isSelected = selectedLanguage == "fa",
                 onClick = { onLanguageSelected("fa") },
                 modifier = Modifier.weight(1f)

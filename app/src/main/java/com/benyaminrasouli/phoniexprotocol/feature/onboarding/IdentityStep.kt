@@ -16,28 +16,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.benyaminrasouli.phoniexprotocol.R
 import com.benyaminrasouli.phoniexprotocol.core.domain.model.IdentityPath
 import com.benyaminrasouli.phoniexprotocol.ui.theme.PhoenixOrange
 import com.benyaminrasouli.phoniexprotocol.ui.theme.SurfaceDark
 import com.benyaminrasouli.phoniexprotocol.ui.theme.TextSecondary
-
-data class IdentityOption(
-    val path: IdentityPath,
-    val label: String,
-    val description: String
-)
-
-private val identityOptions = listOf(
-    IdentityOption(IdentityPath.WARRIOR, "Warrior", "Strength through battle"),
-    IdentityOption(IdentityPath.SCHOLAR, "Scholar", "Knowledge is power"),
-    IdentityOption(IdentityPath.BUILDER, "Builder", "Create what matters"),
-    IdentityOption(IdentityPath.MONK, "Monk", "Discipline through focus"),
-    IdentityOption(IdentityPath.COMMANDER, "Commander", "Lead with authority"),
-    IdentityOption(IdentityPath.CREATOR, "Creator", "Express through creation"),
-    IdentityOption(IdentityPath.STRATEGIST, "Strategist", "Plan every move"),
-    IdentityOption(IdentityPath.SENTINEL, "Sentinel", "Protect what matters")
-)
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -50,7 +35,7 @@ fun IdentityStep(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Choose Your Path",
+            text = stringResource(R.string.onboarding_choose_path),
             style = MaterialTheme.typography.headlineMedium,
             color = MaterialTheme.colorScheme.onBackground
         )
@@ -58,7 +43,7 @@ fun IdentityStep(
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
-            text = "Who are you becoming?",
+            text = stringResource(R.string.onboarding_who_are_you),
             style = MaterialTheme.typography.bodyMedium,
             color = TextSecondary
         )
@@ -70,11 +55,11 @@ fun IdentityStep(
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            identityOptions.forEach { option ->
+            IdentityPath.entries.forEach { path ->
                 IdentityCard(
-                    option = option,
-                    isSelected = selectedPath == option.path.name,
-                    onClick = { onPathSelected(option.path.name) }
+                    path = path,
+                    isSelected = selectedPath == path.name,
+                    onClick = { onPathSelected(path.name) }
                 )
             }
         }
@@ -82,8 +67,36 @@ fun IdentityStep(
 }
 
 @Composable
+private fun getIdentityName(path: IdentityPath): String {
+    return when (path) {
+        IdentityPath.WARRIOR -> stringResource(R.string.identity_warrior)
+        IdentityPath.SCHOLAR -> stringResource(R.string.identity_scholar)
+        IdentityPath.BUILDER -> stringResource(R.string.identity_builder)
+        IdentityPath.MONK -> stringResource(R.string.identity_monk)
+        IdentityPath.COMMANDER -> stringResource(R.string.identity_commander)
+        IdentityPath.CREATOR -> stringResource(R.string.identity_creator)
+        IdentityPath.STRATEGIST -> stringResource(R.string.identity_strategist)
+        IdentityPath.SENTINEL -> stringResource(R.string.identity_sentinel)
+    }
+}
+
+@Composable
+private fun getIdentityDescription(path: IdentityPath): String {
+    return when (path) {
+        IdentityPath.WARRIOR -> stringResource(R.string.identity_warrior_desc)
+        IdentityPath.SCHOLAR -> stringResource(R.string.identity_scholar_desc)
+        IdentityPath.BUILDER -> stringResource(R.string.identity_builder_desc)
+        IdentityPath.MONK -> stringResource(R.string.identity_monk_desc)
+        IdentityPath.COMMANDER -> stringResource(R.string.identity_commander_desc)
+        IdentityPath.CREATOR -> stringResource(R.string.identity_creator_desc)
+        IdentityPath.STRATEGIST -> stringResource(R.string.identity_strategist_desc)
+        IdentityPath.SENTINEL -> stringResource(R.string.identity_sentinel_desc)
+    }
+}
+
+@Composable
 private fun IdentityCard(
-    option: IdentityOption,
+    path: IdentityPath,
     isSelected: Boolean,
     onClick: () -> Unit
 ) {
@@ -101,12 +114,12 @@ private fun IdentityCard(
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             Text(
-                text = option.label,
+                text = getIdentityName(path),
                 style = MaterialTheme.typography.titleMedium,
                 color = if (isSelected) PhoenixOrange else MaterialTheme.colorScheme.onSurface
             )
             Text(
-                text = option.description,
+                text = getIdentityDescription(path),
                 style = MaterialTheme.typography.bodySmall,
                 color = TextSecondary
             )

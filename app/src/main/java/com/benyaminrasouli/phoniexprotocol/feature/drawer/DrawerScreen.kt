@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.EmojiEvents
 import androidx.compose.material.icons.filled.BarChart
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.automirrored.filled.Help
@@ -25,13 +24,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.benyaminrasouli.phoniexprotocol.R
 import com.benyaminrasouli.phoniexprotocol.ui.theme.BackgroundDark
 import com.benyaminrasouli.phoniexprotocol.ui.theme.PhoenixOrange
 import com.benyaminrasouli.phoniexprotocol.ui.theme.SurfaceDark
@@ -68,7 +68,7 @@ fun DrawerScreen(
             )
             stats?.let { s ->
                 Text(
-                    text = "Level ${s.level} • ${s.rank}",
+                    text = "${stringResource(R.string.level)} ${s.level} • ${s.rank}",
                     style = MaterialTheme.typography.labelLarge,
                     color = PhoenixOrange
                 )
@@ -84,27 +84,27 @@ fun DrawerScreen(
         // Menu items
         DrawerMenuItem(
             icon = Icons.Filled.VerifiedUser,
-            label = "Profile",
+            label = stringResource(R.string.drawer_profile),
             onClick = {}
         )
         DrawerMenuItem(
             icon = Icons.Filled.BarChart,
-            label = "Statistics",
+            label = stringResource(R.string.drawer_statistics),
             onClick = {}
         )
         DrawerMenuItem(
             icon = Icons.Filled.EmojiEvents,
-            label = "Achievements",
+            label = stringResource(R.string.drawer_achievements),
             onClick = {}
         )
         DrawerMenuItem(
             icon = Icons.Filled.Settings,
-            label = "Settings",
+            label = stringResource(R.string.drawer_settings),
             onClick = onNavigateToSettings
         )
         DrawerMenuItem(
             icon = Icons.Filled.Language,
-            label = "Language",
+            label = stringResource(R.string.drawer_language),
             onClick = {
                 viewModel.setLanguage(if (language == "en") "fa" else "en")
             }
@@ -118,7 +118,7 @@ fun DrawerScreen(
 
         DrawerMenuItem(
             icon = Icons.AutoMirrored.Filled.Help,
-            label = "Support Us",
+            label = stringResource(R.string.drawer_support),
             onClick = onNavigateToSupport
         )
     }
