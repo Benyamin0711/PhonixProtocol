@@ -42,6 +42,8 @@ fun DrawerScreen(
     onNavigateToSettings: () -> Unit = {},
     onNavigateToAbout: () -> Unit = {},
     onNavigateToSupport: () -> Unit = {},
+    onNavigateToStatistics: () -> Unit = {},
+    onNavigateToAchievements: () -> Unit = {},
     viewModel: DrawerViewModel = hiltViewModel()
 ) {
     val profile by viewModel.profile.collectAsStateWithLifecycle(initialValue = null)
@@ -90,12 +92,12 @@ fun DrawerScreen(
         DrawerMenuItem(
             icon = Icons.Filled.BarChart,
             label = stringResource(R.string.drawer_statistics),
-            onClick = {}
+            onClick = onNavigateToStatistics
         )
         DrawerMenuItem(
             icon = Icons.Filled.EmojiEvents,
             label = stringResource(R.string.drawer_achievements),
-            onClick = {}
+            onClick = onNavigateToAchievements
         )
         DrawerMenuItem(
             icon = Icons.Filled.Settings,

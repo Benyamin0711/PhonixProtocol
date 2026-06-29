@@ -54,7 +54,16 @@ fun DashboardScreen(
         drawerState = drawerState,
         drawerContent = {
             ModalDrawerSheet {
-                DrawerScreen()
+                DrawerScreen(
+                    onNavigateToStatistics = {
+                        scope.launch { drawerState.close() }
+                        navController.navigate(Screen.Statistics.route)
+                    },
+                    onNavigateToAchievements = {
+                        scope.launch { drawerState.close() }
+                        navController.navigate(Screen.Achievements.route)
+                    }
+                )
             }
         }
     ) {
