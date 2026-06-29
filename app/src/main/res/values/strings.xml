@@ -84,6 +84,7 @@
     <!-- Common -->
     <string name="menu">Menu</string>
     <string name="level">Level</string>
+    <string name="my_tasks">My Tasks</string>
 
     <!-- Ranks -->
     <string name="rank_initiate">Initiate</string>

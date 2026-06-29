@@ -84,6 +84,7 @@
     <!-- Common -->
     <string name="menu">منو</string>
     <string name="level">سطح</string>
+    <string name="my_tasks">وظایف من</string>
 
     <!-- Ranks -->
     <string name="rank_initiate">آغازگر</string>

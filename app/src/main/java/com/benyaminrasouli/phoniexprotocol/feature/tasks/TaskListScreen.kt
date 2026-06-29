@@ -56,7 +56,7 @@ fun TaskListScreen(
             .background(BackgroundDark)
     ) {
         TopAppBar(
-            title = { Text(stringResource(R.string.drawer_statistics)) },
+            title = { Text(stringResource(R.string.my_tasks)) },
             navigationIcon = {
                 IconButton(onClick = { navController.popBackStack() }) {
                     Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
