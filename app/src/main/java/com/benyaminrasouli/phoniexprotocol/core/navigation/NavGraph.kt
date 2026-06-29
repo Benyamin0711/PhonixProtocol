@@ -16,7 +16,6 @@ import com.benyaminrasouli.phoniexprotocol.feature.tasks.TaskListScreen
 import com.benyaminrasouli.phoniexprotocol.feature.tasks.CreateTaskScreen
 import com.benyaminrasouli.phoniexprotocol.feature.statistics.StatisticsScreen
 import com.benyaminrasouli.phoniexprotocol.feature.achievements.AchievementScreen
-import com.benyaminrasouli.phoniexprotocol.feature.achievements.AchievementScreen
 
 @Composable
 fun NavGraph(navController: NavHostController) {
