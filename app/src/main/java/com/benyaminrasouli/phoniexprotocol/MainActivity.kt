@@ -22,7 +22,6 @@ class MainActivity : ComponentActivity() {
     lateinit var settingsDataStore: SettingsDataStore
 
     override fun attachBaseContext(newBase: android.content.Context) {
-        super.attachBaseContext(newBase)
         val prefs = newBase.getSharedPreferences("phoenix_locale_prefs", MODE_PRIVATE)
         val lang = prefs.getString("language", "en") ?: "en"
         val updatedBase = LocaleHelper.onAttach(newBase, lang)
@@ -37,7 +36,6 @@ class MainActivity : ComponentActivity() {
 
             LaunchedEffect(language) {
                 LocaleHelper.setLocale(this@MainActivity, language)
-                // Save locale preference for attachBaseContext on next launch
                 getSharedPreferences("phoenix_locale_prefs", MODE_PRIVATE)
                     .edit()
                     .putString("language", language)
