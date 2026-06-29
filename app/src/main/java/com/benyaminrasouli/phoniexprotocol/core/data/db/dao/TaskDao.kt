@@ -1,0 +1,37 @@
+package com.benyaminrasouli.phoniexprotocol.core.data.db.dao
+
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Update
+import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.Task
+import kotlinx.coroutines.flow.Flow
+
+@Dao
+interface TaskDao {
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertTask(task: Task): Long
+
+    @Update
+    suspend fun updateTask(task: Task)
+
+    @Delete
+    suspend fun deleteTask(task: Task)
+
+    @Query("SELECT * FROM tasks WHERE status != 'COMPLETED' ORDER BY createdAt DESC")
+    fun getActiveTasks(): Flow<List<Task>>
+
+    @Query("SELECT * FROM tasks WHERE status = 'COMPLETED' ORDER BY completedAt DESC")
+    fun getCompletedTasks(): Flow<List<Task>>
+
+    @Query("SELECT * FROM tasks ORDER BY createdAt DESC")
+    fun getAllTasks(): Flow<List<Task>>
+
+    @Query("SELECT * FROM tasks WHERE id = :taskId")
+    suspend fun getTaskById(taskId: Long): Task?
+
+    @Query("UPDATE tasks SET status = :status, completedAt = :completedAt WHERE id = :taskId")
+    suspend fun updateTaskStatus(taskId: Long, status: String, completedAt: Long?)
+}
