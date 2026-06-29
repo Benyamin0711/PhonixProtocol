@@ -1,8 +1,10 @@
 package com.benyaminrasouli.phoniexprotocol.di
 
+import com.benyaminrasouli.phoniexprotocol.core.data.repository.AchievementRepositoryImpl
 import com.benyaminrasouli.phoniexprotocol.core.data.repository.StatsRepositoryImpl
 import com.benyaminrasouli.phoniexprotocol.core.data.repository.TaskRepositoryImpl
 import com.benyaminrasouli.phoniexprotocol.core.data.repository.UserRepositoryImpl
+import com.benyaminrasouli.phoniexprotocol.core.domain.repository.AchievementRepository
 import com.benyaminrasouli.phoniexprotocol.core.domain.repository.StatsRepository
 import com.benyaminrasouli.phoniexprotocol.core.domain.repository.TaskRepository
 import com.benyaminrasouli.phoniexprotocol.core.domain.repository.UserRepository
@@ -27,4 +29,8 @@ abstract class AppModule {
     @Binds
     @Singleton
     abstract fun bindStatsRepository(impl: StatsRepositoryImpl): StatsRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindAchievementRepository(impl: AchievementRepositoryImpl): AchievementRepository
 }
