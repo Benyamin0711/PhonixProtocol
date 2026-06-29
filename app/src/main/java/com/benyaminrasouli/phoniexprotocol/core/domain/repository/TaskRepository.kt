@@ -10,7 +10,11 @@ interface TaskRepository {
     fun getActiveTasks(): Flow<List<Task>>
     fun getCompletedTasks(): Flow<List<Task>>
     fun getAllTasks(): Flow<List<Task>>
+    fun getTasksByType(type: String): Flow<List<Task>>
+    fun getPriorityTasks(): Flow<List<Task>>
     suspend fun getTaskById(taskId: Long): Task?
     suspend fun completeTask(taskId: Long)
     suspend fun skipTask(taskId: Long)
+    suspend fun getTaskCount(): Int
+    suspend fun getCompletedTaskCount(): Int
 }

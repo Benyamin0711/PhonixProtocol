@@ -29,9 +29,21 @@ interface TaskDao {
     @Query("SELECT * FROM tasks ORDER BY createdAt DESC")
     fun getAllTasks(): Flow<List<Task>>
 
+    @Query("SELECT * FROM tasks WHERE taskType = :type AND status != 'COMPLETED' ORDER BY createdAt DESC")
+    fun getTasksByType(type: String): Flow<List<Task>>
+
+    @Query("SELECT * FROM tasks WHERE isPriority = 1 AND status != 'COMPLETED' ORDER BY createdAt DESC")
+    fun getPriorityTasks(): Flow<List<Task>>
+
     @Query("SELECT * FROM tasks WHERE id = :taskId")
     suspend fun getTaskById(taskId: Long): Task?
 
     @Query("UPDATE tasks SET status = :status, completedAt = :completedAt WHERE id = :taskId")
     suspend fun updateTaskStatus(taskId: Long, status: String, completedAt: Long?)
+
+    @Query("SELECT COUNT(*) FROM tasks")
+    suspend fun getTaskCount(): Int
+
+    @Query("SELECT COUNT(*) FROM tasks WHERE status = 'COMPLETED'")
+    suspend fun getCompletedTaskCount(): Int
 }

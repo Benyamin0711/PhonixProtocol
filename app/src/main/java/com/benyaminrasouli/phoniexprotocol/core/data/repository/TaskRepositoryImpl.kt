@@ -34,6 +34,14 @@ class TaskRepositoryImpl @Inject constructor(
         return dao.getAllTasks()
     }
 
+    override fun getTasksByType(type: String): Flow<List<Task>> {
+        return dao.getTasksByType(type)
+    }
+
+    override fun getPriorityTasks(): Flow<List<Task>> {
+        return dao.getPriorityTasks()
+    }
+
     override suspend fun getTaskById(taskId: Long): Task? {
         return dao.getTaskById(taskId)
     }
@@ -44,5 +52,13 @@ class TaskRepositoryImpl @Inject constructor(
 
     override suspend fun skipTask(taskId: Long) {
         dao.updateTaskStatus(taskId, "SKIPPED", null)
+    }
+
+    override suspend fun getTaskCount(): Int {
+        return dao.getTaskCount()
+    }
+
+    override suspend fun getCompletedTaskCount(): Int {
+        return dao.getCompletedTaskCount()
     }
 }
