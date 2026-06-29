@@ -96,4 +96,19 @@
     <string name="rank_titan">تایتان</string>
     <string name="rank_ascendant">صعودکننده</string>
     <string name="rank_phoenix">ققنوس</string>
+
+    <!-- Statistics -->
+    <string name="stats_overview">نمای کلی</string>
+    <string name="stats_streaks">سلسله مراتب</string>
+    <string name="stats_energy">انرژی و سایه</string>
+    <string name="stats_total_xp">کل XP</string>
+    <string name="stats_level">سطح</string>
+    <string name="stats_rank">رتبه</string>
+    <string name="stats_tasks_completed">وظایف تکمیل شده</string>
+    <string name="stats_completion_rate">نرخ تکمیل</string>
+    <string name="stats_achievements">دستاوردها</string>
+    <string name="stats_current_streak">سلسله فعلی</string>
+    <string name="stats_longest_streak">طولانی‌ترین سلسله</string>
+    <string name="stats_phoenix_energy">انرژی ققنوس</string>
+    <string name="stats_shadow_level">سطح سایه</string>
 </resources>

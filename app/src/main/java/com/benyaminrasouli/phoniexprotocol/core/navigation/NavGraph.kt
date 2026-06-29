@@ -12,6 +12,10 @@ import androidx.navigation.compose.composable
 import com.benyaminrasouli.phoniexprotocol.feature.splash.SplashScreen
 import com.benyaminrasouli.phoniexprotocol.feature.onboarding.OnboardingScreen
 import com.benyaminrasouli.phoniexprotocol.feature.dashboard.DashboardScreen
+import com.benyaminrasouli.phoniexprotocol.feature.tasks.TaskListScreen
+import com.benyaminrasouli.phoniexprotocol.feature.tasks.CreateTaskScreen
+import com.benyaminrasouli.phoniexprotocol.feature.statistics.StatisticsScreen
+import com.benyaminrasouli.phoniexprotocol.feature.achievements.AchievementScreen
 
 @Composable
 fun NavGraph(navController: NavHostController) {
@@ -39,6 +43,27 @@ fun NavGraph(navController: NavHostController) {
             exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) }
         ) {
             DashboardScreen(navController = navController)
+        }
+        composable(
+            Screen.TaskList.route,
+            enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
+            exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) }
+        ) {
+            TaskListScreen(navController = navController)
+        }
+        composable(
+            Screen.CreateTask.route,
+            enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
+            exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) }
+        ) {
+            CreateTaskScreen(navController = navController)
+        }
+        composable(
+            Screen.Statistics.route,
+            enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
+            exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) }
+        ) {
+            StatisticsScreen(navController = navController)
         }
     }
 }

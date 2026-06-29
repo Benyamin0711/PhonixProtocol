@@ -10,9 +10,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -32,6 +34,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.benyaminrasouli.phoniexprotocol.R
+import com.benyaminrasouli.phoniexprotocol.core.navigation.Screen
 import com.benyaminrasouli.phoniexprotocol.feature.drawer.DrawerScreen
 import com.benyaminrasouli.phoniexprotocol.ui.theme.BackgroundDark
 import com.benyaminrasouli.phoniexprotocol.ui.theme.PhoenixOrange
@@ -142,6 +145,14 @@ fun DashboardScreen(
                 }
 
                 Spacer(modifier = Modifier.height(24.dp))
+            }
+
+            FloatingActionButton(
+                onClick = { navController.navigate(Screen.CreateTask.route) },
+                containerColor = PhoenixOrange,
+                modifier = Modifier.align(androidx.compose.ui.Alignment.BottomEnd).padding(16.dp)
+            ) {
+                Icon(Icons.Filled.Add, contentDescription = stringResource(R.string.task_create))
             }
         }
     }

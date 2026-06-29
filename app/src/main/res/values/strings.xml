@@ -96,4 +96,19 @@
     <string name="rank_titan">Titan</string>
     <string name="rank_ascendant">Ascendant</string>
     <string name="rank_phoenix">Phoenix</string>
+
+    <!-- Statistics -->
+    <string name="stats_overview">Overview</string>
+    <string name="stats_streaks">Streaks</string>
+    <string name="stats_energy">Energy &amp; Shadow</string>
+    <string name="stats_total_xp">Total XP</string>
+    <string name="stats_level">Level</string>
+    <string name="stats_rank">Rank</string>
+    <string name="stats_tasks_completed">Tasks Completed</string>
+    <string name="stats_completion_rate">Completion Rate</string>
+    <string name="stats_achievements">Achievements</string>
+    <string name="stats_current_streak">Current Streak</string>
+    <string name="stats_longest_streak">Longest Streak</string>
+    <string name="stats_phoenix_energy">Phoenix Energy</string>
+    <string name="stats_shadow_level">Shadow Level</string>
 </resources>
