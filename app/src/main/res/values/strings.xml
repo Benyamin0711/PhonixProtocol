@@ -1,3 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Phoniex Protocol</string>
+    <string name="app_name">Phoenix Protocol</string>
+
+    <!-- Splash -->
+    <string name="splash_loading">Initializing...</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_choose_language">Choose Language</string>
+    <string name="onboarding_select_language">Select your preferred language</string>
+    <string name="onboarding_english">English</string>
+    <string name="onboarding_persian">Persian</string>
+    <string name="onboarding_create_profile">Create Your Profile</string>
+    <string name="onboarding_tell_us">Tell us about yourself</string>
+    <string name="onboarding_full_name">Full Name</string>
+    <string name="onboarding_username">Username</string>
+    <string name="onboarding_birth_year">Birth Year (Optional)</string>
+    <string name="onboarding_choose_path">Choose Your Path</string>
+    <string name="onboarding_who_are_you">Who are you becoming?</string>
+    <string name="onboarding_review">Review Your Profile</string>
+    <string name="onboarding_confirm">Confirm your details</string>
+    <string name="onboarding_complete">Complete Setup</string>
+    <string name="onboarding_next">Next</string>
+    <string name="onboarding_back">Back</string>
+
+    <!-- Identity Paths -->
+    <string name="identity_warrior">Warrior</string>
+    <string name="identity_warrior_desc">Strength through battle</string>
+    <string name="identity_scholar">Scholar</string>
+    <string name="identity_scholar_desc">Knowledge is power</string>
+    <string name="identity_builder">Builder</string>
+    <string name="identity_builder_desc">Create what matters</string>
+    <string name="identity_monk">Monk</string>
+    <string name="identity_monk_desc">Discipline through focus</string>
+    <string name="identity_commander">Commander</string>
+    <string name="identity_commander_desc">Lead with authority</string>
+    <string name="identity_creator">Creator</string>
+    <string name="identity_creator_desc">Express through creation</string>
+    <string name="identity_strategist">Strategist</string>
+    <string name="identity_strategist_desc">Plan every move</string>
+    <string name="identity_sentinel">Sentinel</string>
+    <string name="identity_sentinel_desc">Protect what matters</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_welcome">Welcome,</string>
+    <string name="dashboard_priority_tasks">TODAY\'S PRIORITY</string>
+    <string name="dashboard_custom_tasks">CUSTOM TASKS</string>
+    <string name="dashboard_no_tasks">No tasks yet</string>
+    <string name="dashboard_phoenix_energy">Phoenix Energy</string>
+    <string name="dashboard_shadow_level">SHADOW LEVEL</string>
+
+    <!-- Tasks -->
+    <string name="task_create">Create Task</string>
+    <string name="task_title">Title</string>
+    <string name="task_description">Description</string>
+    <string name="task_difficulty">Difficulty</string>
+    <string name="task_category">Category</string>
+    <string name="task_recurrence">Recurrence</string>
+    <string name="task_complete">Complete</string>
+    <string name="task_skip">Skip</string>
+
+    <!-- Difficulty -->
+    <string name="difficulty_easy">Easy</string>
+    <string name="difficulty_medium">Medium</string>
+    <string name="difficulty_hard">Hard</string>
+    <string name="difficulty_extreme">Extreme</string>
+
+    <!-- Drawer -->
+    <string name="drawer_profile">Profile</string>
+    <string name="drawer_statistics">Statistics</string>
+    <string name="drawer_achievements">Achievements</string>
+    <string name="drawer_settings">Settings</string>
+    <string name="drawer_language">Language</string>
+    <string name="drawer_about">About Us</string>
+    <string name="drawer_support">Support Us</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_theme">Theme</string>
+    <string name="settings_account">Account</string>
+    <string name="settings_version">App Version</string>
+
+    <!-- Ranks -->
+    <string name="rank_initiate">Initiate</string>
+    <string name="rank_survivor">Survivor</string>
+    <string name="rank_hunter">Hunter</string>
+    <string name="rank_warrior">Warrior</string>
+    <string name="rank_elite">Elite</string>
+    <string name="rank_commander">Commander</string>
+    <string name="rank_phantom">Phantom</string>
+    <string name="rank_titan">Titan</string>
+    <string name="rank_ascendant">Ascendant</string>
+    <string name="rank_phoenix">Phoenix</string>
 </resources>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">پروتکل ققنوس</string>
+
+    <!-- Splash -->
+    <string name="splash_loading">در حال راه‌اندازی...</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_choose_language">انتخاب زبان</string>
+    <string name="onboarding_select_language">زبان مورد نظر خود را انتخاب کنید</string>
+    <string name="onboarding_english">انگلیسی</string>
+    <string name="onboarding_persian">فارسی</string>
+    <string name="onboarding_create_profile">پروفایل خود را بسازید</string>
+    <string name="onboarding_tell_us">درباره خودتان بگویید</string>
+    <string name="onboarding_full_name">نام کامل</string>
+    <string name="onboarding_username">نام کاربری</string>
+    <string name="onboarding_birth_year">سال تولد (اختیاری)</string>
+    <string name="onboarding_choose_path">مسیر خود را انتخاب کنید</string>
+    <string name="onboarding_who_are_you">در حال تبدیل شدن به چه کسی هستید؟</string>
+    <string name="onboarding_review">پروفایل خود را بررسی کنید</string>
+    <string name="onboarding_confirm">جزئیات خود را تایید کنید</string>
+    <string name="onboarding_complete">تکمیل تنظیمات</string>
+    <string name="onboarding_next">بعدی</string>
+    <string name="onboarding_back">قبلی</string>
+
+    <!-- Identity Paths -->
+    <string name="identity_warrior">جنگجو</string>
+    <string name="identity_warrior_desc">قدرت از طریق نبرد</string>
+    <string name="identity_scholar">دانشمند</string>
+    <string name="identity_scholar_desc">دانش قدرت است</string>
+    <string name="identity_builder">سازنده</string>
+    <string name="identity_builder_desc">آنچه مهم است بسازید</string>
+    <string name="identity_monk">راهب</string>
+    <string name="identity_monk_desc">انضباط از طریق تمرکز</string>
+    <string name="identity_commander">فرمانده</string>
+    <string name="identity_commander_desc">با اقتدار رهبری کنید</string>
+    <string name="identity_creator">خالق</string>
+    <string name="identity_creator_desc">از طریق خلاقیت بیان کنید</string>
+    <string name="identity_strategist">استراتژیست</string>
+    <string name="identity_strategist_desc">هر حرکت را برنامه‌ریزی کنید</string>
+    <string name="identity_sentinel">نگهبان</string>
+    <string name="identity_sentinel_desc">از آنچه مهم است محافظت کنید</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_welcome">خوش آمدید،</string>
+    <string name="dashboard_priority_tasks">اولویت امروز</string>
+    <string name="dashboard_custom_tasks">وظایف شخصی</string>
+    <string name="dashboard_no_tasks">هنوز وظیفه‌ای وجود ندارد</string>
+    <string name="dashboard_phoenix_energy">انرژی ققنوس</string>
+    <string name="dashboard_shadow_level">سطح سایه</string>
+
+    <!-- Tasks -->
+    <string name="task_create">ایجاد وظیفه</string>
+    <string name="task_title">عنوان</string>
+    <string name="task_description">توضیحات</string>
+    <string name="task_difficulty">سطح دشواری</string>
+    <string name="task_category">دسته‌بندی</string>
+    <string name="task_recurrence">تکرار</string>
+    <string name="task_complete">تکمیل</string>
+    <string name="task_skip">رد کردن</string>
+
+    <!-- Difficulty -->
+    <string name="difficulty_easy">آسان</string>
+    <string name="difficulty_medium">متوسط</string>
+    <string name="difficulty_hard">سخت</string>
+    <string name="difficulty_extreme">فوق‌العاده</string>
+
+    <!-- Drawer -->
+    <string name="drawer_profile">پروفایل</string>
+    <string name="drawer_statistics">آمار</string>
+    <string name="drawer_achievements">دستاوردها</string>
+    <string name="drawer_settings">تنظیمات</string>
+    <string name="drawer_language">زبان</string>
+    <string name="drawer_about">درباره ما</string>
+    <string name="drawer_support">حمایت از ما</string>
+
+    <!-- Settings -->
+    <string name="settings_title">تنظیمات</string>
+    <string name="settings_language">زبان</string>
+    <string name="settings_theme">پوسته</string>
+    <string name="settings_account">حساب کاربری</string>
+    <string name="settings_version">نسخه برنامه</string>
+
+    <!-- Ranks -->
+    <string name="rank_initiate">آغازگر</string>
+    <string name="rank_survivor">بازمانده</string>
+    <string name="rank_hunter">شکارچی</string>
+    <string name="rank_warrior">جنگجو</string>
+    <string name="rank_elite">نخبه</string>
+    <string name="rank_commander">فرمانده</string>
+    <string name="rank_phantom">شبح</string>
+    <string name="rank_titan">تایتان</string>
+    <string name="rank_ascendant">صعودکننده</string>
+    <string name="rank_phoenix">ققنوس</string>
+</resources>

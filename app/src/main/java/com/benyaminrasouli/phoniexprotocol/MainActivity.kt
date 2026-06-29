@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.navigation.compose.rememberNavController
+import com.benyaminrasouli.phoniexprotocol.core.navigation.NavGraph
 import com.benyaminrasouli.phoniexprotocol.ui.theme.PhoenixProtocolTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -14,7 +16,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             PhoenixProtocolTheme {
-                // NavGraph will be added in Task 5
+                val navController = rememberNavController()
+                NavGraph(navController = navController)
             }
         }
     }

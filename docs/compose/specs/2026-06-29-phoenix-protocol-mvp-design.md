@@ -1,5 +1,10 @@
 # Phoenix Protocol MVP Core — Design Spec
 
+> [!NOTE]
+> This document may not reflect the current implementation.
+> See the final report for up-to-date state:
+> [Final Report](../reports/phoenix-protocol-mvp.md)
+
 ## [S1] Problem
 Phoenix Protocol is a gamified "Life Operating System" Android app. The full vision includes 10+ subsystems (Identity Engine, Shadow System, Boss Missions, Gamification, Life Areas, etc.). This spec covers the MVP Core: a working app with Splash → Onboarding → Dashboard → Task System, with bilingual support and a futuristic dark UI.
 
