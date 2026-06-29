@@ -97,6 +97,29 @@
     <string name="rank_ascendant">صعودکننده</string>
     <string name="rank_phoenix">ققنوس</string>
 
+    <!-- Task Types -->
+    <string name="task_type_daily">روزانه</string>
+    <string name="task_type_weekly">هفتگی</string>
+    <string name="task_type_monthly">ماهانه</string>
+    <string name="task_type_custom">سفارشی</string>
+
+    <!-- Task Filters -->
+    <string name="filter_all">همه</string>
+    <string name="filter_active">فعال</string>
+    <string name="filter_completed">تکمیل شده</string>
+    <string name="filter_skipped">رد شده</string>
+
+    <!-- Create Task -->
+    <string name="task_priority">وظیفه اولویت‌دار</string>
+    <string name="task_save">ذخیره وظیفه</string>
+
+    <!-- Achievements -->
+    <string name="achievement_first_blood">اولین خون</string>
+    <string name="achievement_7day_warrior">جنگجوی ۷ روزه</string>
+    <string name="achievement_30day_legend">افسانه ۳۰ روزه</string>
+    <string name="achievement_no_excuses">بدون بهانه</string>
+    <string name="achievement_phoenix_rising">طلوع ققنوس</string>
+
     <!-- Statistics -->
     <string name="stats_overview">نمای کلی</string>
     <string name="stats_streaks">سلسله مراتب</string>

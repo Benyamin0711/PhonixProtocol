@@ -97,6 +97,29 @@
     <string name="rank_ascendant">Ascendant</string>
     <string name="rank_phoenix">Phoenix</string>
 
+    <!-- Task Types -->
+    <string name="task_type_daily">Daily</string>
+    <string name="task_type_weekly">Weekly</string>
+    <string name="task_type_monthly">Monthly</string>
+    <string name="task_type_custom">Custom</string>
+
+    <!-- Task Filters -->
+    <string name="filter_all">All</string>
+    <string name="filter_active">Active</string>
+    <string name="filter_completed">Completed</string>
+    <string name="filter_skipped">Skipped</string>
+
+    <!-- Create Task -->
+    <string name="task_priority">Priority Task</string>
+    <string name="task_save">Save Task</string>
+
+    <!-- Achievements -->
+    <string name="achievement_first_blood">First Blood</string>
+    <string name="achievement_7day_warrior">7-Day Warrior</string>
+    <string name="achievement_30day_legend">30-Day Legend</string>
+    <string name="achievement_no_excuses">No Excuses</string>
+    <string name="achievement_phoenix_rising">Phoenix Rising</string>
+
     <!-- Statistics -->
     <string name="stats_overview">Overview</string>
     <string name="stats_streaks">Streaks</string>
