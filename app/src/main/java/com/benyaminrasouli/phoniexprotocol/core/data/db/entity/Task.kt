@@ -14,6 +14,8 @@ data class Task(
     val xpValue: Int,
     val recurrence: String,
     val status: String,
+    val taskType: String = "CUSTOM",
+    val isPriority: Boolean = false,
     val createdAt: Long = System.currentTimeMillis(),
     val completedAt: Long? = null
 )
