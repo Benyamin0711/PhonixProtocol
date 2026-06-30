@@ -21,4 +21,8 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun getProfileOnce(): UserProfile? {
         return dao.getProfileOnce()
     }
+
+    override suspend fun clearProfile() {
+        dao.deleteAllProfiles()
+    }
 }

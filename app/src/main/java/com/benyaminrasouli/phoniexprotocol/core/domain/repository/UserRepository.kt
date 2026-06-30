@@ -7,4 +7,5 @@ interface UserRepository {
     suspend fun createProfile(profile: UserProfile): Long
     fun getProfile(): Flow<UserProfile?>
     suspend fun getProfileOnce(): UserProfile?
+    suspend fun clearProfile()
 }

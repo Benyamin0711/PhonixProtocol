@@ -62,6 +62,10 @@ class StatsRepositoryImpl @Inject constructor(
         ))
     }
 
+    override suspend fun clearStats() {
+        dao.deleteAllStats()
+    }
+
     private fun calculateLevel(xp: Int): Int {
         var level = 1
         var requiredXp = 0

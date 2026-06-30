@@ -21,4 +21,7 @@ interface UserStatsDao {
 
     @Query("SELECT * FROM user_stats WHERE id = 1")
     suspend fun getStatsOnce(): UserStats?
+
+    @Query("DELETE FROM user_stats")
+    suspend fun deleteAllStats()
 }
