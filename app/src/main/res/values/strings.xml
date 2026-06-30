@@ -118,6 +118,29 @@
     <string name="about_privacy_policy">Privacy Policy</string>
     <string name="about_terms_of_service">Terms of Service</string>
 
+    <!-- Support -->
+    <string name="support_title">Support Us</string>
+    <string name="support_thank_you">Thank you for using Phoenix Protocol!</string>
+    <string name="support_contact">Contact Us</string>
+    <string name="support_name">Name</string>
+    <string name="support_email">Email</string>
+    <string name="support_message">Message</string>
+    <string name="support_send">Send Message</string>
+    <string name="support_message_sent">Message sent! We\'ll get back to you soon.</string>
+    <string name="support_faq">Frequently Asked Questions</string>
+    <string name="support_faq_1_q">What is Phoenix Protocol?</string>
+    <string name="support_faq_1_a">Phoenix Protocol is a gamified task management app that turns discipline into an RPG experience. Complete tasks, defeat bosses, and level up!</string>
+    <string name="support_faq_2_q">How do boss missions work?</string>
+    <string name="support_faq_2_a">Boss missions spawn weekly with random goals. Complete all goals before the deadline to defeat the boss and earn XP rewards!</string>
+    <string name="support_faq_3_q">How do I earn XP?</string>
+    <string name="support_faq_3_a">Earn XP by completing tasks, maintaining streaks, and defeating bosses. Higher difficulty tasks give more XP.</string>
+    <string name="support_rate">Rate Us</string>
+    <string name="support_rate_button">Rate on Play Store</string>
+    <string name="support_social">Follow Us</string>
+    <string name="support_instagram">Instagram</string>
+    <string name="support_twitter">Twitter / X</string>
+    <string name="support_github">GitHub</string>
+
     <!-- Common -->
     <string name="menu">Menu</string>
     <string name="level">Level</string>

@@ -118,6 +118,29 @@
     <string name="about_privacy_policy">سیاست حریم خصوصی</string>
     <string name="about_terms_of_service">شرایط استفاده</string>
 
+    <!-- Support -->
+    <string name="support_title">حمایت از ما</string>
+    <string name="support_thank_you">از استفاده شما از پروتکل ققنوس متشکریم!</string>
+    <string name="support_contact">تماس با ما</string>
+    <string name="support_name">نام</string>
+    <string name="support_email">ایمیل</string>
+    <string name="support_message">پیام</string>
+    <string name="support_send">ارسال پیام</string>
+    <string name="support_message_sent">پیام ارسال شد! به زودی با شما تماس خواهیم گرفت.</string>
+    <string name="support_faq">سوالات متداول</string>
+    <string name="support_faq_1_q">پروتکل ققنوس چیست؟</string>
+    <string name="support_faq_1_a">پروتکل ققنوس یک برنامه مدیریت وظایف گیمیفاید است که انضباط را به تجربه RPG تبدیل می‌کند. وظایف را تکمیل کنید، باس‌ها را شکست دهید و سطح خود را ارتقا دهید!</string>
+    <string name="support_faq_2_q">مأموریت‌های باس چگونه کار می‌کنند؟</string>
+    <string name="support_faq_2_a">مأموریت‌های باس هر هفته با اهداف تصادفی ظاهر می‌شوند. تمام اهداف را قبل از مهلت تکمیل کنید تا باس را شکست دهید و پاداش XP دریافت کنید!</string>
+    <string name="support_faq_3_q">چگونه XP کسب کنم؟</string>
+    <string name="support_faq_3_a">با تکمیل وظایف، حفظ سلسله و شکست دادن باس‌ها XP کسب کنید. وظایف با دشواری بیشتر XP بیشتری می‌دهند.</string>
+    <string name="support_rate">امتیاز دهید</string>
+    <string name="support_rate_button">امتیاز در پلی استور</string>
+    <string name="support_social">ما را دنبال کنید</string>
+    <string name="support_instagram">اینستاگرام</string>
+    <string name="support_twitter">توییتر / X</string>
+    <string name="support_github">گیت‌هاب</string>
+
     <!-- Common -->
     <string name="menu">منو</string>
     <string name="level">سطح</string>
