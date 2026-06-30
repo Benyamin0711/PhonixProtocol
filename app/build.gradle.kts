@@ -80,6 +80,9 @@ dependencies {
     // Serialization
     implementation(libs.kotlinx.serialization.json)
 
+    // Gson
+    implementation("com.google.code.gson:gson:2.11.0")
+
     // Core
     implementation(libs.androidx.core.ktx)
 
