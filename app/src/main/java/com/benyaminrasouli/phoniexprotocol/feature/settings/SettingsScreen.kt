@@ -89,7 +89,7 @@ fun SettingsScreen(
             title = { Text(stringResource(R.string.settings_title)) },
             navigationIcon = {
                 IconButton(onClick = { navController.popBackStack() }) {
-                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.settings_back))
                 }
             },
             colors = TopAppBarDefaults.topAppBarColors(
@@ -110,7 +110,7 @@ fun SettingsScreen(
                     SettingsClickableItem(
                         icon = Icons.Default.Lock,
                         title = stringResource(R.string.settings_language),
-                        subtitle = if (language == "en") "English" else "Persian",
+                        subtitle = if (language == "en") stringResource(R.string.settings_english) else stringResource(R.string.settings_persian),
                         onClick = {
                             viewModel.setLanguage(if (language == "en") "fa" else "en")
                         }
@@ -123,7 +123,7 @@ fun SettingsScreen(
                 SettingsSection(title = stringResource(R.string.settings_notifications)) {
                     SettingsToggleItem(
                         icon = Icons.Default.Notifications,
-                        title = "Task Reminders",
+                        title = stringResource(R.string.settings_task_reminders),
                         subtitle = stringResource(R.string.settings_coming_soon),
                         checked = false,
                         enabled = false,
@@ -132,7 +132,7 @@ fun SettingsScreen(
                     HorizontalDivider(color = MaterialTheme.colorScheme.surfaceVariant)
                     SettingsToggleItem(
                         icon = Icons.Default.Notifications,
-                        title = "Boss Alerts",
+                        title = stringResource(R.string.settings_boss_alerts),
                         subtitle = stringResource(R.string.settings_coming_soon),
                         checked = false,
                         enabled = false,
@@ -206,12 +206,12 @@ fun SettingsScreen(
                                 Spacer(modifier = Modifier.width(12.dp))
                                 Column {
                                     Text(
-                                        text = profile?.fullName ?: "User",
+                                        text = profile?.fullName ?: stringResource(R.string.settings_default_user),
                                         style = MaterialTheme.typography.titleMedium,
                                         color = MaterialTheme.colorScheme.onSurface
                                     )
                                     Text(
-                                        text = "@${profile?.username ?: "username"}",
+                                        text = "@${profile?.username ?: stringResource(R.string.settings_default_username)}",
                                         style = MaterialTheme.typography.bodyMedium,
                                         color = TextSecondary
                                     )
@@ -225,7 +225,7 @@ fun SettingsScreen(
                             Spacer(modifier = Modifier.height(12.dp))
                             TextButton(
                                 onClick = {
-                                    Toast.makeText(context, "Coming soon", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(context, context.getString(R.string.settings_coming_soon), Toast.LENGTH_SHORT).show()
                                 },
                                 modifier = Modifier.fillMaxWidth()
                             ) {
@@ -323,12 +323,12 @@ fun SettingsScreen(
                         }
                     }
                 ) {
-                    Text("Confirm", color = PhoenixRed)
+                    Text(stringResource(R.string.settings_confirm), color = PhoenixRed)
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showResetDialog = false }) {
-                    Text("Cancel")
+                    Text(stringResource(R.string.settings_cancel))
                 }
             },
             containerColor = SurfaceDark,

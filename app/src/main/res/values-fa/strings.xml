@@ -92,6 +92,15 @@
     <string name="settings_theme_desc">همیشه فعال</string>
     <string name="settings_about_title">پروتکل ققنوس</string>
     <string name="settings_about_desc">برنامه مدیریت وظایف گیمیفاید که انضباط را به تجربه RPG تبدیل می‌کند.</string>
+    <string name="settings_english">انگلیسی</string>
+    <string name="settings_persian">فارسی</string>
+    <string name="settings_task_reminders">یادآوری وظایف</string>
+    <string name="settings_boss_alerts">هشدارهای باس</string>
+    <string name="settings_default_user">کاربر</string>
+    <string name="settings_default_username">نام کاربری</string>
+    <string name="settings_confirm">تایید</string>
+    <string name="settings_cancel">لغو</string>
+    <string name="settings_back">بازگشت</string>
 
     <!-- Common -->
     <string name="menu">منو</string>

@@ -91,7 +91,16 @@
     <string name="settings_dark_theme">Dark Theme</string>
     <string name="settings_theme_desc">Always on</string>
     <string name="settings_about_title">Phoenix Protocol</string>
-    <string name="settings_about_desc">A gamified task management app that turns discipline into a RPG experience.</string>
+    <string name="settings_about_desc">A gamified task management app that turns discipline into an RPG experience.</string>
+    <string name="settings_english">English</string>
+    <string name="settings_persian">Persian</string>
+    <string name="settings_task_reminders">Task Reminders</string>
+    <string name="settings_boss_alerts">Boss Alerts</string>
+    <string name="settings_default_user">User</string>
+    <string name="settings_default_username">username</string>
+    <string name="settings_confirm">Confirm</string>
+    <string name="settings_cancel">Cancel</string>
+    <string name="settings_back">Back</string>
 
     <!-- Common -->
     <string name="menu">Menu</string>

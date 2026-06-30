@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.benyaminrasouli.phoniexprotocol.core.data.datastore.SettingsDataStore
 import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.UserProfile
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.UserStats
 import com.benyaminrasouli.phoniexprotocol.core.domain.repository.StatsRepository
 import com.benyaminrasouli.phoniexprotocol.core.domain.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,8 +25,6 @@ class SettingsViewModel @Inject constructor(
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), "en")
 
     val profile: Flow<UserProfile?> = userRepository.getProfile()
-
-    val stats: Flow<UserStats?> = statsRepository.getStats()
 
     fun setLanguage(language: String) {
         viewModelScope.launch {
