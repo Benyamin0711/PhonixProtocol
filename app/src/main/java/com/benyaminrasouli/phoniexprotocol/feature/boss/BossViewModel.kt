@@ -8,7 +8,9 @@ import com.benyaminrasouli.phoniexprotocol.core.domain.usecase.GetActiveBossUseC
 import com.benyaminrasouli.phoniexprotocol.core.domain.usecase.SpawnWeeklyBossUseCase
 import com.benyaminrasouli.phoniexprotocol.core.domain.usecase.UpdateBossProgressUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,7 +22,8 @@ class BossViewModel @Inject constructor(
     private val completeBossUseCase: CompleteBossUseCase
 ) : ViewModel() {
 
-    val activeBoss: Flow<ActiveBoss?> = getActiveBossUseCase()
+    val activeBoss: StateFlow<ActiveBoss?> = getActiveBossUseCase()
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
 
     init {
         viewModelScope.launch {

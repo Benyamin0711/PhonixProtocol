@@ -28,6 +28,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -47,7 +48,11 @@ fun BossDetailScreen(
     navController: NavController,
     viewModel: BossViewModel = hiltViewModel()
 ) {
-    val activeBoss by viewModel.activeBoss.collectAsStateWithLifecycle(initialValue = null)
+    val activeBoss by viewModel.activeBoss.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+        viewModel.updateProgress()
+    }
 
     Column(
         modifier = Modifier
@@ -74,10 +79,12 @@ fun BossDetailScreen(
                 modifier = Modifier.padding(16.dp)
             )
         } else {
-            BossDetailContent(
-                activeBoss = activeBoss!!,
-                onComplete = { viewModel.completeBoss(activeBoss!!.boss.id) }
-            )
+            activeBoss?.let { boss ->
+                BossDetailContent(
+                    activeBoss = boss,
+                    onComplete = { viewModel.completeBoss(boss.boss.id) }
+                )
+            }
         }
     }
 }
