@@ -135,4 +135,18 @@
     <string name="stats_longest_streak">Longest Streak</string>
     <string name="stats_phoenix_energy">Phoenix Energy</string>
     <string name="stats_shadow_level">Shadow Level</string>
+
+    <!-- Boss Mission -->
+    <string name="boss_mission">Boss Mission</string>
+    <string name="boss_level">Level %d</string>
+    <string name="boss_xp_reward">%d XP Reward</string>
+    <string name="boss_complete">%d%% Complete</string>
+    <string name="boss_goals">Goals</string>
+    <string name="boss_claim_rewards">Claim Rewards</string>
+    <string name="boss_no_active">No active boss mission</string>
+    <string name="boss_complete_tasks">Complete %d tasks</string>
+    <string name="boss_streak_days">Maintain a %d-day streak</string>
+    <string name="boss_priority_tasks">Complete %d priority tasks</string>
+    <string name="boss_xp_earned">Earn %d XP</string>
+    <string name="boss_difficulty_tasks">Complete %d HARD/EXTREME tasks</string>
 </resources>

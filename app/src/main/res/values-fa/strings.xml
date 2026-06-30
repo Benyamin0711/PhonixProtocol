@@ -135,4 +135,18 @@
     <string name="stats_longest_streak">طولانی‌ترین سلسله</string>
     <string name="stats_phoenix_energy">انرژی ققنوس</string>
     <string name="stats_shadow_level">سطح سایه</string>
+
+    <!-- Boss Mission -->
+    <string name="boss_mission">مأموریت باس</string>
+    <string name="boss_level">سطح %d</string>
+    <string name="boss_xp_reward">%d امتیاز تجربه</string>
+    <string name="boss_complete">%d%% تکمیل شده</string>
+    <string name="boss_goals">اهداف</string>
+    <string name="boss_claim_rewards">دریافت پاداش‌ها</string>
+    <string name="boss_no_active">مأموریت باس فعالی وجود ندارد</string>
+    <string name="boss_complete_tasks">%d کار را تکمیل کنید</string>
+    <string name="boss_streak_days">%d روز پیاپی فعال باشید</string>
+    <string name="boss_priority_tasks">%d کار اولویت‌دار را تکمیل کنید</string>
+    <string name="boss_xp_earned">%d امتیاز تجربه کسب کنید</string>
+    <string name="boss_difficulty_tasks">%d کار سخت/extreme را تکمیل کنید</string>
 </resources>

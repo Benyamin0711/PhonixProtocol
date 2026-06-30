@@ -21,7 +21,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.benyaminrasouli.phoniexprotocol.R
 import com.benyaminrasouli.phoniexprotocol.core.domain.usecase.ActiveBoss
 import com.benyaminrasouli.phoniexprotocol.ui.theme.PhoenixOrange
 import com.benyaminrasouli.phoniexprotocol.ui.theme.SurfaceDark
@@ -68,7 +70,7 @@ fun BossCard(
                             color = MaterialTheme.colorScheme.onSurface
                         )
                         Text(
-                            text = "Level ${boss.boss.level} \u2022 ${boss.boss.rewardXp} XP",
+                            text = "${stringResource(R.string.boss_level, boss.boss.level)} \u2022 ${stringResource(R.string.boss_xp_reward, boss.boss.rewardXp)}",
                             style = MaterialTheme.typography.bodySmall,
                             color = TextSecondary
                         )
@@ -90,7 +92,7 @@ fun BossCard(
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                text = "${(boss.progress * 100).toInt()}% Complete",
+                text = stringResource(R.string.boss_complete, (boss.progress * 100).toInt()),
                 style = MaterialTheme.typography.bodySmall,
                 color = TextSecondary
             )

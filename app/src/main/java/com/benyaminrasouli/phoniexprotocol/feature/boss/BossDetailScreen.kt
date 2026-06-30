@@ -32,10 +32,12 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.benyaminrasouli.phoniexprotocol.R
 import com.benyaminrasouli.phoniexprotocol.core.domain.model.BossGoal
 import com.benyaminrasouli.phoniexprotocol.core.domain.usecase.ActiveBoss
 import com.benyaminrasouli.phoniexprotocol.ui.theme.BackgroundDark
@@ -60,7 +62,7 @@ fun BossDetailScreen(
             .background(BackgroundDark)
     ) {
         TopAppBar(
-            title = { Text("Boss Mission") },
+            title = { Text(stringResource(R.string.boss_mission)) },
             navigationIcon = {
                 IconButton(onClick = { navController.popBackStack() }) {
                     Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
@@ -74,7 +76,7 @@ fun BossDetailScreen(
 
         if (activeBoss == null) {
             Text(
-                text = "No active boss mission",
+                text = stringResource(R.string.boss_no_active),
                 color = TextSecondary,
                 modifier = Modifier.padding(16.dp)
             )
@@ -107,7 +109,7 @@ private fun BossDetailContent(
         item {
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Goals",
+                text = stringResource(R.string.boss_goals),
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onSurface
             )
@@ -124,7 +126,7 @@ private fun BossDetailContent(
                     onClick = onComplete,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text("Claim Rewards")
+                    Text(stringResource(R.string.boss_claim_rewards))
                 }
             }
         }
@@ -151,7 +153,7 @@ private fun BossHeader(activeBoss: ActiveBoss) {
                     color = MaterialTheme.colorScheme.onSurface
                 )
                 Text(
-                    text = "Level ${activeBoss.boss.level} \u2022 ${activeBoss.boss.rewardXp} XP Reward",
+                    text = "${stringResource(R.string.boss_level, activeBoss.boss.level)} \u2022 ${stringResource(R.string.boss_xp_reward, activeBoss.boss.rewardXp)}",
                     style = MaterialTheme.typography.bodyMedium,
                     color = TextSecondary
                 )
@@ -168,7 +170,7 @@ private fun BossHeader(activeBoss: ActiveBoss) {
         )
 
         Text(
-            text = "${(activeBoss.progress * 100).toInt()}% Complete",
+            text = stringResource(R.string.boss_complete, (activeBoss.progress * 100).toInt()),
             style = MaterialTheme.typography.bodySmall,
             color = TextSecondary
         )
