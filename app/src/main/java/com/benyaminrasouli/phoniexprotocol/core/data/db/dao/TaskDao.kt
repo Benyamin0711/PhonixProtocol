@@ -52,4 +52,13 @@ interface TaskDao {
 
     @Query("SELECT COUNT(*) FROM tasks WHERE status = 'COMPLETED' AND (difficulty = 'HARD' OR difficulty = 'EXTREME')")
     suspend fun getCompletedHardTaskCount(): Int
+
+    @Query("SELECT COUNT(*) FROM tasks WHERE status = 'COMPLETED' AND completedAt >= :sinceTimestamp")
+    suspend fun getCompletedTaskCountSince(sinceTimestamp: Long): Int
+
+    @Query("SELECT COUNT(*) FROM tasks WHERE status = 'COMPLETED' AND isPriority = 1 AND completedAt >= :sinceTimestamp")
+    suspend fun getCompletedPriorityTaskCountSince(sinceTimestamp: Long): Int
+
+    @Query("SELECT COUNT(*) FROM tasks WHERE status = 'COMPLETED' AND (difficulty = 'HARD' OR difficulty = 'EXTREME') AND completedAt >= :sinceTimestamp")
+    suspend fun getCompletedHardTaskCountSince(sinceTimestamp: Long): Int
 }

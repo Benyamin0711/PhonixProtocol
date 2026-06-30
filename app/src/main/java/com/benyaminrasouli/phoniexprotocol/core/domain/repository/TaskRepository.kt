@@ -19,4 +19,7 @@ interface TaskRepository {
     suspend fun getCompletedTaskCount(): Int
     suspend fun getCompletedPriorityTaskCount(): Int
     suspend fun getCompletedHardTaskCount(): Int
+    suspend fun getCompletedTaskCountSince(sinceTimestamp: Long): Int
+    suspend fun getCompletedPriorityTaskCountSince(sinceTimestamp: Long): Int
+    suspend fun getCompletedHardTaskCountSince(sinceTimestamp: Long): Int
 }

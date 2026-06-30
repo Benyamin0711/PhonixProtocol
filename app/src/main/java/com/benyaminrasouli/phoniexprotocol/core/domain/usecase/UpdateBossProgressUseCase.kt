@@ -22,7 +22,7 @@ class UpdateBossProgressUseCase @Inject constructor(
         goals.forEach { goal ->
             when (goal.type) {
                 GoalType.COMPLETE_TASKS -> {
-                    val count = taskRepository.getCompletedTaskCount()
+                    val count = taskRepository.getCompletedTaskCountSince(boss.createdAt)
                     if (count > goal.current) {
                         goal.current = count
                         updated = true
@@ -36,7 +36,7 @@ class UpdateBossProgressUseCase @Inject constructor(
                     }
                 }
                 GoalType.PRIORITY_TASKS -> {
-                    val count = taskRepository.getCompletedPriorityTaskCount()
+                    val count = taskRepository.getCompletedPriorityTaskCountSince(boss.createdAt)
                     if (count > goal.current) {
                         goal.current = count
                         updated = true
@@ -50,7 +50,7 @@ class UpdateBossProgressUseCase @Inject constructor(
                     }
                 }
                 GoalType.DIFFICULTY_TASKS -> {
-                    val count = taskRepository.getCompletedHardTaskCount()
+                    val count = taskRepository.getCompletedHardTaskCountSince(boss.createdAt)
                     if (count > goal.current) {
                         goal.current = count
                         updated = true

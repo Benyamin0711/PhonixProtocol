@@ -69,4 +69,16 @@ class TaskRepositoryImpl @Inject constructor(
     override suspend fun getCompletedHardTaskCount(): Int {
         return dao.getCompletedHardTaskCount()
     }
+
+    override suspend fun getCompletedTaskCountSince(sinceTimestamp: Long): Int {
+        return dao.getCompletedTaskCountSince(sinceTimestamp)
+    }
+
+    override suspend fun getCompletedPriorityTaskCountSince(sinceTimestamp: Long): Int {
+        return dao.getCompletedPriorityTaskCountSince(sinceTimestamp)
+    }
+
+    override suspend fun getCompletedHardTaskCountSince(sinceTimestamp: Long): Int {
+        return dao.getCompletedHardTaskCountSince(sinceTimestamp)
+    }
 }
