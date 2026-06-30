@@ -77,9 +77,21 @@
     <!-- Settings -->
     <string name="settings_title">تنظیمات</string>
     <string name="settings_language">زبان</string>
+    <string name="settings_notifications">اعلان‌ها</string>
     <string name="settings_theme">پوسته</string>
     <string name="settings_account">حساب کاربری</string>
-    <string name="settings_version">نسخه برنامه</string>
+    <string name="settings_data_privacy">داده‌ها و حریم خصوصی</string>
+    <string name="settings_about">درباره ما</string>
+    <string name="settings_version">نسخه %s</string>
+    <string name="settings_edit_profile">ویرایش پروفایل</string>
+    <string name="settings_export_data">خروجی داده‌ها</string>
+    <string name="settings_reset_data">بازنشانی تمام داده‌ها</string>
+    <string name="settings_reset_confirm">آیا مطمئنید؟ تمام داده‌های شما حذف خواهند شد و قابل بازگشت نیستند.</string>
+    <string name="settings_coming_soon">به زودی</string>
+    <string name="settings_dark_theme">پوسته تاریک</string>
+    <string name="settings_theme_desc">همیشه فعال</string>
+    <string name="settings_about_title">پروتکل ققنوس</string>
+    <string name="settings_about_desc">برنامه مدیریت وظایف گیمیفاید که انضباط را به تجربه RPG تبدیل می‌کند.</string>
 
     <!-- Common -->
     <string name="menu">منو</string>
