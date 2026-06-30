@@ -31,8 +31,12 @@ class BossViewModel @Inject constructor(
             spawnWeeklyBossUseCase()
             while (true) {
                 delay(60_000)
-                updateBossProgressUseCase()
-                spawnWeeklyBossUseCase()
+                try {
+                    updateBossProgressUseCase()
+                    spawnWeeklyBossUseCase()
+                } catch (_: Exception) {
+                    // Log and continue polling
+                }
             }
         }
     }
