@@ -102,6 +102,22 @@
     <string name="settings_cancel">لغو</string>
     <string name="settings_back">بازگشت</string>
 
+    <!-- About -->
+    <string name="about_title">درباره ما</string>
+    <string name="about_app_name">پروتکل ققنوس</string>
+    <string name="about_version">نسخه %s</string>
+    <string name="about_description">برنامه مدیریت وظایف گیمیفاید که انضباط را به تجربه RPG تبدیل می‌کند.</string>
+    <string name="about_developer">توسعه‌دهنده</string>
+    <string name="about_developer_name">بنیامین رسولی</string>
+    <string name="about_contact">تماس</string>
+    <string name="about_contact_email">support@phoenixprotocol.app</string>
+    <string name="about_github">گیت‌هاب</string>
+    <string name="about_github_url">github.com/phoenixprotocol</string>
+    <string name="about_website">وب‌سایت</string>
+    <string name="about_website_url">phoenixprotocol.app</string>
+    <string name="about_privacy_policy">سیاست حریم خصوصی</string>
+    <string name="about_terms_of_service">شرایط استفاده</string>
+
     <!-- Common -->
     <string name="menu">منو</string>
     <string name="level">سطح</string>

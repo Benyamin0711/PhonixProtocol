@@ -102,6 +102,22 @@
     <string name="settings_cancel">Cancel</string>
     <string name="settings_back">Back</string>
 
+    <!-- About -->
+    <string name="about_title">About</string>
+    <string name="about_app_name">Phoenix Protocol</string>
+    <string name="about_version">Version %s</string>
+    <string name="about_description">A gamified task management app that turns discipline into an RPG experience.</string>
+    <string name="about_developer">Developer</string>
+    <string name="about_developer_name">Benyamin Rasouli</string>
+    <string name="about_contact">Contact</string>
+    <string name="about_contact_email">support@phoenixprotocol.app</string>
+    <string name="about_github">GitHub</string>
+    <string name="about_github_url">github.com/phoenixprotocol</string>
+    <string name="about_website">Website</string>
+    <string name="about_website_url">phoenixprotocol.app</string>
+    <string name="about_privacy_policy">Privacy Policy</string>
+    <string name="about_terms_of_service">Terms of Service</string>
+
     <!-- Common -->
     <string name="menu">Menu</string>
     <string name="level">Level</string>
