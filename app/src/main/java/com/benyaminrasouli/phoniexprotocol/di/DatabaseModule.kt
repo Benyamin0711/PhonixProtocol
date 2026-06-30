@@ -7,6 +7,7 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.benyaminrasouli.phoniexprotocol.core.data.db.PhoenixDatabase
 import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.AchievementDao
+import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.BossDao
 import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.TaskDao
 import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.UserProfileDao
 import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.UserStatsDao
@@ -58,6 +59,12 @@ object DatabaseModule {
         }
     }
 
+    private val MIGRATION_2_3 = object : Migration(2, 3) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL("CREATE TABLE IF NOT EXISTS bosses (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, level INTEGER NOT NULL, title TEXT NOT NULL, description TEXT NOT NULL, goals TEXT NOT NULL, deadline INTEGER NOT NULL, status TEXT NOT NULL DEFAULT 'ACTIVE', rewardXp INTEGER NOT NULL, createdAt INTEGER NOT NULL)")
+        }
+    }
+
     @Provides
     @Singleton
     fun provideDatabase(@ApplicationContext context: Context): PhoenixDatabase {
@@ -66,7 +73,7 @@ object DatabaseModule {
             PhoenixDatabase::class.java,
             "phoenix_database"
         )
-            .addMigrations(MIGRATION_1_2)
+            .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
             .addCallback(object : RoomDatabase.Callback() {
                 override fun onCreate(db: SupportSQLiteDatabase) {
                     super.onCreate(db)
@@ -111,4 +118,7 @@ object DatabaseModule {
 
     @Provides
     fun provideAchievementDao(db: PhoenixDatabase): AchievementDao = db.achievementDao()
+
+    @Provides
+    fun provideBossDao(db: PhoenixDatabase): BossDao = db.bossDao()
 }
