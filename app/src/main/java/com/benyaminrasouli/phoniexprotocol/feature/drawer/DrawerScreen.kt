@@ -16,6 +16,7 @@ import androidx.compose.material.icons.filled.EmojiEvents
 import androidx.compose.material.icons.filled.BarChart
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.automirrored.filled.Help
 import androidx.compose.material.icons.filled.VerifiedUser
 import androidx.compose.material3.HorizontalDivider
@@ -110,6 +111,11 @@ fun DrawerScreen(
             onClick = {
                 viewModel.setLanguage(if (language == "en") "fa" else "en")
             }
+        )
+        DrawerMenuItem(
+            icon = Icons.Filled.Info,
+            label = stringResource(R.string.about_title),
+            onClick = onNavigateToAbout
         )
 
         Spacer(modifier = Modifier.weight(1f))
