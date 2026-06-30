@@ -16,6 +16,7 @@ import com.benyaminrasouli.phoniexprotocol.feature.tasks.TaskListScreen
 import com.benyaminrasouli.phoniexprotocol.feature.tasks.CreateTaskScreen
 import com.benyaminrasouli.phoniexprotocol.feature.statistics.StatisticsScreen
 import com.benyaminrasouli.phoniexprotocol.feature.achievements.AchievementScreen
+import com.benyaminrasouli.phoniexprotocol.feature.boss.BossDetailScreen
 
 @Composable
 fun NavGraph(navController: NavHostController) {
@@ -71,6 +72,13 @@ fun NavGraph(navController: NavHostController) {
             exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) }
         ) {
             AchievementScreen(navController = navController)
+        }
+        composable(
+            Screen.BossDetail.route,
+            enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
+            exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) }
+        ) {
+            BossDetailScreen(navController = navController)
         }
     }
 }

@@ -36,6 +36,8 @@ import androidx.navigation.NavController
 import com.benyaminrasouli.phoniexprotocol.R
 import com.benyaminrasouli.phoniexprotocol.core.navigation.Screen
 import com.benyaminrasouli.phoniexprotocol.feature.drawer.DrawerScreen
+import com.benyaminrasouli.phoniexprotocol.feature.boss.BossCard
+import com.benyaminrasouli.phoniexprotocol.feature.boss.BossViewModel
 import com.benyaminrasouli.phoniexprotocol.ui.theme.BackgroundDark
 import com.benyaminrasouli.phoniexprotocol.ui.theme.PhoenixOrange
 import kotlinx.coroutines.launch
@@ -44,9 +46,11 @@ import kotlinx.coroutines.launch
 @Composable
 fun DashboardScreen(
     navController: NavController,
-    viewModel: DashboardViewModel = hiltViewModel()
+    viewModel: DashboardViewModel = hiltViewModel(),
+    bossViewModel: BossViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val activeBoss by bossViewModel.activeBoss.collectAsStateWithLifecycle(initialValue = null)
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
@@ -152,6 +156,15 @@ fun DashboardScreen(
                         )
                     }
                 }
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                // Boss Card
+                BossCard(
+                    boss = activeBoss,
+                    onClick = { navController.navigate(Screen.BossDetail.route) },
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
 
                 Spacer(modifier = Modifier.height(24.dp))
             }

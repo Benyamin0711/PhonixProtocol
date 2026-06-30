@@ -1,0 +1,211 @@
+package com.benyaminrasouli.phoniexprotocol.feature.boss
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.EmojiEvents
+import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
+import com.benyaminrasouli.phoniexprotocol.core.domain.model.BossGoal
+import com.benyaminrasouli.phoniexprotocol.core.domain.usecase.ActiveBoss
+import com.benyaminrasouli.phoniexprotocol.ui.theme.BackgroundDark
+import com.benyaminrasouli.phoniexprotocol.ui.theme.PhoenixOrange
+import com.benyaminrasouli.phoniexprotocol.ui.theme.TextSecondary
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun BossDetailScreen(
+    navController: NavController,
+    viewModel: BossViewModel = hiltViewModel()
+) {
+    val activeBoss by viewModel.activeBoss.collectAsStateWithLifecycle(initialValue = null)
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(BackgroundDark)
+    ) {
+        TopAppBar(
+            title = { Text("Boss Mission") },
+            navigationIcon = {
+                IconButton(onClick = { navController.popBackStack() }) {
+                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                }
+            },
+            colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = BackgroundDark,
+                titleContentColor = MaterialTheme.colorScheme.onBackground
+            )
+        )
+
+        if (activeBoss == null) {
+            Text(
+                text = "No active boss mission",
+                color = TextSecondary,
+                modifier = Modifier.padding(16.dp)
+            )
+        } else {
+            BossDetailContent(
+                activeBoss = activeBoss!!,
+                onComplete = { viewModel.completeBoss(activeBoss!!.boss.id) }
+            )
+        }
+    }
+}
+
+@Composable
+private fun BossDetailContent(
+    activeBoss: ActiveBoss,
+    onComplete: () -> Unit
+) {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        item {
+            BossHeader(activeBoss = activeBoss)
+        }
+
+        item {
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = "Goals",
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+        }
+
+        items(activeBoss.goals) { goal ->
+            GoalItem(goal = goal)
+            HorizontalDivider(color = MaterialTheme.colorScheme.surfaceVariant)
+        }
+
+        if (activeBoss.isCompleted) {
+            item {
+                Button(
+                    onClick = onComplete,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text("Claim Rewards")
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun BossHeader(activeBoss: ActiveBoss) {
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                imageVector = Icons.Filled.EmojiEvents,
+                contentDescription = "Boss",
+                tint = PhoenixOrange,
+                modifier = Modifier.size(32.dp)
+            )
+            Column(modifier = Modifier.padding(start = 12.dp)) {
+                Text(
+                    text = activeBoss.boss.title,
+                    style = MaterialTheme.typography.headlineSmall,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                Text(
+                    text = "Level ${activeBoss.boss.level} \u2022 ${activeBoss.boss.rewardXp} XP Reward",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = TextSecondary
+                )
+            }
+        }
+
+        LinearProgressIndicator(
+            progress = { activeBoss.progress },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(12.dp),
+            color = PhoenixOrange,
+            trackColor = PhoenixOrange.copy(alpha = 0.2f)
+        )
+
+        Text(
+            text = "${(activeBoss.progress * 100).toInt()}% Complete",
+            style = MaterialTheme.typography.bodySmall,
+            color = TextSecondary
+        )
+    }
+}
+
+@Composable
+private fun GoalItem(goal: BossGoal) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = goal.description,
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            Text(
+                text = "${goal.current}/${goal.target}",
+                style = MaterialTheme.typography.bodySmall,
+                color = TextSecondary
+            )
+        }
+
+        if (goal.isCompleted) {
+            Icon(
+                imageVector = Icons.Filled.CheckCircle,
+                contentDescription = "Completed",
+                tint = PhoenixOrange,
+                modifier = Modifier.size(24.dp)
+            )
+        } else {
+            LinearProgressIndicator(
+                progress = { goal.progress },
+                modifier = Modifier
+                    .width(100.dp)
+                    .height(8.dp),
+                color = PhoenixOrange,
+                trackColor = PhoenixOrange.copy(alpha = 0.2f)
+            )
+        }
+    }
+}
