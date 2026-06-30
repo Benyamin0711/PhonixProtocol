@@ -67,6 +67,10 @@ fun DashboardScreen(
                         scope.launch { drawerState.close() }
                         navController.navigate(Screen.About.route)
                     },
+                    onNavigateToSupport = {
+                        scope.launch { drawerState.close() }
+                        navController.navigate(Screen.Support.route)
+                    },
                     onNavigateToStatistics = {
                         scope.launch { drawerState.close() }
                         navController.navigate(Screen.Statistics.route)
