@@ -67,7 +67,7 @@ fun AboutScreen(
             title = { Text(stringResource(R.string.about_title)) },
             navigationIcon = {
                 IconButton(onClick = { navController.popBackStack() }) {
-                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.about_title))
+                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.settings_back))
                 }
             },
             colors = TopAppBarDefaults.topAppBarColors(
