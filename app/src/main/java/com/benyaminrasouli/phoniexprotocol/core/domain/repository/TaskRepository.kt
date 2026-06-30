@@ -17,4 +17,6 @@ interface TaskRepository {
     suspend fun skipTask(taskId: Long)
     suspend fun getTaskCount(): Int
     suspend fun getCompletedTaskCount(): Int
+    suspend fun getCompletedPriorityTaskCount(): Int
+    suspend fun getCompletedHardTaskCount(): Int
 }
