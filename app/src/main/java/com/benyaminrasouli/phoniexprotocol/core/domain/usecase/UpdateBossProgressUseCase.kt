@@ -30,9 +30,12 @@ class UpdateBossProgressUseCase @Inject constructor(
                 }
                 GoalType.STREAK_DAYS -> {
                     val stats = statsRepository.getStatsOnce()
-                    if (stats != null && stats.currentStreak > goal.current) {
-                        goal.current = stats.currentStreak
-                        updated = true
+                    if (stats != null) {
+                        val delta = stats.currentStreak - boss.streakAtSpawn
+                        if (delta > goal.current) {
+                            goal.current = delta
+                            updated = true
+                        }
                     }
                 }
                 GoalType.PRIORITY_TASKS -> {
@@ -44,9 +47,12 @@ class UpdateBossProgressUseCase @Inject constructor(
                 }
                 GoalType.XP_EARNED -> {
                     val stats = statsRepository.getStatsOnce()
-                    if (stats != null && stats.xp > goal.current) {
-                        goal.current = stats.xp
-                        updated = true
+                    if (stats != null) {
+                        val delta = stats.xp - boss.xpAtSpawn
+                        if (delta > goal.current) {
+                            goal.current = delta
+                            updated = true
+                        }
                     }
                 }
                 GoalType.DIFFICULTY_TASKS -> {

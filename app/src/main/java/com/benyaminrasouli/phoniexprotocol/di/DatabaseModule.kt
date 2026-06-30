@@ -65,6 +65,13 @@ object DatabaseModule {
         }
     }
 
+    private val MIGRATION_3_4 = object : Migration(3, 4) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL("ALTER TABLE bosses ADD COLUMN streakAtSpawn INTEGER NOT NULL DEFAULT 0")
+            db.execSQL("ALTER TABLE bosses ADD COLUMN xpAtSpawn INTEGER NOT NULL DEFAULT 0")
+        }
+    }
+
     @Provides
     @Singleton
     fun provideDatabase(@ApplicationContext context: Context): PhoenixDatabase {
@@ -73,7 +80,7 @@ object DatabaseModule {
             PhoenixDatabase::class.java,
             "phoenix_database"
         )
-            .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
+            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
             .addCallback(object : RoomDatabase.Callback() {
                 override fun onCreate(db: SupportSQLiteDatabase) {
                     super.onCreate(db)

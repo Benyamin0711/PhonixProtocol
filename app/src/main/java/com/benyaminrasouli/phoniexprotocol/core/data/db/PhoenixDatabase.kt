@@ -23,7 +23,7 @@ import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.UserStats
         UserAchievement::class,
         Boss::class
     ],
-    version = 3,
+    version = 4,
     exportSchema = false
 )
 abstract class PhoenixDatabase : RoomDatabase() {

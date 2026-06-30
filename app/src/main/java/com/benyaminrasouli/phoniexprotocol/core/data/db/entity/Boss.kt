@@ -14,5 +14,7 @@ data class Boss(
     val deadline: Long,
     val status: String = "ACTIVE",
     val rewardXp: Int,
-    val createdAt: Long = System.currentTimeMillis()
+    val createdAt: Long = System.currentTimeMillis(),
+    val streakAtSpawn: Int = 0,
+    val xpAtSpawn: Int = 0
 )

@@ -4,10 +4,12 @@ import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.Boss
 import com.benyaminrasouli.phoniexprotocol.core.domain.model.BossGoal
 import com.benyaminrasouli.phoniexprotocol.core.domain.model.GoalType
 import com.benyaminrasouli.phoniexprotocol.core.domain.repository.BossRepository
+import com.benyaminrasouli.phoniexprotocol.core.domain.repository.StatsRepository
 import javax.inject.Inject
 
 class SpawnWeeklyBossUseCase @Inject constructor(
-    private val bossRepository: BossRepository
+    private val bossRepository: BossRepository,
+    private val statsRepository: StatsRepository
 ) {
     suspend operator fun invoke() {
         val activeBoss = bossRepository.getActiveBoss()
@@ -40,13 +42,19 @@ class SpawnWeeklyBossUseCase @Inject constructor(
 
         val deadline = System.currentTimeMillis() + (7 * 24 * 60 * 60 * 1000L)
 
+        val stats = statsRepository.getStatsOnce()
+        val streakAtSpawn = stats?.currentStreak ?: 0
+        val xpAtSpawn = stats?.xp ?: 0
+
         val boss = Boss(
             level = level,
             title = "Boss Level $level",
             description = "Complete all goals to defeat the boss!",
             goals = BossGoal.toJson(goals),
             deadline = deadline,
-            rewardXp = rewardXp
+            rewardXp = rewardXp,
+            streakAtSpawn = streakAtSpawn,
+            xpAtSpawn = xpAtSpawn
         )
 
         bossRepository.insertBoss(boss)
