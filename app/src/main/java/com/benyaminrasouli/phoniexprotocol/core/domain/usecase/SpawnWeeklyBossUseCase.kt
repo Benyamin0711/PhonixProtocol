@@ -11,7 +11,13 @@ class SpawnWeeklyBossUseCase @Inject constructor(
 ) {
     suspend operator fun invoke() {
         val activeBoss = bossRepository.getActiveBoss()
-        if (activeBoss != null) return
+        if (activeBoss != null) {
+            if (System.currentTimeMillis() > activeBoss.deadline) {
+                bossRepository.updateBossStatus(activeBoss.id, "FAILED")
+            } else {
+                return
+            }
+        }
 
         val lastBoss = bossRepository.getLastBoss()
         if (lastBoss != null) {

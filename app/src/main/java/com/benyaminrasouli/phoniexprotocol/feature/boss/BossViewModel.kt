@@ -11,6 +11,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -28,6 +29,11 @@ class BossViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             spawnWeeklyBossUseCase()
+            while (true) {
+                delay(60_000)
+                updateBossProgressUseCase()
+                spawnWeeklyBossUseCase()
+            }
         }
     }
 
