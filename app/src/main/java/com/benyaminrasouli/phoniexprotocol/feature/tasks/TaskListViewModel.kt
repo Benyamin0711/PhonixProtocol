@@ -3,8 +3,10 @@ package com.benyaminrasouli.phoniexprotocol.feature.tasks
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.Task
+import com.benyaminrasouli.phoniexprotocol.core.domain.usecase.CancelTaskUseCase
 import com.benyaminrasouli.phoniexprotocol.core.domain.usecase.CheckAchievementsUseCase
 import com.benyaminrasouli.phoniexprotocol.core.domain.usecase.CompleteTaskUseCase
+import com.benyaminrasouli.phoniexprotocol.core.domain.usecase.SkipTaskUseCase
 import com.benyaminrasouli.phoniexprotocol.core.domain.repository.TaskRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,7 +28,9 @@ data class TaskListState(
 class TaskListViewModel @Inject constructor(
     private val taskRepository: TaskRepository,
     private val completeTaskUseCase: CompleteTaskUseCase,
-    private val checkAchievementsUseCase: CheckAchievementsUseCase
+    private val checkAchievementsUseCase: CheckAchievementsUseCase,
+    private val skipTaskUseCase: SkipTaskUseCase,
+    private val cancelTaskUseCase: CancelTaskUseCase
 ) : ViewModel() {
 
     private val _filter = MutableStateFlow(TaskFilter.ALL)
@@ -58,6 +62,18 @@ class TaskListViewModel @Inject constructor(
         viewModelScope.launch {
             completeTaskUseCase(task)
             checkAchievementsUseCase()
+        }
+    }
+
+    fun skipTask(task: Task) {
+        viewModelScope.launch {
+            skipTaskUseCase(task)
+        }
+    }
+
+    fun cancelTask(task: Task) {
+        viewModelScope.launch {
+            cancelTaskUseCase(task)
         }
     }
 }

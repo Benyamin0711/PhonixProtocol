@@ -16,6 +16,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.SkipNext
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
@@ -101,7 +102,9 @@ fun TaskListScreen(
                 items(state.tasks, key = { it.id }) { task ->
                     TaskListItem(
                         task = task,
-                        onComplete = { viewModel.completeTask(task) }
+                        onComplete = { viewModel.completeTask(task) },
+                        onSkip = { viewModel.skipTask(task) },
+                        onCancel = { viewModel.cancelTask(task) }
                     )
                     HorizontalDivider(color = MaterialTheme.colorScheme.surfaceVariant)
                 }
@@ -113,7 +116,9 @@ fun TaskListScreen(
 @Composable
 private fun TaskListItem(
     task: Task,
-    onComplete: () -> Unit
+    onComplete: () -> Unit,
+    onSkip: () -> Unit,
+    onCancel: () -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -136,18 +141,29 @@ private fun TaskListItem(
             )
         }
 
-        if (task.status != "COMPLETED") {
+        Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+            if (task.status != "COMPLETED") {
+                IconButton(onClick = onSkip) {
+                    Icon(
+                        imageVector = Icons.Filled.SkipNext,
+                        contentDescription = "Skip",
+                        tint = PhoenixOrange,
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
+                IconButton(onClick = onCancel) {
+                    Icon(
+                        imageVector = Icons.Filled.Delete,
+                        contentDescription = "Cancel",
+                        tint = MaterialTheme.colorScheme.error,
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
+            }
             Icon(
                 imageVector = Icons.Filled.CheckCircle,
-                contentDescription = "Complete",
-                tint = PhoenixOrange,
-                modifier = Modifier.size(24.dp)
-            )
-        } else {
-            Icon(
-                imageVector = Icons.Filled.CheckCircle,
-                contentDescription = "Completed",
-                tint = MaterialTheme.colorScheme.primary,
+                contentDescription = if (task.status == "COMPLETED") "Completed" else "Complete",
+                tint = if (task.status == "COMPLETED") MaterialTheme.colorScheme.primary else PhoenixOrange,
                 modifier = Modifier.size(24.dp)
             )
         }
