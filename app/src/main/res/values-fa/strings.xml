@@ -226,4 +226,19 @@
     <string name="shadow_increase">سطح سایه افزایش یافت</string>
     <string name="skip_task">رد کردن تسک</string>
     <string name="cancel_task">لغو تسک</string>
+    <string name="daily_challenges">چالش‌های روزانه</string>
+    <string name="challenge_complete_tasks">%d تسک رو کامل کن</string>
+    <string name="challenge_complete_hard">یه تسک سخت رو کامل کن</string>
+    <string name="challenge_complete_priority">%d تسک اولویت‌دار رو کامل کن</string>
+    <string name="challenge_earn_xp">%d ایکس‌پی کسب کن</string>
+    <string name="challenge_complete_category">تسک‌های %s رو کامل کن</string>
+    <string name="challenge_claim">دریافت پاداش</string>
+    <string name="challenge_claimed">دریافت شد</string>
+    <string name="challenge_progress">%1$d/%2$d</string>
+    <string name="challenge_time_left">زمان باقی‌مانده: %s</string>
+    <string name="challenge_no_challenges">امروز چالشی نیست</string>
+    <string name="daily_warrior">جنگجوی روزانه</string>
+    <string name="challenge_master">استاد چالش</string>
+    <string name="perfect_day">روز بی‌نقص</string>
+    <string name="see_all">همه رو ببین</string>
 </resources>
