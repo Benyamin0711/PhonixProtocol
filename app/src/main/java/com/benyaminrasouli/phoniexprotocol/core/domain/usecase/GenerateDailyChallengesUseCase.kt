@@ -72,6 +72,15 @@ class GenerateDailyChallengesUseCase @Inject constructor(
             rewardEnergy = 12,
             date = date
         ))
+        pool.add(DailyChallenge(
+            title = "Category focus",
+            description = "Complete tasks in a category",
+            type = "COMPLETE_CATEGORY",
+            target = 2,
+            rewardXp = 90,
+            rewardEnergy = 15,
+            date = date
+        ))
 
         if (level >= 11) {
             pool.add(DailyChallenge(
@@ -88,7 +97,7 @@ class GenerateDailyChallengesUseCase @Inject constructor(
                 description = "Complete 5 tasks today",
                 type = "COMPLETE_TASKS",
                 target = 5,
-                rewardXp = 150,
+                rewardXp = 200,
                 rewardEnergy = 20,
                 date = date
             ))
