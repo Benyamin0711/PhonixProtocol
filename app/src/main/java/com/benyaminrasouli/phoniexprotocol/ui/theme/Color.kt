@@ -22,6 +22,8 @@ val EnergyGreen = Color(0xFF4CAF50)
 val EnergyYellow = Color(0xFFFFEB3B)
 val EnergyRed = Color(0xFFFF5252)
 val ShadowPurple = Color(0xFF9C27B0)
+val CompletedGreen = Color(0xFF4CAF50)
+val FailedRed = Color(0xFFFF5252)
 
 // Seed colors for Material 3
 val PhoenixPrimary = PhoenixOrange

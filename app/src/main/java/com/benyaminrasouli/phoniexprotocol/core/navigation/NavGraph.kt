@@ -17,6 +17,7 @@ import com.benyaminrasouli.phoniexprotocol.feature.tasks.CreateTaskScreen
 import com.benyaminrasouli.phoniexprotocol.feature.statistics.StatisticsScreen
 import com.benyaminrasouli.phoniexprotocol.feature.achievements.AchievementScreen
 import com.benyaminrasouli.phoniexprotocol.feature.boss.BossDetailScreen
+import com.benyaminrasouli.phoniexprotocol.feature.boss.BossHistoryScreen
 import com.benyaminrasouli.phoniexprotocol.feature.settings.SettingsScreen
 import com.benyaminrasouli.phoniexprotocol.feature.about.AboutScreen
 import com.benyaminrasouli.phoniexprotocol.feature.support.SupportScreen
@@ -97,10 +98,13 @@ fun NavGraph(navController: NavHostController) {
         ) {
             AboutScreen(navController = navController)
         }
-        // TODO: Wire BossHistoryScreen when created in Task 2
-        // composable(Screen.BossHistory.route) {
-        //     BossHistoryScreen(navController = navController)
-        // }
+        composable(
+            Screen.BossHistory.route,
+            enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
+            exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) }
+        ) {
+            BossHistoryScreen(navController = navController)
+        }
         composable(
             Screen.Support.route,
             enterTransition = { slideInHorizontally(initialOffsetX = { it }) },

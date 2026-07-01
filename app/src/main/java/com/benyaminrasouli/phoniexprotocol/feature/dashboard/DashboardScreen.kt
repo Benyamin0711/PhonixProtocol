@@ -78,6 +78,10 @@ fun DashboardScreen(
                     onNavigateToAchievements = {
                         scope.launch { drawerState.close() }
                         navController.navigate(Screen.Achievements.route)
+                    },
+                    onNavigateToBossHistory = {
+                        scope.launch { drawerState.close() }
+                        navController.navigate(Screen.BossHistory.route)
                     }
                 )
             }

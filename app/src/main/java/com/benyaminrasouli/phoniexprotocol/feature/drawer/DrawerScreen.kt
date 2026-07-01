@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.EmojiEvents
 import androidx.compose.material.icons.filled.BarChart
+import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Info
@@ -45,6 +46,7 @@ fun DrawerScreen(
     onNavigateToSupport: () -> Unit = {},
     onNavigateToStatistics: () -> Unit = {},
     onNavigateToAchievements: () -> Unit = {},
+    onNavigateToBossHistory: () -> Unit = {},
     viewModel: DrawerViewModel = hiltViewModel()
 ) {
     val profile by viewModel.profile.collectAsStateWithLifecycle(initialValue = null)
@@ -99,6 +101,11 @@ fun DrawerScreen(
             icon = Icons.Filled.EmojiEvents,
             label = stringResource(R.string.drawer_achievements),
             onClick = onNavigateToAchievements
+        )
+        DrawerMenuItem(
+            icon = Icons.Filled.History,
+            label = stringResource(R.string.drawer_boss_history),
+            onClick = onNavigateToBossHistory
         )
         DrawerMenuItem(
             icon = Icons.Filled.Settings,

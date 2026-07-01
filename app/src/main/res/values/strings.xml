@@ -209,4 +209,11 @@
     <string name="boss_priority_tasks">Complete %d priority tasks</string>
     <string name="boss_xp_earned">Earn %d XP</string>
     <string name="boss_difficulty_tasks">Complete %d HARD/EXTREME tasks</string>
+    <string name="boss_history">Boss History</string>
+    <string name="drawer_boss_history">Boss History</string>
+    <string name="boss_no_bosses">No bosses found</string>
+    <string name="boss_status_active">Active</string>
+    <string name="boss_status_completed">Completed</string>
+    <string name="boss_status_failed">Failed</string>
+    <string name="boss_deadline">Deadline: %s</string>
 </resources>

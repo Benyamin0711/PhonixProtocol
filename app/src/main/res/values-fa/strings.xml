@@ -209,4 +209,11 @@
     <string name="boss_priority_tasks">%d کار اولویت‌دار را تکمیل کنید</string>
     <string name="boss_xp_earned">%d امتیاز تجربه کسب کنید</string>
     <string name="boss_difficulty_tasks">%d کار سخت/extreme را تکمیل کنید</string>
+    <string name="boss_history">تاریخچه باس‌ها</string>
+    <string name="drawer_boss_history">تاریخچه باس‌ها</string>
+    <string name="boss_no_bosses">باسی یافت نشد</string>
+    <string name="boss_status_active">فعال</string>
+    <string name="boss_status_completed">تکمیل شده</string>
+    <string name="boss_status_failed">شکست خورده</string>
+    <string name="boss_deadline">مهلت: %s</string>
 </resources>
