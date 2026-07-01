@@ -217,6 +217,10 @@
     <string name="boss_history_empty">No bosses found</string>
     <string name="drawer_boss_history">Boss History</string>
     <string name="drawer_challenges">Challenges</string>
+    <string name="daily_challenges">Daily Challenges</string>
+    <string name="challenge_no_challenges">No challenges available today. Come back tomorrow!</string>
+    <string name="challenge_claim">Claim</string>
+    <string name="challenge_claimed">Claimed</string>
     <string name="boss_no_bosses">No bosses found</string>
     <string name="boss_status_active">Active</string>
     <string name="boss_status_completed">Completed</string>

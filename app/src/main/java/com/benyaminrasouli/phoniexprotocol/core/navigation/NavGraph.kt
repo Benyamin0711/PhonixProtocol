@@ -20,6 +20,7 @@ import com.benyaminrasouli.phoniexprotocol.feature.boss.BossDetailScreen
 import com.benyaminrasouli.phoniexprotocol.feature.boss.BossHistoryScreen
 import com.benyaminrasouli.phoniexprotocol.feature.settings.SettingsScreen
 import com.benyaminrasouli.phoniexprotocol.feature.about.AboutScreen
+import com.benyaminrasouli.phoniexprotocol.feature.challenges.DailyChallengeScreen
 import com.benyaminrasouli.phoniexprotocol.feature.support.SupportScreen
 
 @Composable
@@ -103,11 +104,7 @@ fun NavGraph(navController: NavHostController) {
             enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
             exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) }
         ) {
-            // DailyChallengeScreen will be implemented in Task 6
-            // For now, navigate back to dashboard
-            navController.navigate(Screen.Dashboard.route) {
-                popUpTo(Screen.Dashboard.route) { inclusive = true }
-            }
+            DailyChallengeScreen(navController = navController)
         }
         composable(
             Screen.BossHistory.route,
