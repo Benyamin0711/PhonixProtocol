@@ -1,7 +1,12 @@
 package com.benyaminrasouli.phoniexprotocol.core.ui.components
 
 import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -29,8 +34,19 @@ fun AnimatedProgressBar(
 ) {
     val animatedProgress by animateFloatAsState(
         targetValue = progress.coerceIn(0f, 1f),
-        animationSpec = tween(durationMillis = 800, easing = LinearEasing),
+        animationSpec = spring(dampingRatio = 0.6f, stiffness = 300f),
         label = "progress"
+    )
+
+    val infiniteTransition = rememberInfiniteTransition(label = "glow")
+    val glowAlpha by infiniteTransition.animateFloat(
+        initialValue = 0.3f,
+        targetValue = 0.7f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(durationMillis = 1000, easing = LinearEasing),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "glowAlpha"
     )
 
     Box(
@@ -48,8 +64,8 @@ fun AnimatedProgressBar(
                 .shadow(
                     elevation = 8.dp,
                     shape = RoundedCornerShape(height / 2),
-                    ambientColor = progressColor.copy(alpha = 0.5f),
-                    spotColor = progressColor.copy(alpha = 0.5f)
+                    ambientColor = progressColor.copy(alpha = glowAlpha),
+                    spotColor = progressColor.copy(alpha = glowAlpha)
                 )
                 .background(
                     Brush.horizontalGradient(
