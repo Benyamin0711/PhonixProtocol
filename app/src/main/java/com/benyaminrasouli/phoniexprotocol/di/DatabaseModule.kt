@@ -8,6 +8,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.benyaminrasouli.phoniexprotocol.core.data.db.PhoenixDatabase
 import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.AchievementDao
 import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.BossDao
+import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.DailyChallengeDao
 import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.TaskDao
 import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.UserProfileDao
 import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.UserStatsDao
@@ -72,6 +73,12 @@ object DatabaseModule {
         }
     }
 
+    private val MIGRATION_4_5 = object : Migration(4, 5) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL("CREATE TABLE IF NOT EXISTS daily_challenges (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, title TEXT NOT NULL, description TEXT NOT NULL, type TEXT NOT NULL, target INTEGER NOT NULL, current INTEGER NOT NULL DEFAULT 0, rewardXp INTEGER NOT NULL, rewardEnergy INTEGER NOT NULL, completed INTEGER NOT NULL DEFAULT 0, claimed INTEGER NOT NULL DEFAULT 0, date TEXT NOT NULL, createdAt INTEGER NOT NULL)")
+        }
+    }
+
     @Provides
     @Singleton
     fun provideDatabase(@ApplicationContext context: Context): PhoenixDatabase {
@@ -80,7 +87,7 @@ object DatabaseModule {
             PhoenixDatabase::class.java,
             "phoenix_database"
         )
-            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
+            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5)
             .addCallback(object : RoomDatabase.Callback() {
                 override fun onCreate(db: SupportSQLiteDatabase) {
                     super.onCreate(db)
@@ -128,4 +135,7 @@ object DatabaseModule {
 
     @Provides
     fun provideBossDao(db: PhoenixDatabase): BossDao = db.bossDao()
+
+    @Provides
+    fun provideDailyChallengeDao(db: PhoenixDatabase): DailyChallengeDao = db.dailyChallengeDao()
 }
