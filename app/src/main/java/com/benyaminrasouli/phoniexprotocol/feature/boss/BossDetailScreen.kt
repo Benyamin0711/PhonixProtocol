@@ -1,5 +1,9 @@
 package com.benyaminrasouli.phoniexprotocol.feature.boss
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.scaleIn
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -40,7 +44,10 @@ import androidx.navigation.NavController
 import com.benyaminrasouli.phoniexprotocol.R
 import com.benyaminrasouli.phoniexprotocol.core.domain.model.BossGoal
 import com.benyaminrasouli.phoniexprotocol.core.domain.usecase.ActiveBoss
+import com.benyaminrasouli.phoniexprotocol.core.ui.components.AnimatedProgressBar
 import com.benyaminrasouli.phoniexprotocol.ui.theme.BackgroundDark
+import com.benyaminrasouli.phoniexprotocol.ui.theme.CompletedGreen
+import com.benyaminrasouli.phoniexprotocol.ui.theme.FailedRed
 import com.benyaminrasouli.phoniexprotocol.ui.theme.PhoenixOrange
 import com.benyaminrasouli.phoniexprotocol.ui.theme.TextSecondary
 
@@ -160,13 +167,11 @@ private fun BossHeader(activeBoss: ActiveBoss) {
             }
         }
 
-        LinearProgressIndicator(
-            progress = { activeBoss.progress },
+        AnimatedProgressBar(
+            progress = activeBoss.progress,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(12.dp),
-            color = PhoenixOrange,
-            trackColor = PhoenixOrange.copy(alpha = 0.2f)
+                .height(12.dp)
         )
 
         Text(
@@ -179,6 +184,11 @@ private fun BossHeader(activeBoss: ActiveBoss) {
 
 @Composable
 private fun GoalItem(goal: BossGoal) {
+    val goalColor by animateColorAsState(
+        targetValue = if (goal.isCompleted) CompletedGreen else PhoenixOrange,
+        label = "goalColor"
+    )
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -199,21 +209,25 @@ private fun GoalItem(goal: BossGoal) {
             )
         }
 
-        if (goal.isCompleted) {
+        AnimatedVisibility(
+            visible = goal.isCompleted,
+            enter = fadeIn() + scaleIn()
+        ) {
             Icon(
                 imageVector = Icons.Filled.CheckCircle,
                 contentDescription = "Completed",
-                tint = PhoenixOrange,
+                tint = goalColor,
                 modifier = Modifier.size(24.dp)
             )
-        } else {
-            LinearProgressIndicator(
-                progress = { goal.progress },
+        }
+
+        if (!goal.isCompleted) {
+            AnimatedProgressBar(
+                progress = goal.progress,
                 modifier = Modifier
                     .width(100.dp)
                     .height(8.dp),
-                color = PhoenixOrange,
-                trackColor = PhoenixOrange.copy(alpha = 0.2f)
+                progressColor = goalColor
             )
         }
     }
