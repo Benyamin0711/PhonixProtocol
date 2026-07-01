@@ -97,6 +97,10 @@ fun NavGraph(navController: NavHostController) {
         ) {
             AboutScreen(navController = navController)
         }
+        // TODO: Wire BossHistoryScreen when created in Task 2
+        // composable(Screen.BossHistory.route) {
+        //     BossHistoryScreen(navController = navController)
+        // }
         composable(
             Screen.Support.route,
             enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
