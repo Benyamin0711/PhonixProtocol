@@ -22,7 +22,7 @@ class TrackDailyChallengeUseCase @Inject constructor(
 
             if (shouldIncrement) {
                 val increment = if (challenge.type == "EARN_XP") earnedXp else 1
-                val newCurrent = challenge.current + increment
+                val newCurrent = (challenge.current + increment).coerceAtMost(challenge.target)
                 challengeRepository.updateProgress(challenge.id, newCurrent)
                 if (newCurrent >= challenge.target) {
                     challengeRepository.markCompleted(challenge.id)

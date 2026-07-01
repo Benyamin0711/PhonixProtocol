@@ -11,6 +11,9 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import java.time.Duration
+import java.time.LocalDateTime
+import java.time.LocalTime
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -37,9 +40,13 @@ object WorkerModule {
     }
 
     fun enqueueDailyChallengeReset(workManager: WorkManager) {
+        val now = java.time.LocalDateTime.now()
+        val nextMidnight = now.toLocalDate().plusDays(1).atTime(java.time.LocalTime.MIDNIGHT)
+        val delayMillis = java.time.Duration.between(now, nextMidnight).toMillis()
+
         val request = PeriodicWorkRequestBuilder<DailyChallengeResetWorker>(
             24, TimeUnit.HOURS
-        ).setInitialDelay(1, TimeUnit.HOURS)
+        ).setInitialDelay(delayMillis, TimeUnit.MILLISECONDS)
             .build()
 
         workManager.enqueueUniquePeriodicWork(
