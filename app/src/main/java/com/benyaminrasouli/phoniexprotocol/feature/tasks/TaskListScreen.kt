@@ -146,7 +146,7 @@ private fun TaskListItem(
                 IconButton(onClick = onSkip) {
                     Icon(
                         imageVector = Icons.Filled.SkipNext,
-                        contentDescription = "Skip",
+                        contentDescription = stringResource(R.string.skip_task),
                         tint = PhoenixOrange,
                         modifier = Modifier.size(24.dp)
                     )
@@ -154,7 +154,7 @@ private fun TaskListItem(
                 IconButton(onClick = onCancel) {
                     Icon(
                         imageVector = Icons.Filled.Delete,
-                        contentDescription = "Cancel",
+                        contentDescription = stringResource(R.string.cancel_task),
                         tint = MaterialTheme.colorScheme.error,
                         modifier = Modifier.size(24.dp)
                     )

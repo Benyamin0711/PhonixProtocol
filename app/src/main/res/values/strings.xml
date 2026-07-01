@@ -210,10 +210,19 @@
     <string name="boss_xp_earned">Earn %d XP</string>
     <string name="boss_difficulty_tasks">Complete %d HARD/EXTREME tasks</string>
     <string name="boss_history">Boss History</string>
+    <string name="boss_history_all">All</string>
+    <string name="boss_history_active">Active</string>
+    <string name="boss_history_completed">Completed</string>
+    <string name="boss_history_failed">Failed</string>
+    <string name="boss_history_empty">No bosses found</string>
     <string name="drawer_boss_history">Boss History</string>
     <string name="boss_no_bosses">No bosses found</string>
     <string name="boss_status_active">Active</string>
     <string name="boss_status_completed">Completed</string>
     <string name="boss_status_failed">Failed</string>
     <string name="boss_deadline">Deadline: %s</string>
+    <string name="energy_recovering">Energy recovering…</string>
+    <string name="shadow_increase">Shadow level increased</string>
+    <string name="skip_task">Skip Task</string>
+    <string name="cancel_task">Cancel Task</string>
 </resources>
