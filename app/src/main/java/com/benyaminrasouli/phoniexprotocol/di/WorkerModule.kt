@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
+import com.benyaminrasouli.phoniexprotocol.core.work.DailyChallengeResetWorker
 import com.benyaminrasouli.phoniexprotocol.core.work.EnergyRecoveryWorker
 import dagger.Module
 import dagger.Provides
@@ -30,6 +31,19 @@ object WorkerModule {
 
         workManager.enqueueUniquePeriodicWork(
             "energy_recovery",
+            ExistingPeriodicWorkPolicy.KEEP,
+            request
+        )
+    }
+
+    fun enqueueDailyChallengeReset(workManager: WorkManager) {
+        val request = PeriodicWorkRequestBuilder<DailyChallengeResetWorker>(
+            24, TimeUnit.HOURS
+        ).setInitialDelay(1, TimeUnit.HOURS)
+            .build()
+
+        workManager.enqueueUniquePeriodicWork(
+            "daily_challenge_reset",
             ExistingPeriodicWorkPolicy.KEEP,
             request
         )

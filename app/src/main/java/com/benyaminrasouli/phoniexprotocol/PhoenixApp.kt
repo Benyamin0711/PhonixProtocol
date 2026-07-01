@@ -15,5 +15,6 @@ class PhoenixApp : Application() {
     override fun onCreate() {
         super.onCreate()
         WorkerModule.enqueueEnergyRecovery(workManager)
+        WorkerModule.enqueueDailyChallengeReset(workManager)
     }
 }
