@@ -26,7 +26,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -47,7 +46,6 @@ import com.benyaminrasouli.phoniexprotocol.core.domain.usecase.ActiveBoss
 import com.benyaminrasouli.phoniexprotocol.core.ui.components.AnimatedProgressBar
 import com.benyaminrasouli.phoniexprotocol.ui.theme.BackgroundDark
 import com.benyaminrasouli.phoniexprotocol.ui.theme.CompletedGreen
-import com.benyaminrasouli.phoniexprotocol.ui.theme.FailedRed
 import com.benyaminrasouli.phoniexprotocol.ui.theme.PhoenixOrange
 import com.benyaminrasouli.phoniexprotocol.ui.theme.TextSecondary
 
