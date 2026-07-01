@@ -99,6 +99,17 @@ fun NavGraph(navController: NavHostController) {
             AboutScreen(navController = navController)
         }
         composable(
+            Screen.DailyChallenges.route,
+            enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
+            exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) }
+        ) {
+            // DailyChallengeScreen will be implemented in Task 6
+            // For now, navigate back to dashboard
+            navController.navigate(Screen.Dashboard.route) {
+                popUpTo(Screen.Dashboard.route) { inclusive = true }
+            }
+        }
+        composable(
             Screen.BossHistory.route,
             enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
             exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) }

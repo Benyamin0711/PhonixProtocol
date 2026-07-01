@@ -216,6 +216,7 @@
     <string name="boss_history_failed">ناموفق</string>
     <string name="boss_history_empty">باسی یافت نشد</string>
     <string name="drawer_boss_history">تاریخچه باس‌ها</string>
+    <string name="drawer_challenges">چالش‌ها</string>
     <string name="boss_no_bosses">باسی یافت نشد</string>
     <string name="boss_status_active">فعال</string>
     <string name="boss_status_completed">تکمیل شده</string>

@@ -216,6 +216,7 @@
     <string name="boss_history_failed">Failed</string>
     <string name="boss_history_empty">No bosses found</string>
     <string name="drawer_boss_history">Boss History</string>
+    <string name="drawer_challenges">Challenges</string>
     <string name="boss_no_bosses">No bosses found</string>
     <string name="boss_status_active">Active</string>
     <string name="boss_status_completed">Completed</string>

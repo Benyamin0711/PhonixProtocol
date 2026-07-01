@@ -47,6 +47,7 @@ fun DrawerScreen(
     onNavigateToStatistics: () -> Unit = {},
     onNavigateToAchievements: () -> Unit = {},
     onNavigateToBossHistory: () -> Unit = {},
+    onNavigateToDailyChallenges: () -> Unit = {},
     viewModel: DrawerViewModel = hiltViewModel()
 ) {
     val profile by viewModel.profile.collectAsStateWithLifecycle(initialValue = null)
@@ -106,6 +107,11 @@ fun DrawerScreen(
             icon = Icons.Filled.History,
             label = stringResource(R.string.drawer_boss_history),
             onClick = onNavigateToBossHistory
+        )
+        DrawerMenuItem(
+            icon = Icons.Filled.EmojiEvents,
+            label = stringResource(R.string.drawer_challenges),
+            onClick = onNavigateToDailyChallenges
         )
         DrawerMenuItem(
             icon = Icons.Filled.Settings,

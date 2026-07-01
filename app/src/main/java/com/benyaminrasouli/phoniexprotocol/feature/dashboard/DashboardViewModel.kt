@@ -11,6 +11,8 @@ import com.benyaminrasouli.phoniexprotocol.core.domain.usecase.GetProfileUseCase
 import com.benyaminrasouli.phoniexprotocol.core.domain.usecase.GetStatsUseCase
 import com.benyaminrasouli.phoniexprotocol.core.domain.usecase.GetSloganUseCase
 import com.benyaminrasouli.phoniexprotocol.core.domain.usecase.GetTasksUseCase
+import com.benyaminrasouli.phoniexprotocol.core.domain.usecase.GetDailyChallengesUseCase
+import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.DailyChallenge
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -25,6 +27,7 @@ data class DashboardState(
     val profile: UserProfile? = null,
     val stats: UserStats? = null,
     val activeTasks: List<Task> = emptyList(),
+    val challenges: List<DailyChallenge> = emptyList(),
     val rank: Rank = Rank.INITIATE
 )
 
@@ -34,7 +37,8 @@ class DashboardViewModel @Inject constructor(
     private val getTasksUseCase: GetTasksUseCase,
     private val getSloganUseCase: GetSloganUseCase,
     private val getProfileUseCase: GetProfileUseCase,
-    private val completeTaskUseCase: CompleteTaskUseCase
+    private val completeTaskUseCase: CompleteTaskUseCase,
+    private val getDailyChallengesUseCase: GetDailyChallengesUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(DashboardState())
@@ -60,10 +64,17 @@ class DashboardViewModel @Inject constructor(
                     profile = profile,
                     stats = stats,
                     activeTasks = tasks,
+                    challenges = _state.value.challenges,
                     rank = Rank.forLevel(stats?.level ?: 1)
                 )
             }.collect { newState ->
                 _state.update { newState }
+            }
+        }
+
+        viewModelScope.launch {
+            getDailyChallengesUseCase().collect { challenges ->
+                _state.update { it.copy(challenges = challenges) }
             }
         }
     }

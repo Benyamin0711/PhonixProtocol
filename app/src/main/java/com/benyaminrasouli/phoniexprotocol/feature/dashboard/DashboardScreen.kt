@@ -38,6 +38,7 @@ import com.benyaminrasouli.phoniexprotocol.core.navigation.Screen
 import com.benyaminrasouli.phoniexprotocol.feature.drawer.DrawerScreen
 import com.benyaminrasouli.phoniexprotocol.feature.boss.BossCard
 import com.benyaminrasouli.phoniexprotocol.feature.boss.BossViewModel
+import com.benyaminrasouli.phoniexprotocol.feature.challenges.DailyChallengeCard
 import com.benyaminrasouli.phoniexprotocol.ui.theme.BackgroundDark
 import com.benyaminrasouli.phoniexprotocol.ui.theme.PhoenixOrange
 import kotlinx.coroutines.launch
@@ -82,6 +83,10 @@ fun DashboardScreen(
                     onNavigateToBossHistory = {
                         scope.launch { drawerState.close() }
                         navController.navigate(Screen.BossHistory.route)
+                    },
+                    onNavigateToDailyChallenges = {
+                        scope.launch { drawerState.close() }
+                        navController.navigate(Screen.DailyChallenges.route)
                     }
                 )
             }
@@ -179,6 +184,15 @@ fun DashboardScreen(
                 BossCard(
                     boss = activeBoss,
                     onClick = { navController.navigate(Screen.BossDetail.route) },
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                // Daily Challenges Card
+                DailyChallengeCard(
+                    challenges = state.challenges,
+                    onClick = { navController.navigate(Screen.DailyChallenges.route) },
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
 
