@@ -21,7 +21,10 @@ import com.benyaminrasouli.phoniexprotocol.feature.boss.BossHistoryScreen
 import com.benyaminrasouli.phoniexprotocol.feature.settings.SettingsScreen
 import com.benyaminrasouli.phoniexprotocol.feature.about.AboutScreen
 import com.benyaminrasouli.phoniexprotocol.feature.challenges.DailyChallengeScreen
+import com.benyaminrasouli.phoniexprotocol.feature.profile.ProfileScreen
 import com.benyaminrasouli.phoniexprotocol.feature.support.SupportScreen
+import com.benyaminrasouli.phoniexprotocol.feature.templates.TemplatesListScreen
+import com.benyaminrasouli.phoniexprotocol.feature.categories.CategoriesScreen
 
 @Composable
 fun NavGraph(navController: NavHostController) {
@@ -119,6 +122,27 @@ fun NavGraph(navController: NavHostController) {
             exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) }
         ) {
             SupportScreen(navController = navController)
+        }
+        composable(
+            Screen.Profile.route,
+            enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
+            exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) }
+        ) {
+            ProfileScreen(navController = navController)
+        }
+        composable(
+            Screen.Templates.route,
+            enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
+            exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) }
+        ) {
+            TemplatesListScreen(navController = navController)
+        }
+        composable(
+            Screen.Categories.route,
+            enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
+            exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) }
+        ) {
+            CategoriesScreen(navController = navController)
         }
     }
 }
