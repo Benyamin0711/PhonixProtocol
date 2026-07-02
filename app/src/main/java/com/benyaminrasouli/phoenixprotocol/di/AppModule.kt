@@ -1,6 +1,7 @@
 package com.benyaminrasouli.phoenixprotocol.di
 
 import com.benyaminrasouli.phoenixprotocol.core.data.repository.AchievementRepositoryImpl
+import com.benyaminrasouli.phoenixprotocol.core.data.repository.AnalyticsRepositoryImpl
 import com.benyaminrasouli.phoenixprotocol.core.data.repository.BossRepositoryImpl
 import com.benyaminrasouli.phoenixprotocol.core.data.repository.DailyChallengeRepositoryImpl
 import com.benyaminrasouli.phoenixprotocol.core.data.repository.FocusRepositoryImpl
@@ -12,6 +13,7 @@ import com.benyaminrasouli.phoenixprotocol.core.data.repository.TemplateReposito
 import com.benyaminrasouli.phoenixprotocol.core.data.repository.MockLeaderboardRepository
 import com.benyaminrasouli.phoenixprotocol.core.data.repository.UserRepositoryImpl
 import com.benyaminrasouli.phoenixprotocol.core.domain.repository.AchievementRepository
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.AnalyticsRepository
 import com.benyaminrasouli.phoenixprotocol.core.domain.repository.LeaderboardRepository
 import com.benyaminrasouli.phoenixprotocol.core.domain.repository.CategoryRepository
 import com.benyaminrasouli.phoenixprotocol.core.domain.repository.BossRepository
@@ -75,4 +77,8 @@ abstract class AppModule {
     @Binds
     @Singleton
     abstract fun bindLeaderboardRepository(impl: MockLeaderboardRepository): LeaderboardRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindAnalyticsRepository(impl: AnalyticsRepositoryImpl): AnalyticsRepository
 }

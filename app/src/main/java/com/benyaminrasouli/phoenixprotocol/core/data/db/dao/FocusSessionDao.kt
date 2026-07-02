@@ -27,4 +27,7 @@ interface FocusSessionDao {
 
     @Query("SELECT COUNT(*) FROM focus_sessions WHERE completed = 1")
     suspend fun getCompletedSessionCount(): Int
+
+    @Query("SELECT DATE(startedAt/1000, 'unixepoch', 'localtime') as day, SUM(durationSeconds)/60 as total FROM focus_sessions WHERE completed = 1 AND startedAt > :since GROUP BY day ORDER BY day")
+    suspend fun getFocusMinutesByDay(since: Long): List<DayTotal>
 }

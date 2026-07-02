@@ -22,6 +22,7 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Timer
 import androidx.compose.material.icons.automirrored.filled.Help
+import androidx.compose.material.icons.filled.Insights
 import androidx.compose.material.icons.filled.Leaderboard
 import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material.icons.filled.VerifiedUser
@@ -58,6 +59,7 @@ fun DrawerScreen(
     onNavigateToTemplates: () -> Unit = {},
     onNavigateToCategories: () -> Unit = {},
     onNavigateToFocusTimer: () -> Unit = {},
+    onNavigateToAnalytics: () -> Unit = {},
     onNavigateToShadow: () -> Unit = {},
     viewModel: DrawerViewModel = hiltViewModel()
 ) {
@@ -148,6 +150,11 @@ fun DrawerScreen(
             icon = Icons.Filled.Leaderboard,
             label = stringResource(R.string.drawer_leaderboard),
             onClick = onNavigateToLeaderboard
+        )
+        DrawerMenuItem(
+            icon = Icons.Filled.Insights,
+            label = stringResource(R.string.drawer_analytics),
+            onClick = onNavigateToAnalytics
         )
         DrawerMenuItem(
             icon = Icons.Filled.Settings,

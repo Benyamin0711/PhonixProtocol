@@ -111,6 +111,10 @@ fun DashboardScreen(
                     onNavigateToShadow = {
                         scope.launch { drawerState.close() }
                         navController.navigate(Screen.Shadow.route)
+                    },
+                    onNavigateToAnalytics = {
+                        scope.launch { drawerState.close() }
+                        navController.navigate(Screen.Analytics.route)
                     }
                 )
             }

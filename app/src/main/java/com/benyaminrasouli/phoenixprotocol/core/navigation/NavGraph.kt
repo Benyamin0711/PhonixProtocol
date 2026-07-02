@@ -28,6 +28,7 @@ import com.benyaminrasouli.phoenixprotocol.feature.categories.CategoriesScreen
 import com.benyaminrasouli.phoenixprotocol.feature.focus.FocusTimerScreen
 import com.benyaminrasouli.phoenixprotocol.feature.leaderboard.LeaderboardScreen
 import com.benyaminrasouli.phoenixprotocol.feature.shadow.ShadowScreen
+import com.benyaminrasouli.phoenixprotocol.feature.analytics.AnalyticsScreen
 
 @Composable
 fun NavGraph(navController: NavHostController) {
@@ -167,6 +168,13 @@ fun NavGraph(navController: NavHostController) {
             exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) }
         ) {
             ShadowScreen(navController = navController)
+        }
+        composable(
+            Screen.Analytics.route,
+            enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
+            exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) }
+        ) {
+            AnalyticsScreen(navController = navController)
         }
     }
 }

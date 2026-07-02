@@ -61,4 +61,13 @@ interface TaskDao {
 
     @Query("SELECT COUNT(*) FROM tasks WHERE status = 'COMPLETED' AND (difficulty = 'HARD' OR difficulty = 'EXTREME') AND completedAt >= :sinceTimestamp")
     suspend fun getCompletedHardTaskCountSince(sinceTimestamp: Long): Int
+
+    @Query("SELECT DATE(completedAt/1000, 'unixepoch', 'localtime') as day, COUNT(*) as count FROM tasks WHERE status = 'COMPLETED' AND completedAt > :since GROUP BY day ORDER BY day")
+    suspend fun getCompletedTasksByDay(since: Long): List<DayCount>
+
+    @Query("SELECT DATE(completedAt/1000, 'unixepoch', 'localtime') as day, SUM(xpValue) as total FROM tasks WHERE status = 'COMPLETED' AND completedAt > :since GROUP BY day ORDER BY day")
+    suspend fun getXpByDay(since: Long): List<DayTotal>
+
+    @Query("SELECT categoryId, COUNT(*) as count FROM tasks WHERE status = 'COMPLETED' GROUP BY categoryId")
+    suspend fun getTaskCountByCategory(): List<CategoryCount>
 }

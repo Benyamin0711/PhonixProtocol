@@ -371,4 +371,16 @@
     <string name="shadow_action_streak_break">Streak broken</string>
     <string name="shadow_action_complete">Task completed</string>
     <string name="drawer_shadow">Shadow</string>
+
+    <!-- Analytics -->
+    <string name="analytics_title">Analytics</string>
+    <string name="analytics_this_week">This Week</string>
+    <string name="analytics_this_month">This Month</string>
+    <string name="analytics_tasks_completed">Tasks Completed</string>
+    <string name="analytics_xp_trend">XP Trend</string>
+    <string name="analytics_category_breakdown">Category Breakdown</string>
+    <string name="analytics_focus_time">Focus Time</string>
+    <string name="analytics_total_tasks">Total Tasks</string>
+    <string name="analytics_minutes">min</string>
+    <string name="drawer_analytics">Analytics</string>
 </resources>

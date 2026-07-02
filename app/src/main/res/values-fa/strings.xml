@@ -358,4 +358,16 @@
     <string name="shadow_action_streak_break">سری شکسته شد</string>
     <string name="shadow_action_complete">تسک کامل شد</string>
     <string name="drawer_shadow">سایه</string>
+
+    <!-- Analytics -->
+    <string name="analytics_title">تحلیل‌ها</string>
+    <string name="analytics_this_week">این هفته</string>
+    <string name="analytics_this_month">این ماه</string>
+    <string name="analytics_tasks_completed">تسک‌های تکمیل شده</string>
+    <string name="analytics_xp_trend">رونداوتیاز</string>
+    <string name="analytics_category_breakdown">تفکیک دسته‌بندی</string>
+    <string name="analytics_focus_time">زمان تمرکز</string>
+    <string name="analytics_total_tasks">کل تسک‌ها</string>
+    <string name="analytics_minutes">دقیقه</string>
+    <string name="drawer_analytics">تحلیل‌ها</string>
 </resources>
