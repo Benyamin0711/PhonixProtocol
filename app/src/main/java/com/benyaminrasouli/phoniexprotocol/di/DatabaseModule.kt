@@ -8,8 +8,10 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.benyaminrasouli.phoniexprotocol.core.data.db.PhoenixDatabase
 import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.AchievementDao
 import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.BossDao
+import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.CategoryDao
 import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.DailyChallengeDao
 import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.TaskDao
+import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.TemplateDao
 import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.UserProfileDao
 import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.UserStatsDao
 import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.Achievement
@@ -82,6 +84,33 @@ object DatabaseModule {
         }
     }
 
+    private val MIGRATION_5_6 = object : Migration(5, 6) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL("CREATE TABLE IF NOT EXISTS templates (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, title TEXT NOT NULL, description TEXT NOT NULL, difficulty TEXT NOT NULL, category TEXT NOT NULL, recurrence TEXT NOT NULL, taskType TEXT NOT NULL, isPriority INTEGER NOT NULL DEFAULT 0, createdAt INTEGER NOT NULL)")
+        }
+    }
+
+    private val MIGRATION_6_7 = object : Migration(6, 7) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL("CREATE TABLE IF NOT EXISTS categories (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name TEXT NOT NULL, color TEXT NOT NULL DEFAULT '#FF6B35', isDefault INTEGER NOT NULL DEFAULT 0)")
+            db.execSQL("ALTER TABLE tasks ADD COLUMN categoryId INTEGER")
+            val predefinedCategories = arrayOf(
+                arrayOf("Work", "#4A90D9", "1"),
+                arrayOf("Health", "#4CAF50", "1"),
+                arrayOf("Learning", "#9C27B0", "1"),
+                arrayOf("Personal", "#FF6B35", "1"),
+                arrayOf("Finance", "#FFC107", "1"),
+                arrayOf("Social", "#E91E63", "1")
+            )
+            predefinedCategories.forEach { c ->
+                db.execSQL(
+                    "INSERT INTO categories (name, color, isDefault) VALUES (?, ?, ?)",
+                    c
+                )
+            }
+        }
+    }
+
     @Provides
     @Singleton
     fun provideDatabase(@ApplicationContext context: Context): PhoenixDatabase {
@@ -90,7 +119,7 @@ object DatabaseModule {
             PhoenixDatabase::class.java,
             "phoenix_database"
         )
-            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5)
+            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7)
             .addCallback(object : RoomDatabase.Callback() {
                 override fun onCreate(db: SupportSQLiteDatabase) {
                     super.onCreate(db)
@@ -144,4 +173,10 @@ object DatabaseModule {
 
     @Provides
     fun provideDailyChallengeDao(db: PhoenixDatabase): DailyChallengeDao = db.dailyChallengeDao()
+
+    @Provides
+    fun provideTemplateDao(db: PhoenixDatabase): TemplateDao = db.templateDao()
+
+    @Provides
+    fun provideCategoryDao(db: PhoenixDatabase): CategoryDao = db.categoryDao()
 }

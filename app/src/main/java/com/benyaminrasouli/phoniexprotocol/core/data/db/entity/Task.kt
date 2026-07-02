@@ -11,6 +11,7 @@ data class Task(
     val description: String,
     val difficulty: String,
     val category: String,
+    val categoryId: Long? = null,
     val xpValue: Int,
     val recurrence: String,
     val status: String,
