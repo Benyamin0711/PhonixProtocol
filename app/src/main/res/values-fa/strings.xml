@@ -338,4 +338,24 @@
     <string name="leaderboard_empty">داده رتبه‌بندی موجود نیست</string>
     <string name="leaderboard_you">شما</string>
     <string name="drawer_leaderboard">رتبه‌بندی</string>
+
+    <!-- Shadow System -->
+    <string name="shadow_title">سایه</string>
+    <string name="shadow_level">سطح سایه</string>
+    <string name="shadow_tier_safe">ایمن</string>
+    <string name="shadow_tier_warning">هشدار</string>
+    <string name="shadow_tier_critical">بحرانی</string>
+    <string name="shadow_tier_corrupted">آلوده</string>
+    <string name="shadow_xp_penalty">جریمه امتیاز</string>
+    <string name="shadow_no_penalty">بدون جریمه</string>
+    <string name="shadow_recovery_tips">راهنمای بازیابی</string>
+    <string name="shadow_recovery_tip_1">تسک‌ها رو کامل کن تا سایه کم بشه</string>
+    <string name="shadow_recovery_tip_2">تسک‌های سخت ۲ واحد کم می‌کنن</string>
+    <string name="shadow_recovery_tip_3">تسک‌های اولویت‌دار ۳ واحد کم می‌کنن</string>
+    <string name="shadow_history">تاریخچه سایه</string>
+    <string name="shadow_action_skip">تسک رد شد</string>
+    <string name="shadow_action_cancel">تسک لغو شد</string>
+    <string name="shadow_action_streak_break">سری شکسته شد</string>
+    <string name="shadow_action_complete">تسک کامل شد</string>
+    <string name="drawer_shadow">سایه</string>
 </resources>

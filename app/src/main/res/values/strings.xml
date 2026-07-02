@@ -351,4 +351,24 @@
     <string name="leaderboard_empty">No leaderboard data</string>
     <string name="leaderboard_you">You</string>
     <string name="drawer_leaderboard">Leaderboard</string>
+
+    <!-- Shadow System -->
+    <string name="shadow_title">Shadow</string>
+    <string name="shadow_level">Shadow Level</string>
+    <string name="shadow_tier_safe">Safe</string>
+    <string name="shadow_tier_warning">Warning</string>
+    <string name="shadow_tier_critical">Critical</string>
+    <string name="shadow_tier_corrupted">Corrupted</string>
+    <string name="shadow_xp_penalty">XP Penalty</string>
+    <string name="shadow_no_penalty">No penalty</string>
+    <string name="shadow_recovery_tips">Recovery Tips</string>
+    <string name="shadow_recovery_tip_1">Complete tasks to reduce shadow</string>
+    <string name="shadow_recovery_tip_2">Hard tasks reduce shadow by 2</string>
+    <string name="shadow_recovery_tip_3">Priority tasks reduce shadow by 3</string>
+    <string name="shadow_history">Shadow History</string>
+    <string name="shadow_action_skip">Task skipped</string>
+    <string name="shadow_action_cancel">Task cancelled</string>
+    <string name="shadow_action_streak_break">Streak broken</string>
+    <string name="shadow_action_complete">Task completed</string>
+    <string name="drawer_shadow">Shadow</string>
 </resources>

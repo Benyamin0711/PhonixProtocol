@@ -4,6 +4,7 @@ import com.benyaminrasouli.phoenixprotocol.core.data.repository.AchievementRepos
 import com.benyaminrasouli.phoenixprotocol.core.data.repository.BossRepositoryImpl
 import com.benyaminrasouli.phoenixprotocol.core.data.repository.DailyChallengeRepositoryImpl
 import com.benyaminrasouli.phoenixprotocol.core.data.repository.FocusRepositoryImpl
+import com.benyaminrasouli.phoenixprotocol.core.data.repository.ShadowRepositoryImpl
 import com.benyaminrasouli.phoenixprotocol.core.data.repository.StatsRepositoryImpl
 import com.benyaminrasouli.phoenixprotocol.core.data.repository.TaskRepositoryImpl
 import com.benyaminrasouli.phoenixprotocol.core.data.repository.CategoryRepositoryImpl
@@ -16,6 +17,7 @@ import com.benyaminrasouli.phoenixprotocol.core.domain.repository.CategoryReposi
 import com.benyaminrasouli.phoenixprotocol.core.domain.repository.BossRepository
 import com.benyaminrasouli.phoenixprotocol.core.domain.repository.DailyChallengeRepository
 import com.benyaminrasouli.phoenixprotocol.core.domain.repository.FocusRepository
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.ShadowRepository
 import com.benyaminrasouli.phoenixprotocol.core.domain.repository.StatsRepository
 import com.benyaminrasouli.phoenixprotocol.core.domain.repository.TaskRepository
 import com.benyaminrasouli.phoenixprotocol.core.domain.repository.TemplateRepository
@@ -41,6 +43,10 @@ abstract class AppModule {
     @Binds
     @Singleton
     abstract fun bindStatsRepository(impl: StatsRepositoryImpl): StatsRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindShadowRepository(impl: ShadowRepositoryImpl): ShadowRepository
 
     @Binds
     @Singleton

@@ -13,6 +13,7 @@ import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.DailyChallengeDao
 import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.FocusSessionDao
 import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.TaskDao
 import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.TemplateDao
+import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.ShadowLogDao
 import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.UserProfileDao
 import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.UserStatsDao
 import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.Achievement
@@ -137,6 +138,12 @@ object DatabaseModule {
         }
     }
 
+    private val MIGRATION_9_10 = object : Migration(9, 10) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL("CREATE TABLE IF NOT EXISTS shadow_log (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, timestamp INTEGER NOT NULL, action TEXT NOT NULL, amount INTEGER NOT NULL, description TEXT NOT NULL)")
+        }
+    }
+
     @Provides
     @Singleton
     fun provideDatabase(@ApplicationContext context: Context): PhoenixDatabase {
@@ -145,7 +152,7 @@ object DatabaseModule {
             PhoenixDatabase::class.java,
             "phoenix_database"
         )
-            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9)
+            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9, MIGRATION_9_10)
             .addCallback(object : RoomDatabase.Callback() {
                 override fun onCreate(db: SupportSQLiteDatabase) {
                     super.onCreate(db)
@@ -208,4 +215,7 @@ object DatabaseModule {
 
     @Provides
     fun provideFocusSessionDao(db: PhoenixDatabase): FocusSessionDao = db.focusSessionDao()
+
+    @Provides
+    fun provideShadowLogDao(db: PhoenixDatabase): ShadowLogDao = db.shadowLogDao()
 }

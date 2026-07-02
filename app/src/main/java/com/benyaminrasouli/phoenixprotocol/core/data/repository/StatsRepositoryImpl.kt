@@ -1,13 +1,16 @@
 package com.benyaminrasouli.phoenixprotocol.core.data.repository
 
+import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.ShadowLogDao
 import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.UserStatsDao
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.ShadowLog
 import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.UserStats
 import com.benyaminrasouli.phoenixprotocol.core.domain.repository.StatsRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class StatsRepositoryImpl @Inject constructor(
-    private val dao: UserStatsDao
+    private val dao: UserStatsDao,
+    private val shadowLogDao: ShadowLogDao
 ) : StatsRepository {
 
     override suspend fun initStats(userId: Long) {
@@ -24,7 +27,17 @@ class StatsRepositoryImpl @Inject constructor(
 
     override suspend fun addXp(amount: Int) {
         val current = dao.getStatsOnce() ?: return
-        val newXp = current.xp + amount
+
+        // Apply shadow penalty before adding XP
+        val penaltyPercent = when {
+            current.shadowLevel < 30 -> 0
+            current.shadowLevel < 60 -> 10
+            current.shadowLevel < 90 -> 25
+            else -> 50
+        }
+        val actualXp = amount * (100 - penaltyPercent) / 100
+
+        val newXp = current.xp + actualXp
         val newLevel = calculateLevel(newXp)
         val newRank = com.benyaminrasouli.phoenixprotocol.core.domain.model.Rank.forLevel(newLevel)
         dao.updateStats(current.copy(
@@ -52,6 +65,31 @@ class StatsRepositoryImpl @Inject constructor(
         val current = dao.getStatsOnce() ?: return
         dao.updateStats(current.copy(
             shadowLevel = current.shadowLevel + amount
+        ))
+        val action = when (amount) {
+            1 -> "SKIP"
+            2 -> "STREAK_BREAK"
+            else -> "CANCEL"
+        }
+        val description = when (action) {
+            "SKIP" -> "Task skipped"
+            "STREAK_BREAK" -> "Streak broken"
+            else -> "Task cancelled"
+        }
+        shadowLogDao.insert(
+            ShadowLog(
+                action = action,
+                amount = amount,
+                description = description
+            )
+        )
+    }
+
+    override suspend fun decreaseShadowLevel(amount: Int) {
+        val current = dao.getStatsOnce() ?: return
+        val newShadowLevel = (current.shadowLevel - amount).coerceAtLeast(0)
+        dao.updateStats(current.copy(
+            shadowLevel = newShadowLevel
         ))
     }
 

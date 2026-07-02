@@ -23,6 +23,7 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Timer
 import androidx.compose.material.icons.automirrored.filled.Help
 import androidx.compose.material.icons.filled.Leaderboard
+import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material.icons.filled.VerifiedUser
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -57,6 +58,7 @@ fun DrawerScreen(
     onNavigateToTemplates: () -> Unit = {},
     onNavigateToCategories: () -> Unit = {},
     onNavigateToFocusTimer: () -> Unit = {},
+    onNavigateToShadow: () -> Unit = {},
     viewModel: DrawerViewModel = hiltViewModel()
 ) {
     val profile by viewModel.profile.collectAsStateWithLifecycle(initialValue = null)
@@ -106,6 +108,11 @@ fun DrawerScreen(
             icon = Icons.Filled.BarChart,
             label = stringResource(R.string.drawer_statistics),
             onClick = onNavigateToStatistics
+        )
+        DrawerMenuItem(
+            icon = Icons.Filled.Shield,
+            label = stringResource(R.string.drawer_shadow),
+            onClick = onNavigateToShadow
         )
         DrawerMenuItem(
             icon = Icons.Filled.Apps,

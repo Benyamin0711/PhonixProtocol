@@ -9,6 +9,7 @@ import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.DailyChallengeDao
 import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.FocusSessionDao
 import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.TaskDao
 import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.TemplateDao
+import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.ShadowLogDao
 import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.UserProfileDao
 import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.UserStatsDao
 import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.Achievement
@@ -19,6 +20,7 @@ import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.FocusSession
 import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.Task
 import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.Template
 import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.UserAchievement
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.ShadowLog
 import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.UserProfile
 import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.UserStats
 
@@ -33,9 +35,10 @@ import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.UserStats
         DailyChallenge::class,
         Template::class,
         Category::class,
-        FocusSession::class
+        FocusSession::class,
+        ShadowLog::class
     ],
-    version = 9,
+    version = 10,
     exportSchema = false
 )
 abstract class PhoenixDatabase : RoomDatabase() {
@@ -48,4 +51,5 @@ abstract class PhoenixDatabase : RoomDatabase() {
     abstract fun templateDao(): TemplateDao
     abstract fun categoryDao(): CategoryDao
     abstract fun focusSessionDao(): FocusSessionDao
+    abstract fun shadowLogDao(): ShadowLogDao
 }

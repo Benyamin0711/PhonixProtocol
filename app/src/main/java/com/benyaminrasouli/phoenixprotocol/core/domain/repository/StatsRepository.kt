@@ -11,6 +11,7 @@ interface StatsRepository {
     suspend fun increasePhoenixEnergy(amount: Int)
     suspend fun decreasePhoenixEnergy(amount: Int)
     suspend fun increaseShadowLevel(amount: Int)
+    suspend fun decreaseShadowLevel(amount: Int)
     suspend fun incrementCompletedTasks()
     suspend fun clearStats()
 }
