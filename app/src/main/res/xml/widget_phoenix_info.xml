@@ -6,5 +6,6 @@
     android:initialLayout="@layout/widget_phoenix"
     android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen"
+    android:configure="com.benyaminrasouli.phoniexprotocol.widget.WidgetConfigActivity"
     android:description="@string/widget_description"
     android:previewLayout="@layout/widget_phoenix" />
