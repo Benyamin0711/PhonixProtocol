@@ -139,17 +139,22 @@ fun CreateTaskScreen(
             }
 
             // Category
-            OutlinedTextField(
-                value = state.category,
-                onValueChange = viewModel::setCategory,
-                label = { Text(stringResource(R.string.task_category)) },
-                modifier = Modifier.fillMaxWidth(),
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = PhoenixOrange,
-                    cursorColor = PhoenixOrange
-                ),
-                singleLine = true
-            )
+            Text(stringResource(R.string.task_category), color = TextSecondary)
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                viewModel.categories.collectAsStateWithLifecycle().value.forEach { category ->
+                    FilterChip(
+                        selected = state.selectedCategoryId == category.id,
+                        onClick = { viewModel.setCategory(category) },
+                        label = { Text(category.name) },
+                        colors = FilterChipDefaults.filterChipColors(
+                            selectedContainerColor = PhoenixOrange.copy(alpha = 0.2f),
+                            selectedLabelColor = PhoenixOrange
+                        )
+                    )
+                }
+            }
 
             // Recurrence
             Text(stringResource(R.string.task_recurrence), color = TextSecondary)

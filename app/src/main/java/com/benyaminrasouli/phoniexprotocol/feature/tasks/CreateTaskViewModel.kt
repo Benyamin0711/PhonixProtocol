@@ -2,16 +2,20 @@ package com.benyaminrasouli.phoniexprotocol.feature.tasks
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.Category
 import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.Task
 import com.benyaminrasouli.phoniexprotocol.core.domain.model.Difficulty
 import com.benyaminrasouli.phoniexprotocol.core.domain.model.TaskRecurrence
 import com.benyaminrasouli.phoniexprotocol.core.domain.model.TaskType
+import com.benyaminrasouli.phoniexprotocol.core.domain.repository.CategoryRepository
 import com.benyaminrasouli.phoniexprotocol.core.domain.usecase.CheckAchievementsUseCase
 import com.benyaminrasouli.phoniexprotocol.core.domain.usecase.CreateTaskUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -21,6 +25,7 @@ data class CreateTaskState(
     val description: String = "",
     val difficulty: Difficulty = Difficulty.EASY,
     val category: String = "",
+    val selectedCategoryId: Long? = null,
     val taskType: TaskType = TaskType.CUSTOM,
     val recurrence: TaskRecurrence = TaskRecurrence.NONE,
     val isPriority: Boolean = false,
@@ -30,16 +35,22 @@ data class CreateTaskState(
 @HiltViewModel
 class CreateTaskViewModel @Inject constructor(
     private val createTaskUseCase: CreateTaskUseCase,
-    private val checkAchievementsUseCase: CheckAchievementsUseCase
+    private val checkAchievementsUseCase: CheckAchievementsUseCase,
+    categoryRepository: CategoryRepository
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(CreateTaskState())
     val state: StateFlow<CreateTaskState> = _state.asStateFlow()
 
+    val categories: StateFlow<List<Category>> = categoryRepository.getAllCategories()
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+
     fun setTitle(title: String) = _state.update { it.copy(title = title) }
     fun setDescription(desc: String) = _state.update { it.copy(description = desc) }
     fun setDifficulty(d: Difficulty) = _state.update { it.copy(difficulty = d) }
-    fun setCategory(c: String) = _state.update { it.copy(category = c) }
+    fun setCategory(category: Category) = _state.update {
+        it.copy(category = category.name, selectedCategoryId = category.id)
+    }
     fun setTaskType(t: TaskType) = _state.update { it.copy(taskType = t) }
     fun setRecurrence(r: TaskRecurrence) = _state.update { it.copy(recurrence = r) }
     fun setPriority(p: Boolean) = _state.update { it.copy(isPriority = p) }
@@ -55,6 +66,7 @@ class CreateTaskViewModel @Inject constructor(
                 description = s.description.trim(),
                 difficulty = s.difficulty.name,
                 category = s.category.ifBlank { "General" },
+                categoryId = s.selectedCategoryId,
                 xpValue = s.difficulty.xpValue,
                 recurrence = s.recurrence.name,
                 status = "PENDING",
