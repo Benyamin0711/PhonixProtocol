@@ -5,12 +5,16 @@ import com.benyaminrasouli.phoniexprotocol.core.data.repository.BossRepositoryIm
 import com.benyaminrasouli.phoniexprotocol.core.data.repository.DailyChallengeRepositoryImpl
 import com.benyaminrasouli.phoniexprotocol.core.data.repository.StatsRepositoryImpl
 import com.benyaminrasouli.phoniexprotocol.core.data.repository.TaskRepositoryImpl
+import com.benyaminrasouli.phoniexprotocol.core.data.repository.CategoryRepositoryImpl
+import com.benyaminrasouli.phoniexprotocol.core.data.repository.TemplateRepositoryImpl
 import com.benyaminrasouli.phoniexprotocol.core.data.repository.UserRepositoryImpl
 import com.benyaminrasouli.phoniexprotocol.core.domain.repository.AchievementRepository
+import com.benyaminrasouli.phoniexprotocol.core.domain.repository.CategoryRepository
 import com.benyaminrasouli.phoniexprotocol.core.domain.repository.BossRepository
 import com.benyaminrasouli.phoniexprotocol.core.domain.repository.DailyChallengeRepository
 import com.benyaminrasouli.phoniexprotocol.core.domain.repository.StatsRepository
 import com.benyaminrasouli.phoniexprotocol.core.domain.repository.TaskRepository
+import com.benyaminrasouli.phoniexprotocol.core.domain.repository.TemplateRepository
 import com.benyaminrasouli.phoniexprotocol.core.domain.repository.UserRepository
 import dagger.Binds
 import dagger.Module
@@ -45,4 +49,12 @@ abstract class AppModule {
     @Binds
     @Singleton
     abstract fun bindDailyChallengeRepository(impl: DailyChallengeRepositoryImpl): DailyChallengeRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindTemplateRepository(impl: TemplateRepositoryImpl): TemplateRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindCategoryRepository(impl: CategoryRepositoryImpl): CategoryRepository
 }
