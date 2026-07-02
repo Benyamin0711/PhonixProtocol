@@ -317,6 +317,9 @@
     <string name="focus_duration">Duration: %d min</string>
     <string name="focus_total_time">Total Focus Time</string>
     <string name="focus_sessions_completed">Sessions: %d</string>
+    <string name="focus_notification_channel_name">Focus Timer</string>
+    <string name="focus_notification_channel_description">Shows when a focus session is in progress</string>
+    <string name="focus_notification_title">Focus in Progress</string>
 
     <!-- Widget Customization -->
     <string name="widget_theme">Widget Theme</string>
