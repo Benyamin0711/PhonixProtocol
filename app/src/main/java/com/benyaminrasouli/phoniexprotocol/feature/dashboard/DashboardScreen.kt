@@ -87,6 +87,18 @@ fun DashboardScreen(
                     onNavigateToDailyChallenges = {
                         scope.launch { drawerState.close() }
                         navController.navigate(Screen.DailyChallenges.route)
+                    },
+                    onNavigateToProfile = {
+                        scope.launch { drawerState.close() }
+                        navController.navigate(Screen.Profile.route)
+                    },
+                    onNavigateToTemplates = {
+                        scope.launch { drawerState.close() }
+                        navController.navigate(Screen.Templates.route)
+                    },
+                    onNavigateToCategories = {
+                        scope.launch { drawerState.close() }
+                        navController.navigate(Screen.Categories.route)
                     }
                 )
             }

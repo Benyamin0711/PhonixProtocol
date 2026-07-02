@@ -12,8 +12,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Apps
 import androidx.compose.material.icons.filled.EmojiEvents
 import androidx.compose.material.icons.filled.BarChart
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.Settings
@@ -48,6 +50,9 @@ fun DrawerScreen(
     onNavigateToAchievements: () -> Unit = {},
     onNavigateToBossHistory: () -> Unit = {},
     onNavigateToDailyChallenges: () -> Unit = {},
+    onNavigateToProfile: () -> Unit = {},
+    onNavigateToTemplates: () -> Unit = {},
+    onNavigateToCategories: () -> Unit = {},
     viewModel: DrawerViewModel = hiltViewModel()
 ) {
     val profile by viewModel.profile.collectAsStateWithLifecycle(initialValue = null)
@@ -91,12 +96,22 @@ fun DrawerScreen(
         DrawerMenuItem(
             icon = Icons.Filled.VerifiedUser,
             label = stringResource(R.string.drawer_profile),
-            onClick = {}
+            onClick = onNavigateToProfile
         )
         DrawerMenuItem(
             icon = Icons.Filled.BarChart,
             label = stringResource(R.string.drawer_statistics),
             onClick = onNavigateToStatistics
+        )
+        DrawerMenuItem(
+            icon = Icons.Filled.Apps,
+            label = stringResource(R.string.drawer_categories),
+            onClick = onNavigateToCategories
+        )
+        DrawerMenuItem(
+            icon = Icons.Filled.List,
+            label = stringResource(R.string.drawer_templates),
+            onClick = onNavigateToTemplates
         )
         DrawerMenuItem(
             icon = Icons.Filled.EmojiEvents,
