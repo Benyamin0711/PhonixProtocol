@@ -25,6 +25,7 @@ import com.benyaminrasouli.phoniexprotocol.feature.profile.ProfileScreen
 import com.benyaminrasouli.phoniexprotocol.feature.support.SupportScreen
 import com.benyaminrasouli.phoniexprotocol.feature.templates.TemplatesListScreen
 import com.benyaminrasouli.phoniexprotocol.feature.categories.CategoriesScreen
+import com.benyaminrasouli.phoniexprotocol.feature.focus.FocusTimerScreen
 
 @Composable
 fun NavGraph(navController: NavHostController) {
@@ -143,6 +144,13 @@ fun NavGraph(navController: NavHostController) {
             exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) }
         ) {
             CategoriesScreen(navController = navController)
+        }
+        composable(
+            Screen.FocusTimer.route,
+            enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
+            exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) }
+        ) {
+            FocusTimerScreen(navController = navController)
         }
     }
 }

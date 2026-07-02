@@ -18,4 +18,5 @@ sealed class Screen(val route: String) {
     data object Profile : Screen("profile")
     data object Templates : Screen("templates")
     data object Categories : Screen("categories")
+    data object FocusTimer : Screen("focus_timer")
 }
