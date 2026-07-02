@@ -35,11 +35,16 @@ class MainActivity : ComponentActivity() {
             val language by settingsDataStore.language.collectAsState(initial = "en")
 
             LaunchedEffect(language) {
-                LocaleHelper.setLocale(this@MainActivity, language)
-                getSharedPreferences("phoenix_locale_prefs", MODE_PRIVATE)
-                    .edit()
-                    .putString("language", language)
-                    .apply()
+                val currentLang = getSharedPreferences("phoenix_locale_prefs", MODE_PRIVATE)
+                    .getString("language", "en") ?: "en"
+                if (language != currentLang) {
+                    LocaleHelper.setLocale(this@MainActivity, language)
+                    getSharedPreferences("phoenix_locale_prefs", MODE_PRIVATE)
+                        .edit()
+                        .putString("language", language)
+                        .apply()
+                    recreate()
+                }
             }
 
             PhoenixProtocolTheme {

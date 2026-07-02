@@ -14,6 +14,10 @@ class UserRepositoryImpl @Inject constructor(
         return dao.insertProfile(profile)
     }
 
+    override suspend fun updateProfile(profile: UserProfile) {
+        dao.updateProfile(profile)
+    }
+
     override fun getProfile(): Flow<UserProfile?> {
         return dao.getProfile()
     }

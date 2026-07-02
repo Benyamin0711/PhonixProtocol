@@ -26,9 +26,36 @@ class SettingsViewModel @Inject constructor(
 
     val profile: Flow<UserProfile?> = userRepository.getProfile()
 
+    val taskRemindersEnabled: StateFlow<Boolean> = settingsDataStore.taskRemindersEnabled
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
+
+    val bossAlertsEnabled: StateFlow<Boolean> = settingsDataStore.bossAlertsEnabled
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
+
+    val energyNotificationsEnabled: StateFlow<Boolean> = settingsDataStore.energyNotificationsEnabled
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
+
     fun setLanguage(language: String) {
         viewModelScope.launch {
             settingsDataStore.setLanguage(language)
+        }
+    }
+
+    fun setTaskRemindersEnabled(enabled: Boolean) {
+        viewModelScope.launch {
+            settingsDataStore.setTaskRemindersEnabled(enabled)
+        }
+    }
+
+    fun setBossAlertsEnabled(enabled: Boolean) {
+        viewModelScope.launch {
+            settingsDataStore.setBossAlertsEnabled(enabled)
+        }
+    }
+
+    fun setEnergyNotificationsEnabled(enabled: Boolean) {
+        viewModelScope.launch {
+            settingsDataStore.setEnergyNotificationsEnabled(enabled)
         }
     }
 

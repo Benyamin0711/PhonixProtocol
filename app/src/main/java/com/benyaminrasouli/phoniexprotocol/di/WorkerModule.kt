@@ -4,8 +4,11 @@ import android.content.Context
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
+import com.benyaminrasouli.phoniexprotocol.core.work.BossDeadlineCheckWorker
 import com.benyaminrasouli.phoniexprotocol.core.work.DailyChallengeResetWorker
+import com.benyaminrasouli.phoniexprotocol.core.work.EnergyFullCheckWorker
 import com.benyaminrasouli.phoniexprotocol.core.work.EnergyRecoveryWorker
+import com.benyaminrasouli.phoniexprotocol.core.work.TaskReminderWorker
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -51,6 +54,47 @@ object WorkerModule {
 
         workManager.enqueueUniquePeriodicWork(
             "daily_challenge_reset",
+            ExistingPeriodicWorkPolicy.KEEP,
+            request
+        )
+    }
+
+    fun enqueueTaskReminder(workManager: WorkManager) {
+        val now = java.time.LocalDateTime.now()
+        val nextMorning = now.toLocalDate().plusDays(1).atTime(java.time.LocalTime.of(8, 0))
+        val delayMillis = java.time.Duration.between(now, nextMorning).toMillis()
+
+        val request = PeriodicWorkRequestBuilder<TaskReminderWorker>(
+            24, TimeUnit.HOURS
+        ).setInitialDelay(delayMillis, TimeUnit.MILLISECONDS)
+            .build()
+
+        workManager.enqueueUniquePeriodicWork(
+            "task_reminder",
+            ExistingPeriodicWorkPolicy.KEEP,
+            request
+        )
+    }
+
+    fun enqueueBossDeadlineCheck(workManager: WorkManager) {
+        val request = PeriodicWorkRequestBuilder<BossDeadlineCheckWorker>(
+            24, TimeUnit.HOURS
+        ).build()
+
+        workManager.enqueueUniquePeriodicWork(
+            "boss_deadline_check",
+            ExistingPeriodicWorkPolicy.KEEP,
+            request
+        )
+    }
+
+    fun enqueueEnergyFullCheck(workManager: WorkManager) {
+        val request = PeriodicWorkRequestBuilder<EnergyFullCheckWorker>(
+            30, TimeUnit.MINUTES
+        ).build()
+
+        workManager.enqueueUniquePeriodicWork(
+            "energy_full_check",
             ExistingPeriodicWorkPolicy.KEEP,
             request
         )

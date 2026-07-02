@@ -26,5 +26,8 @@ class PhoenixApp : Application(), Configuration.Provider {
         super.onCreate()
         WorkerModule.enqueueEnergyRecovery(workManager)
         WorkerModule.enqueueDailyChallengeReset(workManager)
+        WorkerModule.enqueueTaskReminder(workManager)
+        WorkerModule.enqueueBossDeadlineCheck(workManager)
+        WorkerModule.enqueueEnergyFullCheck(workManager)
     }
 }

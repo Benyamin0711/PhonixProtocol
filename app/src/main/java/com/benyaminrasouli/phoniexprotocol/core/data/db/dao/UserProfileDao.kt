@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.UserProfile
 import kotlinx.coroutines.flow.Flow
 
@@ -11,6 +12,9 @@ import kotlinx.coroutines.flow.Flow
 interface UserProfileDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertProfile(profile: UserProfile): Long
+
+    @Update
+    suspend fun updateProfile(profile: UserProfile)
 
     @Query("SELECT * FROM user_profiles LIMIT 1")
     fun getProfile(): Flow<UserProfile?>

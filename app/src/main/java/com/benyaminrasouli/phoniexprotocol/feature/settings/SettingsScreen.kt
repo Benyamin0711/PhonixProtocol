@@ -77,6 +77,9 @@ fun SettingsScreen(
 ) {
     val language by viewModel.language.collectAsStateWithLifecycle()
     val profile by viewModel.profile.collectAsStateWithLifecycle(initialValue = null)
+    val taskRemindersEnabled by viewModel.taskRemindersEnabled.collectAsStateWithLifecycle()
+    val bossAlertsEnabled by viewModel.bossAlertsEnabled.collectAsStateWithLifecycle()
+    val energyNotificationsEnabled by viewModel.energyNotificationsEnabled.collectAsStateWithLifecycle()
     var showResetDialog by remember { mutableStateOf(false) }
     val context = LocalContext.current
 
@@ -124,19 +127,28 @@ fun SettingsScreen(
                     SettingsToggleItem(
                         icon = Icons.Default.Notifications,
                         title = stringResource(R.string.settings_task_reminders),
-                        subtitle = stringResource(R.string.settings_coming_soon),
-                        checked = false,
-                        enabled = false,
-                        onCheckedChange = {}
+                        subtitle = null,
+                        checked = taskRemindersEnabled,
+                        enabled = true,
+                        onCheckedChange = { viewModel.setTaskRemindersEnabled(it) }
                     )
                     HorizontalDivider(color = MaterialTheme.colorScheme.surfaceVariant)
                     SettingsToggleItem(
                         icon = Icons.Default.Notifications,
                         title = stringResource(R.string.settings_boss_alerts),
-                        subtitle = stringResource(R.string.settings_coming_soon),
-                        checked = false,
-                        enabled = false,
-                        onCheckedChange = {}
+                        subtitle = null,
+                        checked = bossAlertsEnabled,
+                        enabled = true,
+                        onCheckedChange = { viewModel.setBossAlertsEnabled(it) }
+                    )
+                    HorizontalDivider(color = MaterialTheme.colorScheme.surfaceVariant)
+                    SettingsToggleItem(
+                        icon = Icons.Default.Notifications,
+                        title = stringResource(R.string.settings_energy_notifications),
+                        subtitle = null,
+                        checked = energyNotificationsEnabled,
+                        enabled = true,
+                        onCheckedChange = { viewModel.setEnergyNotificationsEnabled(it) }
                     )
                 }
             }
@@ -225,7 +237,7 @@ fun SettingsScreen(
                             Spacer(modifier = Modifier.height(12.dp))
                             TextButton(
                                 onClick = {
-                                    Toast.makeText(context, context.getString(R.string.settings_coming_soon), Toast.LENGTH_SHORT).show()
+                                    navController.navigate(Screen.Profile.route)
                                 },
                                 modifier = Modifier.fillMaxWidth()
                             ) {
