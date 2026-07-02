@@ -30,4 +30,10 @@ interface FocusSessionDao {
 
     @Query("SELECT DATE(startedAt/1000, 'unixepoch', 'localtime') as day, SUM(durationSeconds)/60 as total FROM focus_sessions WHERE completed = 1 AND startedAt > :since GROUP BY day ORDER BY day")
     suspend fun getFocusMinutesByDay(since: Long): List<DayTotal>
+
+    @Query("SELECT * FROM focus_sessions")
+    suspend fun getAllSessionsOnce(): List<FocusSession>
+
+    @Query("DELETE FROM focus_sessions")
+    suspend fun deleteAll()
 }

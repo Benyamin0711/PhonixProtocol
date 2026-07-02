@@ -27,4 +27,19 @@ interface AchievementDao {
 
     @Query("SELECT COUNT(*) FROM user_achievements")
     suspend fun getUnlockedCount(): Int
+
+    @Query("SELECT * FROM achievements")
+    suspend fun getAllAchievementsOnce(): List<Achievement>
+
+    @Query("SELECT * FROM user_achievements")
+    suspend fun getAllUnlockedOnce(): List<UserAchievement>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertUserAchievement(userAchievement: UserAchievement)
+
+    @Query("DELETE FROM achievements")
+    suspend fun deleteAll()
+
+    @Query("DELETE FROM user_achievements")
+    suspend fun deleteAllUserAchievements()
 }

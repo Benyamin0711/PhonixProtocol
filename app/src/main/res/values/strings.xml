@@ -383,4 +383,13 @@
     <string name="analytics_total_tasks">Total Tasks</string>
     <string name="analytics_minutes">min</string>
     <string name="drawer_analytics">Analytics</string>
+
+    <!-- Data Export -->
+    <string name="settings_import_data">Import Data</string>
+    <string name="settings_export_success">Data exported successfully</string>
+    <string name="settings_export_error">Export failed</string>
+    <string name="settings_import_confirm">This will replace all current data. Continue?</string>
+    <string name="settings_import_success">Data imported successfully</string>
+    <string name="settings_import_error">Import failed — invalid file</string>
+    <string name="settings_import_wrong_version">Incompatible backup version</string>
 </resources>

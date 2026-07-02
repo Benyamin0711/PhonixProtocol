@@ -32,4 +32,10 @@ interface DailyChallengeDao {
 
     @Query("SELECT COUNT(*) FROM daily_challenges WHERE date = :date")
     suspend fun getTotalCountByDate(date: String): Int
+
+    @Query("SELECT * FROM daily_challenges")
+    suspend fun getAllChallengesOnce(): List<DailyChallenge>
+
+    @Query("DELETE FROM daily_challenges")
+    suspend fun deleteAll()
 }

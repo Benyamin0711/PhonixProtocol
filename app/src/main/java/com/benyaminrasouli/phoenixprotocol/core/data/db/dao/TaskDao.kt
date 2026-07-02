@@ -70,4 +70,10 @@ interface TaskDao {
 
     @Query("SELECT categoryId, COUNT(*) as count FROM tasks WHERE status = 'COMPLETED' GROUP BY categoryId")
     suspend fun getTaskCountByCategory(): List<CategoryCount>
+
+    @Query("SELECT * FROM tasks")
+    suspend fun getAllTasksOnce(): List<Task>
+
+    @Query("DELETE FROM tasks")
+    suspend fun deleteAll()
 }

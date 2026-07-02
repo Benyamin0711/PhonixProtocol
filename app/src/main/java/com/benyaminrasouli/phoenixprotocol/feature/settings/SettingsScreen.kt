@@ -41,10 +41,14 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -59,6 +63,10 @@ import androidx.navigation.NavController
 import com.benyaminrasouli.phoenixprotocol.BuildConfig
 import com.benyaminrasouli.phoenixprotocol.R
 import com.benyaminrasouli.phoenixprotocol.core.navigation.Screen
+import com.benyaminrasouli.phoenixprotocol.feature.settings.ExportImportResult
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import com.benyaminrasouli.phoenixprotocol.ui.theme.BackgroundDark
 import com.benyaminrasouli.phoenixprotocol.ui.theme.EnergyGreen
 import com.benyaminrasouli.phoenixprotocol.ui.theme.PhoenixGold
@@ -80,14 +88,57 @@ fun SettingsScreen(
     val taskRemindersEnabled by viewModel.taskRemindersEnabled.collectAsStateWithLifecycle()
     val bossAlertsEnabled by viewModel.bossAlertsEnabled.collectAsStateWithLifecycle()
     val energyNotificationsEnabled by viewModel.energyNotificationsEnabled.collectAsStateWithLifecycle()
+    val exportMessage by viewModel.exportMessage.collectAsStateWithLifecycle()
     var showResetDialog by remember { mutableStateOf(false) }
+    var showImportDialog by remember { mutableStateOf(false) }
+    var pendingImportJson by remember { mutableStateOf<String?>(null) }
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(BackgroundDark)
-    ) {
+    val snackbarHostState = remember { androidx.compose.material3.SnackbarHostState() }
+
+    val exportSuccessMsg = stringResource(R.string.settings_export_success)
+    val exportErrorMsg = stringResource(R.string.settings_export_error)
+    val importSuccessMsg = stringResource(R.string.settings_import_success)
+    val importErrorMsg = stringResource(R.string.settings_import_error)
+
+    val filePickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.OpenDocument()
+    ) { uri ->
+        uri?.let {
+            scope.launch {
+                val json = withContext(Dispatchers.IO) {
+                    context.contentResolver.openInputStream(it)?.bufferedReader()?.use { reader ->
+                        reader.readText()
+                    }
+                }
+                if (json != null) {
+                    pendingImportJson = json
+                    showImportDialog = true
+                }
+            }
+        }
+    }
+
+    LaunchedEffect(exportMessage) {
+        exportMessage?.let { result ->
+            val message = when (result) {
+                ExportImportResult.EXPORT_SUCCESS -> exportSuccessMsg
+                ExportImportResult.EXPORT_ERROR -> exportErrorMsg
+                ExportImportResult.IMPORT_SUCCESS -> importSuccessMsg
+                ExportImportResult.IMPORT_ERROR -> importErrorMsg
+            }
+            snackbarHostState.showSnackbar(message)
+            viewModel.clearMessage()
+        }
+    }
+
+    Box(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(BackgroundDark)
+        ) {
         TopAppBar(
             title = { Text(stringResource(R.string.settings_title)) },
             navigationIcon = {
@@ -261,9 +312,16 @@ fun SettingsScreen(
                         icon = Icons.Default.FileDownload,
                         title = stringResource(R.string.settings_export_data),
                         subtitle = null,
-                        onClick = { /* TODO: Implement export */ }
+                        onClick = { viewModel.exportData() }
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
+                    HorizontalDivider(color = MaterialTheme.colorScheme.surfaceVariant)
+                    SettingsClickableItem(
+                        icon = Icons.Default.FileDownload,
+                        title = stringResource(R.string.settings_import_data),
+                        subtitle = null,
+                        onClick = { filePickerLauncher.launch(arrayOf("application/json", "*/*")) }
+                    )
+                    HorizontalDivider(color = MaterialTheme.colorScheme.surfaceVariant)
                     SettingsClickableItem(
                         icon = Icons.Default.Delete,
                         title = stringResource(R.string.settings_reset_data),
@@ -318,6 +376,12 @@ fun SettingsScreen(
         }
     }
 
+        androidx.compose.material3.SnackbarHost(
+            hostState = snackbarHostState,
+            modifier = Modifier.align(Alignment.BottomCenter)
+        )
+    }
+
     // Reset Confirmation Dialog
     if (showResetDialog) {
         AlertDialog(
@@ -340,6 +404,36 @@ fun SettingsScreen(
             },
             dismissButton = {
                 TextButton(onClick = { showResetDialog = false }) {
+                    Text(stringResource(R.string.settings_cancel))
+                }
+            },
+            containerColor = SurfaceDark,
+            titleContentColor = MaterialTheme.colorScheme.onSurface,
+            textContentColor = TextSecondary
+        )
+    }
+
+    // Import Confirmation Dialog
+    if (showImportDialog) {
+        AlertDialog(
+            onDismissRequest = { showImportDialog = false },
+            title = { Text(stringResource(R.string.settings_import_data)) },
+            text = { Text(stringResource(R.string.settings_import_confirm)) },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        showImportDialog = false
+                        pendingImportJson?.let { json ->
+                            viewModel.importData(json)
+                        }
+                        pendingImportJson = null
+                    }
+                ) {
+                    Text(stringResource(R.string.settings_confirm), color = PhoenixOrange)
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showImportDialog = false }) {
                     Text(stringResource(R.string.settings_cancel))
                 }
             },

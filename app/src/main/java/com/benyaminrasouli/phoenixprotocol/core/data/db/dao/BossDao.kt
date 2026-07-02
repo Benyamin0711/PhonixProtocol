@@ -32,4 +32,10 @@ interface BossDao {
 
     @Query("SELECT * FROM bosses ORDER BY createdAt DESC LIMIT 1")
     suspend fun getLastBoss(): Boss?
+
+    @Query("SELECT * FROM bosses")
+    suspend fun getAllBossesOnce(): List<Boss>
+
+    @Query("DELETE FROM bosses")
+    suspend fun deleteAll()
 }

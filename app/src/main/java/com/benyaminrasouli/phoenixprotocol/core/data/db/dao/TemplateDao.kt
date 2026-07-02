@@ -25,4 +25,10 @@ interface TemplateDao {
 
     @Query("SELECT * FROM templates WHERE id = :templateId")
     suspend fun getTemplateById(templateId: Long): Template?
+
+    @Query("SELECT * FROM templates")
+    suspend fun getAllTemplatesOnce(): List<Template>
+
+    @Query("DELETE FROM templates")
+    suspend fun deleteAll()
 }

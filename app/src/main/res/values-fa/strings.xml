@@ -370,4 +370,13 @@
     <string name="analytics_total_tasks">کل تسک‌ها</string>
     <string name="analytics_minutes">دقیقه</string>
     <string name="drawer_analytics">تحلیل‌ها</string>
+
+    <!-- Data Export -->
+    <string name="settings_import_data">ورودی داده‌ها</string>
+    <string name="settings_export_success">داده‌ها با موفقیت خروجی گرفته شد</string>
+    <string name="settings_export_error">خروجی ناموفق بود</string>
+    <string name="settings_import_confirm">این تمام داده‌های فعلی رو جایگزین می‌کنه. ادامه؟</string>
+    <string name="settings_import_success">داده‌ها با موفقیت وارد شد</string>
+    <string name="settings_import_error">ورودی ناموفق — فایل نامعتبر</string>
+    <string name="settings_import_wrong_version">نسخه بکاپ سازگار نیست</string>
 </resources>

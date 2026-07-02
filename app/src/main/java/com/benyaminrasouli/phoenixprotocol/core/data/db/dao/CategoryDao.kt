@@ -28,4 +28,10 @@ interface CategoryDao {
 
     @Query("SELECT * FROM categories WHERE isDefault = 1 ORDER BY name ASC")
     fun getDefaultCategories(): Flow<List<Category>>
+
+    @Query("SELECT * FROM categories")
+    suspend fun getAllCategoriesOnce(): List<Category>
+
+    @Query("DELETE FROM categories")
+    suspend fun deleteAll()
 }
