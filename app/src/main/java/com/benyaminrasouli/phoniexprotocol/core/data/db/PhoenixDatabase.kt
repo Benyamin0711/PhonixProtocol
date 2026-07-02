@@ -32,7 +32,7 @@ import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.UserStats
         Template::class,
         Category::class
     ],
-    version = 7,
+    version = 8,
     exportSchema = false
 )
 abstract class PhoenixDatabase : RoomDatabase() {

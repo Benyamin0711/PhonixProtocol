@@ -111,6 +111,16 @@ object DatabaseModule {
         }
     }
 
+    private val MIGRATION_7_8 = object : Migration(7, 8) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            // Recreate categories table with UNIQUE constraint on name column
+            db.execSQL("CREATE TABLE IF NOT EXISTS categories_new (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name TEXT NOT NULL UNIQUE, color TEXT NOT NULL DEFAULT '#FF6B35', isDefault INTEGER NOT NULL DEFAULT 0)")
+            db.execSQL("INSERT INTO categories_new SELECT * FROM categories")
+            db.execSQL("DROP TABLE categories")
+            db.execSQL("ALTER TABLE categories_new RENAME TO categories")
+        }
+    }
+
     @Provides
     @Singleton
     fun provideDatabase(@ApplicationContext context: Context): PhoenixDatabase {
@@ -119,7 +129,7 @@ object DatabaseModule {
             PhoenixDatabase::class.java,
             "phoenix_database"
         )
-            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7)
+            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8)
             .addCallback(object : RoomDatabase.Callback() {
                 override fun onCreate(db: SupportSQLiteDatabase) {
                     super.onCreate(db)
