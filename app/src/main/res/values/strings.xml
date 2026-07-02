@@ -251,4 +251,79 @@
     <string name="widget_task_complete">Done</string>
     <string name="widget_task_pending">Pending</string>
     <string name="widget_description">Daily task progress widget</string>
+
+    <!-- Profile Screen -->
+    <string name="profile_title">Profile</string>
+    <string name="profile_edit">Edit Profile</string>
+    <string name="profile_save">Save</string>
+    <string name="profile_full_name">Full Name</string>
+    <string name="profile_username">Username</string>
+    <string name="profile_birth_year">Birth Year</string>
+    <string name="profile_identity_path">Identity Path</string>
+    <string name="profile_stats">Stats</string>
+    <string name="profile_level">Level %d</string>
+    <string name="profile_xp">%d XP</string>
+    <string name="profile_streak">%d day streak</string>
+    <string name="profile_tasks_completed">%d tasks completed</string>
+    <string name="profile_updated">Profile updated</string>
+
+    <!-- Templates -->
+    <string name="templates_title">Templates</string>
+    <string name="templates_empty">No templates yet</string>
+    <string name="templates_create">Create Template</string>
+    <string name="templates_apply">Apply Template</string>
+    <string name="templates_delete">Delete</string>
+    <string name="templates_delete_confirm">Delete this template?</string>
+    <string name="templates_name">Template Name</string>
+    <string name="templates_created">Template created</string>
+    <string name="drawer_templates">Templates</string>
+
+    <!-- Notifications -->
+    <string name="notifications_task_reminders">Task Reminders</string>
+    <string name="notifications_boss_alerts">Boss Alerts</string>
+    <string name="notifications_energy_full">Energy Full</string>
+    <string name="notifications_channel_tasks">Task Reminders</string>
+    <string name="notifications_channel_boss">Boss Deadlines</string>
+    <string name="notifications_channel_energy">Energy Notifications</string>
+    <string name="notifications_task_reminder_title">Task Reminder</string>
+    <string name="notifications_task_reminder_body">You have pending tasks. Stay disciplined!</string>
+    <string name="notifications_boss_deadline_title">Boss Deadline Approaching</string>
+    <string name="notifications_boss_deadline_body">A boss deadline is coming up. Don\'t lose your streak!</string>
+    <string name="notifications_energy_full_title">Phoenix Energy Full</string>
+    <string name="notifications_energy_full_body">Your energy is fully recovered. Time to conquer!</string>
+    <string name="notifications_permission_rationale">Notifications are needed to remind you about tasks and boss deadlines.</string>
+    <string name="settings_reminder_time">Reminder Time</string>
+    <string name="settings_energy_notifications">Energy Notifications</string>
+
+    <!-- Categories -->
+    <string name="categories_title">Categories</string>
+    <string name="categories_create">Create Category</string>
+    <string name="categories_delete">Delete</string>
+    <string name="categories_default">Default</string>
+    <string name="categories_name">Category Name</string>
+    <string name="categories_color">Color</string>
+    <string name="categories_empty">No custom categories</string>
+    <string name="drawer_categories">Categories</string>
+
+    <!-- Focus Timer -->
+    <string name="focus_timer">Focus Timer</string>
+    <string name="focus_start">Start</string>
+    <string name="focus_pause">Pause</string>
+    <string name="focus_stop">Stop</string>
+    <string name="focus_pomodoro">Pomodoro</string>
+    <string name="focus_custom">Custom</string>
+    <string name="focus_in_progress">Focus in progress</string>
+    <string name="focus_session_complete">Session complete!</string>
+    <string name="focus_duration">Duration: %d min</string>
+    <string name="focus_total_time">Total Focus Time</string>
+    <string name="focus_sessions_completed">Sessions: %d</string>
+
+    <!-- Widget Customization -->
+    <string name="widget_theme">Widget Theme</string>
+    <string name="widget_dark">Dark</string>
+    <string name="widget_light">Light</string>
+    <string name="widget_category_filter">Category Filter</string>
+    <string name="widget_all_categories">All Categories</string>
+    <string name="widget_config_title">Widget Settings</string>
+    <string name="widget_config_save">Save</string>
 </resources>

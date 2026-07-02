@@ -251,4 +251,79 @@
     <string name="widget_task_complete">انجام شد</string>
     <string name="widget_task_pending">در انتظار</string>
     <string name="widget_description">ویجت پیشرفت تسک‌های روزانه</string>
+
+    <!-- Profile Screen -->
+    <string name="profile_title">پروفایل</string>
+    <string name="profile_edit">ویرایش پروفایل</string>
+    <string name="profile_save">ذخیره</string>
+    <string name="profile_full_name">نام کامل</string>
+    <string name="profile_username">نام کاربری</string>
+    <string name="profile_birth_year">سال تولد</string>
+    <string name="profile_identity_path">مسیر هویت</string>
+    <string name="profile_stats">آمار</string>
+    <string name="profile_level">سطح %d</string>
+    <string name="profile_xp">%d ایکس‌پی</string>
+    <string name="profile_streak">%d روز پیاپی</string>
+    <string name="profile_tasks_completed">%d وظیفه تکمیل شده</string>
+    <string name="profile_updated">پروفایل به‌روزرسانی شد</string>
+
+    <!-- Templates -->
+    <string name="templates_title">قالب‌ها</string>
+    <string name="templates_empty">هنوز قالبی وجود ندارد</string>
+    <string name="templates_create">ایجاد قالب</string>
+    <string name="templates_apply">اعمال قالب</string>
+    <string name="templates_delete">حذف</string>
+    <string name="templates_delete_confirm">این قالب حذف شود؟</string>
+    <string name="templates_name">نام قالب</string>
+    <string name="templates_created">قالب ایجاد شد</string>
+    <string name="drawer_templates">قالب‌ها</string>
+
+    <!-- Notifications -->
+    <string name="notifications_task_reminders">یادآوری وظایف</string>
+    <string name="notifications_boss_alerts">هشدارهای باس</string>
+    <string name="notifications_energy_full">انرژی پر شد</string>
+    <string name="notifications_channel_tasks">یادآوری وظایف</string>
+    <string name="notifications_channel_boss">مهلت باس‌ها</string>
+    <string name="notifications_channel_energy">اعلان‌های انرژی</string>
+    <string name="notifications_task_reminder_title">یادآوری وظیفه</string>
+    <string name="notifications_task_reminder_body">وظایف در انتظار دارید. منضبط باشید!</string>
+    <string name="notifications_boss_deadline_title">مهلت باس نزدیک است</string>
+    <string name="notifications_boss_deadline_body">مهلت یک باس در حال نزدیک شدن است. سلسله خود را حفظ کنید!</string>
+    <string name="notifications_energy_full_title">انرژی ققنوس پر شد</string>
+    <string name="notifications_energy_full_body">انرژی شما کاملاً بازیابی شد. وقت فتح کردن است!</string>
+    <string name="notifications_permission_rationale">اعلان‌ها برای یادآوری وظایف و مهلت باس‌ها لازم هستند.</string>
+    <string name="settings_reminder_time">زمان یادآوری</string>
+    <string name="settings_energy_notifications">اعلان‌های انرژی</string>
+
+    <!-- Categories -->
+    <string name="categories_title">دسته‌بندی‌ها</string>
+    <string name="categories_create">ایجاد دسته‌بندی</string>
+    <string name="categories_delete">حذف</string>
+    <string name="categories_default">پیش‌فرض</string>
+    <string name="categories_name">نام دسته‌بندی</string>
+    <string name="categories_color">رنگ</string>
+    <string name="categories_empty">دسته‌بندی سفارشی وجود ندارد</string>
+    <string name="drawer_categories">دسته‌بندی‌ها</string>
+
+    <!-- Focus Timer -->
+    <string name="focus_timer">تایمر تمرکز</string>
+    <string name="focus_start">شروع</string>
+    <string name="focus_pause">توقف</string>
+    <string name="focus_stop">پایان</string>
+    <string name="focus_pomodoro">پومودورو</string>
+    <string name="focus_custom">سفارشی</string>
+    <string name="focus_in_progress">تمرکز در حال انجام</string>
+    <string name="focus_session_complete">جلسه تمام شد!</string>
+    <string name="focus_duration">مدت: %d دقیقه</string>
+    <string name="focus_total_time">کل زمان تمرکز</string>
+    <string name="focus_sessions_completed">جلسات: %d</string>
+
+    <!-- Widget Customization -->
+    <string name="widget_theme">پوسته ویجت</string>
+    <string name="widget_dark">تاریک</string>
+    <string name="widget_light">روشن</string>
+    <string name="widget_category_filter">فیلتر دسته‌بندی</string>
+    <string name="widget_all_categories">همه دسته‌بندی‌ها</string>
+    <string name="widget_config_title">تنظیمات ویجت</string>
+    <string name="widget_config_save">ذخیره</string>
 </resources>
