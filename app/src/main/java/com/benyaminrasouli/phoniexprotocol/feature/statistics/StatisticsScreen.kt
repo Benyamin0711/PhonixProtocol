@@ -103,6 +103,15 @@ fun StatisticsScreen(
                     valueColor = if ((state.stats?.shadowLevel ?: 0) > 0) MaterialTheme.colorScheme.error else PhoenixOrange
                 )
             }
+
+            // Focus Timer card
+            StatCard(title = stringResource(R.string.focus_timer)) {
+                val hours = state.totalFocusSeconds / 3600
+                val minutes = (state.totalFocusSeconds % 3600) / 60
+                val focusTimeText = if (hours > 0) "${hours}h ${minutes}m" else "${minutes}m"
+                StatRow(label = stringResource(R.string.focus_timer_total_focus), value = focusTimeText)
+                StatRow(label = stringResource(R.string.focus_timer_completed), value = "${state.completedFocusSessions}")
+            }
         }
     }
 }

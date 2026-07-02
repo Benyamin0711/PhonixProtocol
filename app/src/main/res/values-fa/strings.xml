@@ -304,6 +304,7 @@
     <string name="categories_color">رنگ</string>
     <string name="categories_empty">دسته‌بندی سفارشی وجود ندارد</string>
     <string name="drawer_categories">دسته‌بندی‌ها</string>
+    <string name="drawer_focus">تایمر تمرکز</string>
 
     <!-- Focus Timer -->
     <string name="focus_timer">تایمر تمرکز</string>

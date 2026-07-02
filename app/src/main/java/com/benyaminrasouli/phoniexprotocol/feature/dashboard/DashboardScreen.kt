@@ -99,6 +99,10 @@ fun DashboardScreen(
                     onNavigateToCategories = {
                         scope.launch { drawerState.close() }
                         navController.navigate(Screen.Categories.route)
+                    },
+                    onNavigateToFocusTimer = {
+                        scope.launch { drawerState.close() }
+                        navController.navigate(Screen.FocusTimer.route)
                     }
                 )
             }
