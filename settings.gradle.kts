@@ -22,5 +22,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Phoniex Protocol"
+rootProject.name = "PhoenixProtocol"
 include(":app")

@@ -12,7 +12,7 @@ room {
 }
 
 android {
-    namespace = "com.benyaminrasouli.phoniexprotocol"
+    namespace = "com.benyaminrasouli.phoenixprotocol"
     compileSdk {
         version = release(36) {
             minorApiLevel = 1
@@ -20,7 +20,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.benyaminrasouli.phoniexprotocol"
+        applicationId = "com.benyaminrasouli.phoenixprotocol"
         minSdk = 24
         targetSdk = 36
         versionCode = 1

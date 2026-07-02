@@ -10,7 +10,7 @@
 
 ## Global Constraints
 - Min SDK 24, Target SDK 36, Compile SDK 36
-- Package: `com.benyaminrasouli.phoniexprotocol`
+- Package: `com.benyaminrasouli.phoenixprotocol`
 - Dark theme only (#0D0D0D base, #FF6B35 accent)
 - Bilingual: English + Persian (all new strings must have both locales)
 - Every task ends with `./gradlew assembleDebug` passing
@@ -92,7 +92,7 @@ git commit -m "feat: Bilingual string resources for About screen"
 **Covers:** [S3], [S4], [S5], [S6], [S7]
 
 **Files:**
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/feature/about/AboutScreen.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/feature/about/AboutScreen.kt`
 
 **Interfaces:**
 - Consumes: BuildConfig.VERSION_NAME
@@ -102,7 +102,7 @@ git commit -m "feat: Bilingual string resources for About screen"
 
 ```kotlin
 // feature/about/AboutScreen.kt
-package com.benyaminrasouli.phoniexprotocol.feature.about
+package com.benyaminrasouli.phoenixprotocol.feature.about
 
 import android.content.Intent
 import android.net.Uri
@@ -145,12 +145,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.benyaminrasouli.phoniexprotocol.BuildConfig
-import com.benyaminrasouli.phoniexprotocol.R
-import com.benyaminrasouli.phoniexprotocol.ui.theme.BackgroundDark
-import com.benyaminrasouli.phoniexprotocol.ui.theme.PhoenixOrange
-import com.benyaminrasouli.phoniexprotocol.ui.theme.SurfaceDark
-import com.benyaminrasouli.phoniexprotocol.ui.theme.TextSecondary
+import com.benyaminrasouli.phoenixprotocol.BuildConfig
+import com.benyaminrasouli.phoenixprotocol.R
+import com.benyaminrasouli.phoenixprotocol.ui.theme.BackgroundDark
+import com.benyaminrasouli.phoenixprotocol.ui.theme.PhoenixOrange
+import com.benyaminrasouli.phoenixprotocol.ui.theme.SurfaceDark
+import com.benyaminrasouli.phoenixprotocol.ui.theme.TextSecondary
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -427,9 +427,9 @@ git commit -m "feat: AboutScreen with app info, developer, social links, and leg
 **Covers:** [S8]
 
 **Files:**
-- Modify: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/navigation/NavGraph.kt`
-- Modify: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/feature/dashboard/DashboardScreen.kt`
-- Modify: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/feature/drawer/DrawerScreen.kt`
+- Modify: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/navigation/NavGraph.kt`
+- Modify: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/feature/dashboard/DashboardScreen.kt`
+- Modify: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/feature/drawer/DrawerScreen.kt`
 
 **Interfaces:**
 - Consumes: AboutScreen
@@ -440,7 +440,7 @@ git commit -m "feat: AboutScreen with app info, developer, social links, and leg
 Add import at top of NavGraph.kt:
 
 ```kotlin
-import com.benyaminrasouli.phoniexprotocol.feature.about.AboutScreen
+import com.benyaminrasouli.phoenixprotocol.feature.about.AboutScreen
 ```
 
 Add About composable route:

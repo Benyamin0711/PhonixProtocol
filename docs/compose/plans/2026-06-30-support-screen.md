@@ -10,7 +10,7 @@
 
 ## Global Constraints
 - Min SDK 24, Target SDK 36, Compile SDK 36
-- Package: `com.benyaminrasouli.phoniexprotocol`
+- Package: `com.benyaminrasouli.phoenixprotocol`
 - Dark theme only (#0D0D0D base, #FF6B35 accent)
 - Bilingual: English + Persian (all new strings must have both locales)
 - Every task ends with `./gradlew assembleDebug` passing
@@ -106,7 +106,7 @@ git commit -m "feat: Bilingual string resources for Support screen"
 **Covers:** [S3], [S4], [S5], [S6], [S7]
 
 **Files:**
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/feature/support/SupportScreen.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/feature/support/SupportScreen.kt`
 
 **Interfaces:**
 - Consumes: None
@@ -116,7 +116,7 @@ git commit -m "feat: Bilingual string resources for Support screen"
 
 ```kotlin
 // feature/support/SupportScreen.kt
-package com.benyaminrasouli.phoniexprotocol.feature.support
+package com.benyaminrasouli.phoenixprotocol.feature.support
 
 import android.content.Intent
 import android.net.Uri
@@ -172,12 +172,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.benyaminrasouli.phoniexprotocol.R
-import com.benyaminrasouli.phoniexprotocol.ui.theme.BackgroundDark
-import com.benyaminrasouli.phoniexprotocol.ui.theme.PhoenixOrange
-import com.benyaminrasouli.phoniexprotocol.ui.theme.SurfaceDark
-import com.benyaminrasouli.phoniexprotocol.ui.theme.SurfaceVariantDark
-import com.benyaminrasouli.phoniexprotocol.ui.theme.TextSecondary
+import com.benyaminrasouli.phoenixprotocol.R
+import com.benyaminrasouli.phoenixprotocol.ui.theme.BackgroundDark
+import com.benyaminrasouli.phoenixprotocol.ui.theme.PhoenixOrange
+import com.benyaminrasouli.phoenixprotocol.ui.theme.SurfaceDark
+import com.benyaminrasouli.phoenixprotocol.ui.theme.SurfaceVariantDark
+import com.benyaminrasouli.phoenixprotocol.ui.theme.TextSecondary
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -560,8 +560,8 @@ git commit -m "feat: SupportScreen with contact form, FAQ, rate app, and social 
 **Covers:** [S8]
 
 **Files:**
-- Modify: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/navigation/NavGraph.kt`
-- Modify: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/feature/dashboard/DashboardScreen.kt`
+- Modify: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/navigation/NavGraph.kt`
+- Modify: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/feature/dashboard/DashboardScreen.kt`
 
 **Interfaces:**
 - Consumes: SupportScreen
@@ -572,7 +572,7 @@ git commit -m "feat: SupportScreen with contact form, FAQ, rate app, and social 
 Add import at top of NavGraph.kt:
 
 ```kotlin
-import com.benyaminrasouli.phoniexprotocol.feature.support.SupportScreen
+import com.benyaminrasouli.phoenixprotocol.feature.support.SupportScreen
 ```
 
 Add Support composable route:

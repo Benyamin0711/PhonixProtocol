@@ -10,7 +10,7 @@
 
 ## Global Constraints
 - Min SDK 24, Target SDK 36, Compile SDK 36
-- Package: `com.benyaminrasouli.phoniexprotocol`
+- Package: `com.benyaminrasouli.phoenixprotocol`
 - Dark theme only (#0D0D0D base, #FF6B35 accent)
 - Bilingual: English + Persian (all new strings must have both locales)
 - Every Room entity uses Long auto-increment PKs
@@ -23,9 +23,9 @@
 **Covers:** [S3], [S6]
 
 **Files:**
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/data/db/entity/Boss.kt`
-- Modify: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/data/db/PhoenixDatabase.kt`
-- Modify: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/di/DatabaseModule.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/data/db/entity/Boss.kt`
+- Modify: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/data/db/PhoenixDatabase.kt`
+- Modify: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/di/DatabaseModule.kt`
 
 **Interfaces:**
 - Consumes: existing PhoenixDatabase (version 2)
@@ -35,7 +35,7 @@
 
 ```kotlin
 // core/data/db/entity/Boss.kt
-package com.benyaminrasouli.phoniexprotocol.core.data.db.entity
+package com.benyaminrasouli.phoenixprotocol.core.data.db.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -59,21 +59,21 @@ data class Boss(
 
 ```kotlin
 // core/data/db/PhoenixDatabase.kt
-package com.benyaminrasouli.phoniexprotocol.core.data.db
+package com.benyaminrasouli.phoenixprotocol.core.data.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.AchievementDao
-import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.BossDao
-import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.TaskDao
-import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.UserProfileDao
-import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.UserStatsDao
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.Achievement
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.Boss
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.Task
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.UserAchievement
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.UserProfile
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.UserStats
+import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.AchievementDao
+import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.BossDao
+import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.TaskDao
+import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.UserProfileDao
+import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.UserStatsDao
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.Achievement
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.Boss
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.Task
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.UserAchievement
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.UserProfile
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.UserStats
 
 @Database(
     entities = [
@@ -100,13 +100,13 @@ abstract class PhoenixDatabase : RoomDatabase() {
 
 ```kotlin
 // core/data/db/dao/BossDao.kt
-package com.benyaminrasouli.phoniexprotocol.core.data.db.dao
+package com.benyaminrasouli.phoenixprotocol.core.data.db.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.Boss
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.Boss
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -141,20 +141,20 @@ interface BossDao {
 
 ```kotlin
 // di/DatabaseModule.kt
-package com.benyaminrasouli.phoniexprotocol.di
+package com.benyaminrasouli.phoenixprotocol.di
 
 import android.content.Context
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.benyaminrasouli.phoniexprotocol.core.data.db.PhoenixDatabase
-import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.AchievementDao
-import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.BossDao
-import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.TaskDao
-import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.UserProfileDao
-import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.UserStatsDao
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.Achievement
+import com.benyaminrasouli.phoenixprotocol.core.data.db.PhoenixDatabase
+import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.AchievementDao
+import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.BossDao
+import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.TaskDao
+import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.UserProfileDao
+import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.UserStatsDao
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.Achievement
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -286,11 +286,11 @@ git commit -m "feat: Boss entity, BossDao, database migration v2->v3"
 **Covers:** [S3], [S7]
 
 **Files:**
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/domain/model/BossGoal.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/domain/model/GoalType.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/domain/repository/BossRepository.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/data/repository/BossRepositoryImpl.kt`
-- Modify: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/di/AppModule.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/domain/model/BossGoal.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/domain/model/GoalType.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/domain/repository/BossRepository.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/data/repository/BossRepositoryImpl.kt`
+- Modify: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/di/AppModule.kt`
 
 **Interfaces:**
 - Consumes: Task 1 (BossDao, Boss entity)
@@ -300,7 +300,7 @@ git commit -m "feat: Boss entity, BossDao, database migration v2->v3"
 
 ```kotlin
 // core/domain/model/GoalType.kt
-package com.benyaminrasouli.phoniexprotocol.core.domain.model
+package com.benyaminrasouli.phoenixprotocol.core.domain.model
 
 enum class GoalType {
     COMPLETE_TASKS,
@@ -315,7 +315,7 @@ enum class GoalType {
 
 ```kotlin
 // core/domain/model/BossGoal.kt
-package com.benyaminrasouli.phoniexprotocol.core.domain.model
+package com.benyaminrasouli.phoenixprotocol.core.domain.model
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -348,9 +348,9 @@ data class BossGoal(
 
 ```kotlin
 // core/domain/repository/BossRepository.kt
-package com.benyaminrasouli.phoniexprotocol.core.domain.repository
+package com.benyaminrasouli.phoenixprotocol.core.domain.repository
 
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.Boss
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.Boss
 import kotlinx.coroutines.flow.Flow
 
 interface BossRepository {
@@ -369,11 +369,11 @@ interface BossRepository {
 
 ```kotlin
 // core/data/repository/BossRepositoryImpl.kt
-package com.benyaminrasouli.phoniexprotocol.core.data.repository
+package com.benyaminrasouli.phoenixprotocol.core.data.repository
 
-import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.BossDao
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.Boss
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.BossRepository
+import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.BossDao
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.Boss
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.BossRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -405,18 +405,18 @@ class BossRepositoryImpl @Inject constructor(
 
 ```kotlin
 // di/AppModule.kt
-package com.benyaminrasouli.phoniexprotocol.di
+package com.benyaminrasouli.phoenixprotocol.di
 
-import com.benyaminrasouli.phoniexprotocol.core.data.repository.AchievementRepositoryImpl
-import com.benyaminrasouli.phoniexprotocol.core.data.repository.BossRepositoryImpl
-import com.benyaminrasouli.phoniexprotocol.core.data.repository.StatsRepositoryImpl
-import com.benyaminrasouli.phoniexprotocol.core.data.repository.TaskRepositoryImpl
-import com.benyaminrasouli.phoniexprotocol.core.data.repository.UserRepositoryImpl
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.AchievementRepository
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.BossRepository
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.StatsRepository
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.TaskRepository
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.UserRepository
+import com.benyaminrasouli.phoenixprotocol.core.data.repository.AchievementRepositoryImpl
+import com.benyaminrasouli.phoenixprotocol.core.data.repository.BossRepositoryImpl
+import com.benyaminrasouli.phoenixprotocol.core.data.repository.StatsRepositoryImpl
+import com.benyaminrasouli.phoenixprotocol.core.data.repository.TaskRepositoryImpl
+import com.benyaminrasouli.phoenixprotocol.core.data.repository.UserRepositoryImpl
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.AchievementRepository
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.BossRepository
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.StatsRepository
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.TaskRepository
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.UserRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -479,10 +479,10 @@ git commit -m "feat: GoalType enum, BossGoal data class, BossRepository"
 **Covers:** [S4], [S8], [S9]
 
 **Files:**
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/domain/usecase/SpawnWeeklyBossUseCase.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/domain/usecase/GetActiveBossUseCase.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/domain/usecase/UpdateBossProgressUseCase.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/domain/usecase/CompleteBossUseCase.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/domain/usecase/SpawnWeeklyBossUseCase.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/domain/usecase/GetActiveBossUseCase.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/domain/usecase/UpdateBossProgressUseCase.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/domain/usecase/CompleteBossUseCase.kt`
 
 **Interfaces:**
 - Consumes: Task 1 (BossRepository), Task 2 (BossGoal, GoalType)
@@ -492,12 +492,12 @@ git commit -m "feat: GoalType enum, BossGoal data class, BossRepository"
 
 ```kotlin
 // core/domain/usecase/SpawnWeeklyBossUseCase.kt
-package com.benyaminrasouli.phoniexprotocol.core.domain.usecase
+package com.benyaminrasouli.phoenixprotocol.core.domain.usecase
 
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.Boss
-import com.benyaminrasouli.phoniexprotocol.core.domain.model.BossGoal
-import com.benyaminrasouli.phoniexprotocol.core.domain.model.GoalType
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.BossRepository
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.Boss
+import com.benyaminrasouli.phoenixprotocol.core.domain.model.BossGoal
+import com.benyaminrasouli.phoenixprotocol.core.domain.model.GoalType
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.BossRepository
 import javax.inject.Inject
 
 class SpawnWeeklyBossUseCase @Inject constructor(
@@ -596,11 +596,11 @@ class SpawnWeeklyBossUseCase @Inject constructor(
 
 ```kotlin
 // core/domain/usecase/GetActiveBossUseCase.kt
-package com.benyaminrasouli.phoniexprotocol.core.domain.usecase
+package com.benyaminrasouli.phoenixprotocol.core.domain.usecase
 
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.Boss
-import com.benyaminrasouli.phoniexprotocol.core.domain.model.BossGoal
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.BossRepository
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.Boss
+import com.benyaminrasouli.phoenixprotocol.core.domain.model.BossGoal
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.BossRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -642,14 +642,14 @@ class GetActiveBossUseCase @Inject constructor(
 
 ```kotlin
 // core/domain/usecase/UpdateBossProgressUseCase.kt
-package com.benyaminrasouli.phoniexprotocol.core.domain.usecase
+package com.benyaminrasouli.phoenixprotocol.core.domain.usecase
 
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.Boss
-import com.benyaminrasouli.phoniexprotocol.core.domain.model.BossGoal
-import com.benyaminrasouli.phoniexprotocol.core.domain.model.GoalType
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.BossRepository
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.StatsRepository
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.TaskRepository
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.Boss
+import com.benyaminrasouli.phoenixprotocol.core.domain.model.BossGoal
+import com.benyaminrasouli.phoenixprotocol.core.domain.model.GoalType
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.BossRepository
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.StatsRepository
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.TaskRepository
 import javax.inject.Inject
 
 class UpdateBossProgressUseCase @Inject constructor(
@@ -716,11 +716,11 @@ class UpdateBossProgressUseCase @Inject constructor(
 
 ```kotlin
 // core/domain/usecase/CompleteBossUseCase.kt
-package com.benyaminrasouli.phoniexprotocol.core.domain.usecase
+package com.benyaminrasouli.phoenixprotocol.core.domain.usecase
 
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.AchievementRepository
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.BossRepository
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.StatsRepository
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.AchievementRepository
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.BossRepository
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.StatsRepository
 import javax.inject.Inject
 
 class CompleteBossUseCase @Inject constructor(
@@ -807,12 +807,12 @@ git commit -m "feat: Boss use cases - Spawn, GetActive, UpdateProgress, Complete
 **Covers:** [S5]
 
 **Files:**
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/feature/boss/BossViewModel.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/feature/boss/BossCard.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/feature/boss/BossDetailScreen.kt`
-- Modify: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/navigation/Screen.kt`
-- Modify: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/navigation/NavGraph.kt`
-- Modify: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/feature/dashboard/DashboardScreen.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/feature/boss/BossViewModel.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/feature/boss/BossCard.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/feature/boss/BossDetailScreen.kt`
+- Modify: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/navigation/Screen.kt`
+- Modify: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/navigation/NavGraph.kt`
+- Modify: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/feature/dashboard/DashboardScreen.kt`
 
 **Interfaces:**
 - Consumes: Task 3 (GetActiveBossUseCase, UpdateBossProgressUseCase, CompleteBossUseCase)
@@ -822,15 +822,15 @@ git commit -m "feat: Boss use cases - Spawn, GetActive, UpdateProgress, Complete
 
 ```kotlin
 // feature/boss/BossViewModel.kt
-package com.benyaminrasouli.phoniexprotocol.feature.boss
+package com.benyaminrasouli.phoenixprotocol.feature.boss
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.benyaminrasouli.phoniexprotocol.core.domain.usecase.ActiveBoss
-import com.benyaminrasouli.phoniexprotocol.core.domain.usecase.CompleteBossUseCase
-import com.benyaminrasouli.phoniexprotocol.core.domain.usecase.GetActiveBossUseCase
-import com.benyaminrasouli.phoniexprotocol.core.domain.usecase.SpawnWeeklyBossUseCase
-import com.benyaminrasouli.phoniexprotocol.core.domain.usecase.UpdateBossProgressUseCase
+import com.benyaminrasouli.phoenixprotocol.core.domain.usecase.ActiveBoss
+import com.benyaminrasouli.phoenixprotocol.core.domain.usecase.CompleteBossUseCase
+import com.benyaminrasouli.phoenixprotocol.core.domain.usecase.GetActiveBossUseCase
+import com.benyaminrasouli.phoenixprotocol.core.domain.usecase.SpawnWeeklyBossUseCase
+import com.benyaminrasouli.phoenixprotocol.core.domain.usecase.UpdateBossProgressUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
@@ -870,7 +870,7 @@ class BossViewModel @Inject constructor(
 
 ```kotlin
 // feature/boss/BossCard.kt
-package com.benyaminrasouli.phoniexprotocol.feature.boss
+package com.benyaminrasouli.phoenixprotocol.feature.boss
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -895,10 +895,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.benyaminrasouli.phoniexprotocol.core.domain.usecase.ActiveBoss
-import com.benyaminrasouli.phoniexprotocol.ui.theme.PhoenixOrange
-import com.benyaminrasouli.phoniexprotocol.ui.theme.SurfaceDark
-import com.benyaminrasouli.phoniexprotocol.ui.theme.TextSecondary
+import com.benyaminrasouli.phoenixprotocol.core.domain.usecase.ActiveBoss
+import com.benyaminrasouli.phoenixprotocol.ui.theme.PhoenixOrange
+import com.benyaminrasouli.phoenixprotocol.ui.theme.SurfaceDark
+import com.benyaminrasouli.phoenixprotocol.ui.theme.TextSecondary
 
 @Composable
 fun BossCard(
@@ -976,7 +976,7 @@ fun BossCard(
 
 ```kotlin
 // feature/boss/BossDetailScreen.kt
-package com.benyaminrasouli.phoniexprotocol.feature.boss
+package com.benyaminrasouli.phoenixprotocol.feature.boss
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -1011,11 +1011,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.benyaminrasouli.phoniexprotocol.core.domain.model.BossGoal
-import com.benyaminrasouli.phoniexprotocol.core.domain.usecase.ActiveBoss
-import com.benyaminrasouli.phoniexprotocol.ui.theme.BackgroundDark
-import com.benyaminrasouli.phoniexprotocol.ui.theme.PhoenixOrange
-import com.benyaminrasouli.phoniexprotocol.ui.theme.TextSecondary
+import com.benyaminrasouli.phoenixprotocol.core.domain.model.BossGoal
+import com.benyaminrasouli.phoenixprotocol.core.domain.usecase.ActiveBoss
+import com.benyaminrasouli.phoenixprotocol.ui.theme.BackgroundDark
+import com.benyaminrasouli.phoenixprotocol.ui.theme.PhoenixOrange
+import com.benyaminrasouli.phoenixprotocol.ui.theme.TextSecondary
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -1217,8 +1217,8 @@ Update DashboardScreen.kt to include BossCard:
 ```kotlin
 // feature/dashboard/DashboardScreen.kt
 // Add import
-import com.benyaminrasouli.phoniexprotocol.feature.boss.BossCard
-import com.benyaminrasouli.phoniexprotocol.feature.boss.BossViewModel
+import com.benyaminrasouli.phoenixprotocol.feature.boss.BossCard
+import com.benyaminrasouli.phoenixprotocol.feature.boss.BossViewModel
 import androidx.hilt.navigation.compose.hiltViewModel
 
 // Add viewModel parameter
@@ -1346,8 +1346,8 @@ git commit -m "feat: Bilingual string resources for Boss system"
 **Covers:** [S10]
 
 **Files:**
-- Modify: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/domain/usecase/SpawnWeeklyBossUseCase.kt`
-- Modify: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/feature/boss/BossViewModel.kt`
+- Modify: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/domain/usecase/SpawnWeeklyBossUseCase.kt`
+- Modify: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/feature/boss/BossViewModel.kt`
 
 **Interfaces:**
 - Consumes: Task 3 (SpawnWeeklyBossUseCase)

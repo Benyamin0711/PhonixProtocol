@@ -1,4 +1,4 @@
-package com.benyaminrasouli.phoniexprotocol
+package com.benyaminrasouli.phoenixprotocol
 
 import org.junit.Test
 

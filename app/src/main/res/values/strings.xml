@@ -340,4 +340,15 @@
     <string name="widget_all_categories">All Categories</string>
     <string name="widget_config_title">Widget Settings</string>
     <string name="widget_config_save">Save</string>
+
+    <!-- Leaderboard -->
+    <string name="leaderboard_title">Leaderboard</string>
+    <string name="leaderboard_all_time">All-Time</string>
+    <string name="leaderboard_weekly">Weekly</string>
+    <string name="leaderboard_rank">Rank</string>
+    <string name="leaderboard_xp">XP</string>
+    <string name="leaderboard_level">Level</string>
+    <string name="leaderboard_empty">No leaderboard data</string>
+    <string name="leaderboard_you">You</string>
+    <string name="drawer_leaderboard">Leaderboard</string>
 </resources>

@@ -10,7 +10,7 @@
 
 ## Global Constraints
 - Min SDK 24, Target SDK 36, Compile SDK 36
-- Package: `com.benyaminrasouli.phoniexprotocol`
+- Package: `com.benyaminrasouli.phoenixprotocol`
 - Dark theme only (#0D0D0D base, #FF6B35 accent)
 - Bilingual: English + Persian (all new strings must have both locales)
 - Every task ends with `./gradlew assembleDebug` passing
@@ -22,7 +22,7 @@
 **Covers:** [S3], [S6], [S7], [S8]
 
 **Files:**
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/feature/settings/SettingsViewModel.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/feature/settings/SettingsViewModel.kt`
 
 **Interfaces:**
 - Consumes: SettingsDataStore, UserRepository, StatsRepository
@@ -32,15 +32,15 @@
 
 ```kotlin
 // feature/settings/SettingsViewModel.kt
-package com.benyaminrasouli.phoniexprotocol.feature.settings
+package com.benyaminrasouli.phoenixprotocol.feature.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.benyaminrasouli.phoniexprotocol.core.data.datastore.SettingsDataStore
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.UserProfile
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.UserStats
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.UserRepository
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.StatsRepository
+import com.benyaminrasouli.phoenixprotocol.core.data.datastore.SettingsDataStore
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.UserProfile
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.UserStats
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.UserRepository
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.StatsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
@@ -175,7 +175,7 @@ git commit -m "feat: Bilingual string resources for Settings screen"
 **Covers:** [S3], [S4], [S5], [S6], [S7], [S8]
 
 **Files:**
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/feature/settings/SettingsScreen.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/feature/settings/SettingsScreen.kt`
 
 **Interfaces:**
 - Consumes: SettingsViewModel
@@ -185,7 +185,7 @@ git commit -m "feat: Bilingual string resources for Settings screen"
 
 ```kotlin
 // feature/settings/SettingsScreen.kt
-package com.benyaminrasouli.phoniexprotocol.feature.settings
+package com.benyaminrasouli.phoenixprotocol.feature.settings
 
 import android.widget.Toast
 import androidx.compose.foundation.background
@@ -240,13 +240,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.benyaminrasouli.phoniexprotocol.BuildConfig
-import com.benyaminrasouli.phoniexprotocol.R
-import com.benyaminrasouli.phoniexprotocol.core.navigation.Screen
-import com.benyaminrasouli.phoniexprotocol.ui.theme.BackgroundDark
-import com.benyaminrasouli.phoniexprotocol.ui.theme.PhoenixOrange
-import com.benyaminrasouli.phoniexprotocol.ui.theme.SurfaceDark
-import com.benyaminrasouli.phoniexprotocol.ui.theme.TextSecondary
+import com.benyaminrasouli.phoenixprotocol.BuildConfig
+import com.benyaminrasouli.phoenixprotocol.R
+import com.benyaminrasouli.phoenixprotocol.core.navigation.Screen
+import com.benyaminrasouli.phoenixprotocol.ui.theme.BackgroundDark
+import com.benyaminrasouli.phoenixprotocol.ui.theme.PhoenixOrange
+import com.benyaminrasouli.phoenixprotocol.ui.theme.SurfaceDark
+import com.benyaminrasouli.phoenixprotocol.ui.theme.TextSecondary
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -694,7 +694,7 @@ git commit -m "feat: SettingsScreen with all 6 sections"
 **Covers:** [S9]
 
 **Files:**
-- Modify: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/feature/dashboard/DashboardScreen.kt`
+- Modify: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/feature/dashboard/DashboardScreen.kt`
 
 **Interfaces:**
 - Consumes: SettingsScreen
@@ -705,7 +705,7 @@ git commit -m "feat: SettingsScreen with all 6 sections"
 Add import at top of DashboardScreen.kt:
 
 ```kotlin
-import com.benyaminrasouli.phoniexprotocol.feature.settings.SettingsScreen
+import com.benyaminrasouli.phoenixprotocol.feature.settings.SettingsScreen
 ```
 
 Update the DrawerScreen call to include onNavigateToSettings:

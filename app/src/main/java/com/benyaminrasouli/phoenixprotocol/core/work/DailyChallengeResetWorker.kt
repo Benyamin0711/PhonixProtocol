@@ -1,0 +1,26 @@
+package com.benyaminrasouli.phoenixprotocol.core.work
+
+import android.content.Context
+import androidx.hilt.work.HiltWorker
+import androidx.work.CoroutineWorker
+import androidx.work.WorkerParameters
+import com.benyaminrasouli.phoenixprotocol.core.domain.usecase.GenerateDailyChallengesUseCase
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
+
+@HiltWorker
+class DailyChallengeResetWorker @AssistedInject constructor(
+    @Assisted context: Context,
+    @Assisted params: WorkerParameters,
+    private val generateDailyChallengesUseCase: GenerateDailyChallengesUseCase
+) : CoroutineWorker(context, params) {
+
+    override suspend fun doWork(): Result {
+        return try {
+            generateDailyChallengesUseCase()
+            Result.success()
+        } catch (e: Exception) {
+            Result.retry()
+        }
+    }
+}

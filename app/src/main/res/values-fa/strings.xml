@@ -327,4 +327,15 @@
     <string name="widget_all_categories">همه دسته‌بندی‌ها</string>
     <string name="widget_config_title">تنظیمات ویجت</string>
     <string name="widget_config_save">ذخیره</string>
+
+    <!-- Leaderboard -->
+    <string name="leaderboard_title">جدول رتبه‌بندی</string>
+    <string name="leaderboard_all_time">همه زمان‌ها</string>
+    <string name="leaderboard_weekly">هفتگی</string>
+    <string name="leaderboard_rank">رتبه</string>
+    <string name="leaderboard_xp">امتیاز</string>
+    <string name="leaderboard_level">سطح</string>
+    <string name="leaderboard_empty">داده رتبه‌بندی موجود نیست</string>
+    <string name="leaderboard_you">شما</string>
+    <string name="drawer_leaderboard">رتبه‌بندی</string>
 </resources>

@@ -39,7 +39,7 @@
 
 Create `app/src/main/java/.../core/data/db/entity/DailyChallenge.kt`:
 ```kotlin
-package com.benyaminrasouli.phoniexprotocol.core.data.db.entity
+package com.benyaminrasouli.phoenixprotocol.core.data.db.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -66,13 +66,13 @@ data class DailyChallenge(
 
 Create `app/src/main/java/.../core/data/db/dao/DailyChallengeDao.kt`:
 ```kotlin
-package com.benyaminrasouli.phoniexprotocol.core.data.db.dao
+package com.benyaminrasouli.phoenixprotocol.core.data.db.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.DailyChallenge
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.DailyChallenge
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -160,9 +160,9 @@ git commit -m "feat: DailyChallenge entity, DAO, and DB migration v4→v5"
 
 Create `app/src/main/java/.../core/domain/repository/DailyChallengeRepository.kt`:
 ```kotlin
-package com.benyaminrasouli.phoniexprotocol.core.domain.repository
+package com.benyaminrasouli.phoenixprotocol.core.domain.repository
 
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.DailyChallenge
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.DailyChallenge
 import kotlinx.coroutines.flow.Flow
 
 interface DailyChallengeRepository {
@@ -181,11 +181,11 @@ interface DailyChallengeRepository {
 
 Create `app/src/main/java/.../core/data/repository/DailyChallengeRepositoryImpl.kt`:
 ```kotlin
-package com.benyaminrasouli.phoniexprotocol.core.data.repository
+package com.benyaminrasouli.phoenixprotocol.core.data.repository
 
-import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.DailyChallengeDao
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.DailyChallenge
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.DailyChallengeRepository
+import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.DailyChallengeDao
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.DailyChallenge
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.DailyChallengeRepository
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 import javax.inject.Inject
@@ -242,10 +242,10 @@ abstract fun bindDailyChallengeRepository(impl: DailyChallengeRepositoryImpl): D
 
 Create `app/src/main/java/.../core/domain/usecase/GetDailyChallengesUseCase.kt`:
 ```kotlin
-package com.benyaminrasouli.phoniexprotocol.core.domain.usecase
+package com.benyaminrasouli.phoenixprotocol.core.domain.usecase
 
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.DailyChallenge
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.DailyChallengeRepository
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.DailyChallenge
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.DailyChallengeRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -262,11 +262,11 @@ class GetDailyChallengesUseCase @Inject constructor(
 
 Create `app/src/main/java/.../core/domain/usecase/ClaimChallengeRewardUseCase.kt`:
 ```kotlin
-package com.benyaminrasouli.phoniexprotocol.core.domain.usecase
+package com.benyaminrasouli.phoenixprotocol.core.domain.usecase
 
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.DailyChallenge
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.DailyChallengeRepository
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.StatsRepository
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.DailyChallenge
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.DailyChallengeRepository
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.StatsRepository
 import javax.inject.Inject
 
 class ClaimChallengeRewardUseCase @Inject constructor(
@@ -287,11 +287,11 @@ class ClaimChallengeRewardUseCase @Inject constructor(
 
 Create `app/src/main/java/.../core/domain/usecase/GenerateDailyChallengesUseCase.kt`:
 ```kotlin
-package com.benyaminrasouli.phoniexprotocol.core.domain.usecase
+package com.benyaminrasouli.phoenixprotocol.core.domain.usecase
 
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.DailyChallenge
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.DailyChallengeRepository
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.StatsRepository
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.DailyChallenge
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.DailyChallengeRepository
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.StatsRepository
 import java.time.LocalDate
 import javax.inject.Inject
 import kotlin.random.Random
@@ -430,10 +430,10 @@ git commit -m "feat: DailyChallenge repository, use cases, and generation logic"
 
 Create `app/src/main/java/.../core/domain/usecase/TrackDailyChallengeUseCase.kt`:
 ```kotlin
-package com.benyaminrasouli.phoniexprotocol.core.domain.usecase
+package com.benyaminrasouli.phoenixprotocol.core.domain.usecase
 
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.DailyChallenge
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.DailyChallengeRepository
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.DailyChallenge
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.DailyChallengeRepository
 import javax.inject.Inject
 
 class TrackDailyChallengeUseCase @Inject constructor(
@@ -467,13 +467,13 @@ class TrackDailyChallengeUseCase @Inject constructor(
 
 Create `app/src/main/java/.../core/work/DailyChallengeResetWorker.kt`:
 ```kotlin
-package com.benyaminrasouli.phoniexprotocol.core.work
+package com.benyaminrasouli.phoenixprotocol.core.work
 
 import android.content.Context
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.benyaminrasouli.phoniexprotocol.core.domain.usecase.GenerateDailyChallengesUseCase
+import com.benyaminrasouli.phoenixprotocol.core.domain.usecase.GenerateDailyChallengesUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 
@@ -599,7 +599,7 @@ git commit -m "feat: daily challenge achievements (daily_warrior, challenge_mast
 
 Create `app/src/main/java/.../feature/challenges/DailyChallengeCard.kt`:
 ```kotlin
-package com.benyaminrasouli.phoniexprotocol.feature.challenges
+package com.benyaminrasouli.phoenixprotocol.feature.challenges
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -627,11 +627,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.benyaminrasouli.phoniexprotocol.R
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.DailyChallenge
-import com.benyaminrasouli.phoniexprotocol.ui.theme.PhoenixOrange
-import com.benyaminrasouli.phoniexprotocol.ui.theme.SurfaceDark
-import com.benyaminrasouli.phoniexprotocol.ui.theme.TextSecondary
+import com.benyaminrasouli.phoenixprotocol.R
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.DailyChallenge
+import com.benyaminrasouli.phoenixprotocol.ui.theme.PhoenixOrange
+import com.benyaminrasouli.phoenixprotocol.ui.theme.SurfaceDark
+import com.benyaminrasouli.phoenixprotocol.ui.theme.TextSecondary
 
 @Composable
 fun DailyChallengeCard(
@@ -805,14 +805,14 @@ git commit -m "feat: DailyChallengeCard for dashboard and navigation routes"
 
 Create `app/src/main/java/.../feature/challenges/DailyChallengeViewModel.kt`:
 ```kotlin
-package com.benyaminrasouli.phoniexprotocol.feature.challenges
+package com.benyaminrasouli.phoenixprotocol.feature.challenges
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.DailyChallenge
-import com.benyaminrasouli.phoniexprotocol.core.domain.usecase.ClaimChallengeRewardUseCase
-import com.benyaminrasouli.phoniexprotocol.core.domain.usecase.GenerateDailyChallengesUseCase
-import com.benyaminrasouli.phoniexprotocol.core.domain.usecase.GetDailyChallengesUseCase
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.DailyChallenge
+import com.benyaminrasouli.phoenixprotocol.core.domain.usecase.ClaimChallengeRewardUseCase
+import com.benyaminrasouli.phoenixprotocol.core.domain.usecase.GenerateDailyChallengesUseCase
+import com.benyaminrasouli.phoenixprotocol.core.domain.usecase.GetDailyChallengesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -849,7 +849,7 @@ class DailyChallengeViewModel @Inject constructor(
 
 Create `app/src/main/java/.../feature/challenges/DailyChallengeScreen.kt`:
 ```kotlin
-package com.benyaminrasouli.phoniexprotocol.feature.challenges
+package com.benyaminrasouli.phoenixprotocol.feature.challenges
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -887,13 +887,13 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.benyaminrasouli.phoniexprotocol.R
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.DailyChallenge
-import com.benyaminrasouli.phoniexprotocol.ui.theme.BackgroundDark
-import com.benyaminrasouli.phoniexprotocol.ui.theme.CompletedGreen
-import com.benyaminrasouli.phoniexprotocol.ui.theme.PhoenixOrange
-import com.benyaminrasouli.phoniexprotocol.ui.theme.SurfaceDark
-import com.benyaminrasouli.phoniexprotocol.ui.theme.TextSecondary
+import com.benyaminrasouli.phoenixprotocol.R
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.DailyChallenge
+import com.benyaminrasouli.phoenixprotocol.ui.theme.BackgroundDark
+import com.benyaminrasouli.phoenixprotocol.ui.theme.CompletedGreen
+import com.benyaminrasouli.phoenixprotocol.ui.theme.PhoenixOrange
+import com.benyaminrasouli.phoenixprotocol.ui.theme.SurfaceDark
+import com.benyaminrasouli.phoenixprotocol.ui.theme.TextSecondary
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

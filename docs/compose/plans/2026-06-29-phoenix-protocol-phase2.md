@@ -10,7 +10,7 @@
 
 ## Global Constraints
 - Min SDK 24, Target SDK 36, Compile SDK 36
-- Package: `com.benyaminrasouli.phoniexprotocol`
+- Package: `com.benyaminrasouli.phoenixprotocol`
 - Dark theme only (#0D0D0D base, #FF6B35 accent)
 - Bilingual: English + Persian (all new strings must have both locales)
 - Every Room entity uses Long auto-increment PKs
@@ -23,11 +23,11 @@
 **Covers:** Task System, Achievements
 
 **Files:**
-- Modify: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/data/db/entity/Task.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/data/db/entity/Achievement.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/data/db/entity/UserAchievement.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/data/db/dao/AchievementDao.kt`
-- Modify: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/data/db/PhoenixDatabase.kt`
+- Modify: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/data/db/entity/Task.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/data/db/entity/Achievement.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/data/db/entity/UserAchievement.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/data/db/dao/AchievementDao.kt`
+- Modify: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/data/db/PhoenixDatabase.kt`
 
 **Interfaces:**
 - Consumes: existing Task entity, PhoenixDatabase
@@ -39,7 +39,7 @@ Add `taskType` and `isPriority` fields:
 
 ```kotlin
 // core/data/db/entity/Task.kt
-package com.benyaminrasouli.phoniexprotocol.core.data.db.entity
+package com.benyaminrasouli.phoenixprotocol.core.data.db.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -66,7 +66,7 @@ data class Task(
 
 ```kotlin
 // core/data/db/entity/Achievement.kt
-package com.benyaminrasouli.phoniexprotocol.core.data.db.entity
+package com.benyaminrasouli.phoenixprotocol.core.data.db.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -87,7 +87,7 @@ data class Achievement(
 
 ```kotlin
 // core/data/db/entity/UserAchievement.kt
-package com.benyaminrasouli.phoniexprotocol.core.data.db.entity
+package com.benyaminrasouli.phoenixprotocol.core.data.db.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -104,14 +104,14 @@ data class UserAchievement(
 
 ```kotlin
 // core/data/db/dao/AchievementDao.kt
-package com.benyaminrasouli.phoniexprotocol.core.data.db.dao
+package com.benyaminrasouli.phoenixprotocol.core.data.db.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.Achievement
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.UserAchievement
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.Achievement
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.UserAchievement
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -140,19 +140,19 @@ interface AchievementDao {
 
 ```kotlin
 // core/data/db/PhoenixDatabase.kt
-package com.benyaminrasouli.phoniexprotocol.core.data.db
+package com.benyaminrasouli.phoenixprotocol.core.data.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.AchievementDao
-import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.TaskDao
-import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.UserProfileDao
-import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.UserStatsDao
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.Achievement
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.Task
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.UserAchievement
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.UserProfile
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.UserStats
+import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.AchievementDao
+import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.TaskDao
+import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.UserProfileDao
+import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.UserStatsDao
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.Achievement
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.Task
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.UserAchievement
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.UserProfile
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.UserStats
 
 @Database(
     entities = [
@@ -177,17 +177,17 @@ abstract class PhoenixDatabase : RoomDatabase() {
 
 ```kotlin
 // di/DatabaseModule.kt
-package com.benyaminrasouli.phoniexprotocol.di
+package com.benyaminrasouli.phoenixprotocol.di
 
 import android.content.Context
 import androidx.room.Room
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.benyaminrasouli.phoniexprotocol.core.data.db.PhoenixDatabase
-import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.AchievementDao
-import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.TaskDao
-import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.UserProfileDao
-import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.UserStatsDao
+import com.benyaminrasouli.phoenixprotocol.core.data.db.PhoenixDatabase
+import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.AchievementDao
+import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.TaskDao
+import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.UserProfileDao
+import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.UserStatsDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -253,9 +253,9 @@ git commit -m "feat: database migration - Task fields, Achievement entities, Ach
 **Covers:** Task System
 
 **Files:**
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/domain/model/TaskType.kt`
-- Modify: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/domain/repository/TaskRepository.kt`
-- Modify: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/data/repository/TaskRepositoryImpl.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/domain/model/TaskType.kt`
+- Modify: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/domain/repository/TaskRepository.kt`
+- Modify: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/data/repository/TaskRepositoryImpl.kt`
 
 **Interfaces:**
 - Consumes: Task 1 (updated Task entity)
@@ -265,7 +265,7 @@ git commit -m "feat: database migration - Task fields, Achievement entities, Ach
 
 ```kotlin
 // core/domain/model/TaskType.kt
-package com.benyaminrasouli.phoniexprotocol.core.domain.model
+package com.benyaminrasouli.phoenixprotocol.core.domain.model
 
 enum class TaskType {
     DAILY,
@@ -279,9 +279,9 @@ enum class TaskType {
 
 ```kotlin
 // core/domain/repository/TaskRepository.kt
-package com.benyaminrasouli.phoniexprotocol.core.domain.repository
+package com.benyaminrasouli.phoenixprotocol.core.domain.repository
 
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.Task
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.Task
 import kotlinx.coroutines.flow.Flow
 
 interface TaskRepository {
@@ -305,11 +305,11 @@ interface TaskRepository {
 
 ```kotlin
 // core/data/repository/TaskRepositoryImpl.kt
-package com.benyaminrasouli.phoniexprotocol.core.data.repository
+package com.benyaminrasouli.phoenixprotocol.core.data.repository
 
-import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.TaskDao
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.Task
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.TaskRepository
+import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.TaskDao
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.Task
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.TaskRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -375,7 +375,7 @@ class TaskRepositoryImpl @Inject constructor(
 
 ```kotlin
 // core/data/db/dao/TaskDao.kt
-package com.benyaminrasouli.phoniexprotocol.core.data.db.dao
+package com.benyaminrasouli.phoenixprotocol.core.data.db.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
@@ -383,7 +383,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.Task
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.Task
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -445,12 +445,12 @@ git commit -m "feat: TaskType enum, enhanced TaskRepository with filtering and c
 **Covers:** Achievements
 
 **Files:**
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/data/db/seeder/AchievementSeeder.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/domain/repository/AchievementRepository.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/data/repository/AchievementRepositoryImpl.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/domain/usecase/GetAchievementsUseCase.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/domain/usecase/CheckAchievementsUseCase.kt`
-- Modify: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/di/AppModule.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/data/db/seeder/AchievementSeeder.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/domain/repository/AchievementRepository.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/data/repository/AchievementRepositoryImpl.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/domain/usecase/GetAchievementsUseCase.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/domain/usecase/CheckAchievementsUseCase.kt`
+- Modify: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/di/AppModule.kt`
 
 **Interfaces:**
 - Consumes: Task 1 (AchievementDao, entities)
@@ -460,10 +460,10 @@ git commit -m "feat: TaskType enum, enhanced TaskRepository with filtering and c
 
 ```kotlin
 // core/data/db/seeder/AchievementSeeder.kt
-package com.benyaminrasouli.phoniexprotocol.core.data.db.seeder
+package com.benyaminrasouli.phoenixprotocol.core.data.db.seeder
 
-import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.AchievementDao
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.Achievement
+import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.AchievementDao
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.Achievement
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -498,10 +498,10 @@ class AchievementSeeder @Inject constructor(
 
 ```kotlin
 // core/domain/repository/AchievementRepository.kt
-package com.benyaminrasouli.phoniexprotocol.core.domain.repository
+package com.benyaminrasouli.phoenixprotocol.core.domain.repository
 
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.Achievement
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.UserAchievement
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.Achievement
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.UserAchievement
 import kotlinx.coroutines.flow.Flow
 
 interface AchievementRepository {
@@ -517,12 +517,12 @@ interface AchievementRepository {
 
 ```kotlin
 // core/data/repository/AchievementRepositoryImpl.kt
-package com.benyaminrasouli.phoniexprotocol.core.data.repository
+package com.benyaminrasouli.phoenixprotocol.core.data.repository
 
-import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.AchievementDao
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.Achievement
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.UserAchievement
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.AchievementRepository
+import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.AchievementDao
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.Achievement
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.UserAchievement
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.AchievementRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -550,11 +550,11 @@ class AchievementRepositoryImpl @Inject constructor(
 
 ```kotlin
 // core/domain/usecase/GetAchievementsUseCase.kt
-package com.benyaminrasouli.phoniexprotocol.core.domain.usecase
+package com.benyaminrasouli.phoenixprotocol.core.domain.usecase
 
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.Achievement
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.UserAchievement
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.AchievementRepository
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.Achievement
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.UserAchievement
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.AchievementRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import javax.inject.Inject
@@ -591,12 +591,12 @@ class GetAchievementsUseCase @Inject constructor(
 
 ```kotlin
 // core/domain/usecase/CheckAchievementsUseCase.kt
-package com.benyaminrasouli.phoniexprotocol.core.domain.usecase
+package com.benyaminrasouli.phoenixprotocol.core.domain.usecase
 
-import com.benyaminrasouli.phoniexprotocol.core.data.datastore.SettingsDataStore
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.AchievementRepository
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.StatsRepository
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.TaskRepository
+import com.benyaminrasouli.phoenixprotocol.core.data.datastore.SettingsDataStore
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.AchievementRepository
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.StatsRepository
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.TaskRepository
 import javax.inject.Inject
 
 class CheckAchievementsUseCase @Inject constructor(
@@ -642,16 +642,16 @@ class CheckAchievementsUseCase @Inject constructor(
 
 ```kotlin
 // di/AppModule.kt
-package com.benyaminrasouli.phoniexprotocol.di
+package com.benyaminrasouli.phoenixprotocol.di
 
-import com.benyaminrasouli.phoniexprotocol.core.data.repository.AchievementRepositoryImpl
-import com.benyaminrasouli.phoniexprotocol.core.data.repository.StatsRepositoryImpl
-import com.benyaminrasouli.phoniexprotocol.core.data.repository.TaskRepositoryImpl
-import com.benyaminrasouli.phoniexprotocol.core.data.repository.UserRepositoryImpl
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.AchievementRepository
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.StatsRepository
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.TaskRepository
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.UserRepository
+import com.benyaminrasouli.phoenixprotocol.core.data.repository.AchievementRepositoryImpl
+import com.benyaminrasouli.phoenixprotocol.core.data.repository.StatsRepositoryImpl
+import com.benyaminrasouli.phoenixprotocol.core.data.repository.TaskRepositoryImpl
+import com.benyaminrasouli.phoenixprotocol.core.data.repository.UserRepositoryImpl
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.AchievementRepository
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.StatsRepository
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.TaskRepository
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.UserRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -699,11 +699,11 @@ git commit -m "feat: achievement seed data, repository, use cases"
 **Covers:** Task System
 
 **Files:**
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/feature/tasks/CreateTaskViewModel.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/feature/tasks/CreateTaskScreen.kt`
-- Modify: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/navigation/Screen.kt`
-- Modify: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/navigation/NavGraph.kt`
-- Modify: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/feature/dashboard/DashboardScreen.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/feature/tasks/CreateTaskViewModel.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/feature/tasks/CreateTaskScreen.kt`
+- Modify: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/navigation/Screen.kt`
+- Modify: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/navigation/NavGraph.kt`
+- Modify: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/feature/dashboard/DashboardScreen.kt`
 
 **Interfaces:**
 - Consumes: Task 2 (TaskRepository), Task 3 (CheckAchievementsUseCase)
@@ -713,16 +713,16 @@ git commit -m "feat: achievement seed data, repository, use cases"
 
 ```kotlin
 // feature/tasks/CreateTaskViewModel.kt
-package com.benyaminrasouli.phoniexprotocol.feature.tasks
+package com.benyaminrasouli.phoenixprotocol.feature.tasks
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.Task
-import com.benyaminrasouli.phoniexprotocol.core.domain.model.Difficulty
-import com.benyaminrasouli.phoniexprotocol.core.domain.model.TaskRecurrence
-import com.benyaminrasouli.phoniexprotocol.core.domain.model.TaskType
-import com.benyaminrasouli.phoniexprotocol.core.domain.usecase.CheckAchievementsUseCase
-import com.benyaminrasouli.phoniexprotocol.core.domain.usecase.CreateTaskUseCase
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.Task
+import com.benyaminrasouli.phoenixprotocol.core.domain.model.Difficulty
+import com.benyaminrasouli.phoenixprotocol.core.domain.model.TaskRecurrence
+import com.benyaminrasouli.phoenixprotocol.core.domain.model.TaskType
+import com.benyaminrasouli.phoenixprotocol.core.domain.usecase.CheckAchievementsUseCase
+import com.benyaminrasouli.phoenixprotocol.core.domain.usecase.CreateTaskUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -789,7 +789,7 @@ class CreateTaskViewModel @Inject constructor(
 
 ```kotlin
 // feature/tasks/CreateTaskScreen.kt
-package com.benyaminrasouli.phoniexprotocol.feature.tasks
+package com.benyaminrasouli.phoenixprotocol.feature.tasks
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -828,14 +828,14 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.benyaminrasouli.phoniexprotocol.R
-import com.benyaminrasouli.phoniexprotocol.core.domain.model.Difficulty
-import com.benyaminrasouli.phoniexprotocol.core.domain.model.TaskRecurrence
-import com.benyaminrasouli.phoniexprotocol.core.domain.model.TaskType
-import com.benyaminrasouli.phoniexprotocol.core.ui.components.PhoenixButton
-import com.benyaminrasouli.phoniexprotocol.ui.theme.BackgroundDark
-import com.benyaminrasouli.phoniexprotocol.ui.theme.PhoenixOrange
-import com.benyaminrasouli.phoniexprotocol.ui.theme.TextSecondary
+import com.benyaminrasouli.phoenixprotocol.R
+import com.benyaminrasouli.phoenixprotocol.core.domain.model.Difficulty
+import com.benyaminrasouli.phoenixprotocol.core.domain.model.TaskRecurrence
+import com.benyaminrasouli.phoenixprotocol.core.domain.model.TaskType
+import com.benyaminrasouli.phoenixprotocol.core.ui.components.PhoenixButton
+import com.benyaminrasouli.phoenixprotocol.ui.theme.BackgroundDark
+import com.benyaminrasouli.phoenixprotocol.ui.theme.PhoenixOrange
+import com.benyaminrasouli.phoenixprotocol.ui.theme.TextSecondary
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
@@ -1012,7 +1012,7 @@ Update DashboardScreen.kt to add a FloatingActionButton that navigates to Create
 // Add to DashboardScreen imports
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material.icons.filled.Add
-import com.benyaminrasouli.phoniexprotocol.core.navigation.Screen
+import com.benyaminrasouli.phoenixprotocol.core.navigation.Screen
 
 // Add inside the Box, after the Column:
 FloatingActionButton(
@@ -1042,9 +1042,9 @@ git commit -m "feat: Create Task screen with all fields, navigation, FAB"
 **Covers:** Task System
 
 **Files:**
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/feature/tasks/TaskListViewModel.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/feature/tasks/TaskListScreen.kt`
-- Modify: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/navigation/NavGraph.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/feature/tasks/TaskListViewModel.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/feature/tasks/TaskListScreen.kt`
+- Modify: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/navigation/NavGraph.kt`
 
 **Interfaces:**
 - Consumes: Task 2 (TaskRepository), Task 3 (CheckAchievementsUseCase)
@@ -1054,14 +1054,14 @@ git commit -m "feat: Create Task screen with all fields, navigation, FAB"
 
 ```kotlin
 // feature/tasks/TaskListViewModel.kt
-package com.benyaminrasouli.phoniexprotocol.feature.tasks
+package com.benyaminrasouli.phoenixprotocol.feature.tasks
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.Task
-import com.benyaminrasouli.phoniexprotocol.core.domain.usecase.CheckAchievementsUseCase
-import com.benyaminrasouli.phoniexprotocol.core.domain.usecase.CompleteTaskUseCase
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.TaskRepository
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.Task
+import com.benyaminrasouli.phoenixprotocol.core.domain.usecase.CheckAchievementsUseCase
+import com.benyaminrasouli.phoenixprotocol.core.domain.usecase.CompleteTaskUseCase
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.TaskRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -1123,7 +1123,7 @@ class TaskListViewModel @Inject constructor(
 
 ```kotlin
 // feature/tasks/TaskListScreen.kt
-package com.benyaminrasouli.phoniexprotocol.feature.tasks
+package com.benyaminrasouli.phoenixprotocol.feature.tasks
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -1161,11 +1161,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.benyaminrasouli.phoniexprotocol.R
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.Task
-import com.benyaminrasouli.phoniexprotocol.ui.theme.BackgroundDark
-import com.benyaminrasouli.phoniexprotocol.ui.theme.PhoenixOrange
-import com.benyaminrasouli.phoniexprotocol.ui.theme.TextSecondary
+import com.benyaminrasouli.phoenixprotocol.R
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.Task
+import com.benyaminrasouli.phoenixprotocol.ui.theme.BackgroundDark
+import com.benyaminrasouli.phoenixprotocol.ui.theme.PhoenixOrange
+import com.benyaminrasouli.phoenixprotocol.ui.theme.TextSecondary
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -1309,10 +1309,10 @@ git commit -m "feat: Task List screen with filtering (All/Active/Completed/Skipp
 **Covers:** Achievements
 
 **Files:**
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/feature/achievements/AchievementViewModel.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/feature/achievements/AchievementScreen.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/feature/achievements/AchievementCard.kt`
-- Modify: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/navigation/NavGraph.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/feature/achievements/AchievementViewModel.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/feature/achievements/AchievementScreen.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/feature/achievements/AchievementCard.kt`
+- Modify: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/navigation/NavGraph.kt`
 
 **Interfaces:**
 - Consumes: Task 3 (GetAchievementsUseCase)
@@ -1322,11 +1322,11 @@ git commit -m "feat: Task List screen with filtering (All/Active/Completed/Skipp
 
 ```kotlin
 // feature/achievements/AchievementViewModel.kt
-package com.benyaminrasouli.phoniexprotocol.feature.achievements
+package com.benyaminrasouli.phoenixprotocol.feature.achievements
 
 import androidx.lifecycle.ViewModel
-import com.benyaminrasouli.phoniexprotocol.core.domain.usecase.AchievementWithStatus
-import com.benyaminrasouli.phoniexprotocol.core.domain.usecase.GetAchievementsUseCase
+import com.benyaminrasouli.phoenixprotocol.core.domain.usecase.AchievementWithStatus
+import com.benyaminrasouli.phoenixprotocol.core.domain.usecase.GetAchievementsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -1344,7 +1344,7 @@ class AchievementViewModel @Inject constructor(
 
 ```kotlin
 // feature/achievements/AchievementCard.kt
-package com.benyaminrasouli.phoniexprotocol.feature.achievements
+package com.benyaminrasouli.phoenixprotocol.feature.achievements
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -1365,11 +1365,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.unit.dp
-import com.benyaminrasouli.phoniexprotocol.core.domain.usecase.AchievementWithStatus
-import com.benyaminrasouli.phoniexprotocol.ui.theme.PhoenixGold
-import com.benyaminrasouli.phoniexprotocol.ui.theme.PhoenixOrange
-import com.benyaminrasouli.phoniexprotocol.ui.theme.SurfaceDark
-import com.benyaminrasouli.phoniexprotocol.ui.theme.TextSecondary
+import com.benyaminrasouli.phoenixprotocol.core.domain.usecase.AchievementWithStatus
+import com.benyaminrasouli.phoenixprotocol.ui.theme.PhoenixGold
+import com.benyaminrasouli.phoenixprotocol.ui.theme.PhoenixOrange
+import com.benyaminrasouli.phoenixprotocol.ui.theme.SurfaceDark
+import com.benyaminrasouli.phoenixprotocol.ui.theme.TextSecondary
 
 @Composable
 fun AchievementCard(
@@ -1420,7 +1420,7 @@ fun AchievementCard(
 
 ```kotlin
 // feature/achievements/AchievementScreen.kt
-package com.benyaminrasouli.phoniexprotocol.feature.achievements
+package com.benyaminrasouli.phoenixprotocol.feature.achievements
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -1448,8 +1448,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.benyaminrasouli.phoniexprotocol.R
-import com.benyaminrasouli.phoniexprotocol.ui.theme.BackgroundDark
+import com.benyaminrasouli.phoenixprotocol.R
+import com.benyaminrasouli.phoenixprotocol.ui.theme.BackgroundDark
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -1520,9 +1520,9 @@ git commit -m "feat: Achievement screen with grid, cards, unlock states"
 **Covers:** Statistics
 
 **Files:**
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/feature/statistics/StatisticsViewModel.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/feature/statistics/StatisticsScreen.kt`
-- Modify: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/navigation/NavGraph.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/feature/statistics/StatisticsViewModel.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/feature/statistics/StatisticsScreen.kt`
+- Modify: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/navigation/NavGraph.kt`
 
 **Interfaces:**
 - Consumes: Task 2 (TaskRepository), StatsRepository, AchievementRepository
@@ -1532,14 +1532,14 @@ git commit -m "feat: Achievement screen with grid, cards, unlock states"
 
 ```kotlin
 // feature/statistics/StatisticsViewModel.kt
-package com.benyaminrasouli.phoniexprotocol.feature.statistics
+package com.benyaminrasouli.phoenixprotocol.feature.statistics
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.UserStats
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.AchievementRepository
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.StatsRepository
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.TaskRepository
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.UserStats
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.AchievementRepository
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.StatsRepository
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.TaskRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -1591,7 +1591,7 @@ class StatisticsViewModel @Inject constructor(
 
 ```kotlin
 // feature/statistics/StatisticsScreen.kt
-package com.benyaminrasouli.phoniexprotocol.feature.statistics
+package com.benyaminrasouli.phoenixprotocol.feature.statistics
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -1624,13 +1624,13 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.benyaminrasouli.phoniexprotocol.R
-import com.benyaminrasouli.phoniexprotocol.core.ui.components.EnergyBar
-import com.benyaminrasouli.phoniexprotocol.ui.theme.BackgroundDark
-import com.benyaminrasouli.phoniexprotocol.ui.theme.PhoenixGold
-import com.benyaminrasouli.phoniexprotocol.ui.theme.PhoenixOrange
-import com.benyaminrasouli.phoniexprotocol.ui.theme.SurfaceDark
-import com.benyaminrasouli.phoniexprotocol.ui.theme.TextSecondary
+import com.benyaminrasouli.phoenixprotocol.R
+import com.benyaminrasouli.phoenixprotocol.core.ui.components.EnergyBar
+import com.benyaminrasouli.phoenixprotocol.ui.theme.BackgroundDark
+import com.benyaminrasouli.phoenixprotocol.ui.theme.PhoenixGold
+import com.benyaminrasouli.phoenixprotocol.ui.theme.PhoenixOrange
+import com.benyaminrasouli.phoenixprotocol.ui.theme.SurfaceDark
+import com.benyaminrasouli.phoenixprotocol.ui.theme.TextSecondary
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -1768,8 +1768,8 @@ git commit -m "feat: Statistics screen with overview, streaks, energy stats"
 **Covers:** Navigation
 
 **Files:**
-- Modify: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/feature/drawer/DrawerScreen.kt`
-- Modify: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/feature/dashboard/DashboardScreen.kt`
+- Modify: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/feature/drawer/DrawerScreen.kt`
+- Modify: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/feature/dashboard/DashboardScreen.kt`
 
 **Interfaces:**
 - Consumes: Tasks 5, 6, 7 (screens exist)

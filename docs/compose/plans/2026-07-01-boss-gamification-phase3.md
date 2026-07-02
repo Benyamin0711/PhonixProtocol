@@ -110,12 +110,12 @@ git commit -m "feat: add WorkManager dependency and BossHistory navigation route
 
 Create `app/src/main/java/.../feature/boss/BossHistoryViewModel.kt`:
 ```kotlin
-package com.benyaminrasouli.phoniexprotocol.feature.boss
+package com.benyaminrasouli.phoenixprotocol.feature.boss
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.Boss
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.BossRepository
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.Boss
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.BossRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -168,7 +168,7 @@ class BossHistoryViewModel @Inject constructor(
 
 Create `app/src/main/java/.../feature/boss/BossHistoryScreen.kt`:
 ```kotlin
-package com.benyaminrasouli.phoniexprotocol.feature.boss
+package com.benyaminrasouli.phoenixprotocol.feature.boss
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -206,14 +206,14 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.benyaminrasouli.phoniexprotocol.R
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.Boss
-import com.benyaminrasouli.phoniexprotocol.ui.theme.BackgroundDark
-import com.benyaminrasouli.phoniexprotocol.ui.theme.PhoenixOrange
-import com.benyaminrasouli.phoniexprotocol.ui.theme.SurfaceDark
-import com.benyaminrasouli.phoniexprotocol.ui.theme.TextSecondary
-import com.benyaminrasouli.phoniexprotocol.ui.theme.CompletedGreen
-import com.benyaminrasouli.phoniexprotocol.ui.theme.FailedRed
+import com.benyaminrasouli.phoenixprotocol.R
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.Boss
+import com.benyaminrasouli.phoenixprotocol.ui.theme.BackgroundDark
+import com.benyaminrasouli.phoenixprotocol.ui.theme.PhoenixOrange
+import com.benyaminrasouli.phoenixprotocol.ui.theme.SurfaceDark
+import com.benyaminrasouli.phoenixprotocol.ui.theme.TextSecondary
+import com.benyaminrasouli.phoenixprotocol.ui.theme.CompletedGreen
+import com.benyaminrasouli.phoenixprotocol.ui.theme.FailedRed
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -415,9 +415,9 @@ git commit -m "feat: Boss History screen with filter tabs and navigation"
 
 Create `app/src/main/java/.../core/domain/usecase/RecoverEnergyUseCase.kt`:
 ```kotlin
-package com.benyaminrasouli.phoniexprotocol.core.domain.usecase
+package com.benyaminrasouli.phoenixprotocol.core.domain.usecase
 
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.StatsRepository
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.StatsRepository
 import javax.inject.Inject
 
 class RecoverEnergyUseCase @Inject constructor(
@@ -436,13 +436,13 @@ class RecoverEnergyUseCase @Inject constructor(
 
 Create `app/src/main/java/.../core/work/EnergyRecoveryWorker.kt`:
 ```kotlin
-package com.benyaminrasouli.phoniexprotocol.core.work
+package com.benyaminrasouli.phoenixprotocol.core.work
 
 import android.content.Context
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.benyaminrasouli.phoniexprotocol.core.domain.usecase.RecoverEnergyUseCase
+import com.benyaminrasouli.phoenixprotocol.core.domain.usecase.RecoverEnergyUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 
@@ -468,14 +468,14 @@ class EnergyRecoveryWorker @AssistedInject constructor(
 
 Create `app/src/main/java/.../di/WorkerModule.kt`:
 ```kotlin
-package com.benyaminrasouli.phoniexprotocol.di
+package com.benyaminrasouli.phoenixprotocol.di
 
 import android.content.Context
 import androidx.work.Configuration
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
-import com.benyaminrasouli.phoniexprotocol.core.work.EnergyRecoveryWorker
+import com.benyaminrasouli.phoenixprotocol.core.work.EnergyRecoveryWorker
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -558,11 +558,11 @@ git commit -m "feat: energy recovery mechanic with WorkManager periodic task"
 
 Create `app/src/main/java/.../core/domain/usecase/SkipTaskUseCase.kt`:
 ```kotlin
-package com.benyaminrasouli.phoniexprotocol.core.domain.usecase
+package com.benyaminrasouli.phoenixprotocol.core.domain.usecase
 
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.Task
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.StatsRepository
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.TaskRepository
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.Task
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.StatsRepository
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.TaskRepository
 import javax.inject.Inject
 
 class SkipTaskUseCase @Inject constructor(
@@ -580,11 +580,11 @@ class SkipTaskUseCase @Inject constructor(
 
 Create `app/src/main/java/.../core/domain/usecase/CancelTaskUseCase.kt`:
 ```kotlin
-package com.benyaminrasouli.phoniexprotocol.core.domain.usecase
+package com.benyaminrasouli.phoenixprotocol.core.domain.usecase
 
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.Task
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.StatsRepository
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.TaskRepository
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.Task
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.StatsRepository
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.TaskRepository
 import javax.inject.Inject
 
 class CancelTaskUseCase @Inject constructor(
@@ -656,9 +656,9 @@ git commit -m "feat: shadow level triggers on task skip/cancel"
 
 Create `app/src/main/java/.../core/domain/usecase/UpdateStreakUseCase.kt`:
 ```kotlin
-package com.benyaminrasouli.phoniexprotocol.core.domain.usecase
+package com.benyaminrasouli.phoenixprotocol.core.domain.usecase
 
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.StatsRepository
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.StatsRepository
 import javax.inject.Inject
 
 class UpdateStreakUseCase @Inject constructor(
@@ -704,7 +704,7 @@ git commit -m "feat: streak break shadow level trigger"
 
 Create `app/src/main/java/.../core/ui/components/AnimatedProgressBar.kt`:
 ```kotlin
-package com.benyaminrasouli.phoniexprotocol.core.ui.components
+package com.benyaminrasouli.phoenixprotocol.core.ui.components
 
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
@@ -723,7 +723,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.benyaminrasouli.phoniexprotocol.ui.theme.PhoenixOrange
+import com.benyaminrasouli.phoenixprotocol.ui.theme.PhoenixOrange
 
 @Composable
 fun AnimatedProgressBar(

@@ -218,7 +218,7 @@ Menu items:
 ## [S15] File Structure
 
 ```
-app/src/main/java/com/benyaminrasouli/phoniexprotocol/
+app/src/main/java/com/benyaminrasouli/phoenixprotocol/
 ├── PhoenixApp.kt                          # Application class (@HiltAndroidApp)
 ├── MainActivity.kt                         # Entry point, nav host
 ├── core/

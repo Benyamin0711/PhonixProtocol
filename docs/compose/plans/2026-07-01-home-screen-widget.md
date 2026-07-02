@@ -248,10 +248,10 @@ git commit -m "feat: widget layout, metadata, and manifest declaration"
 
 Create `app/src/main/java/.../widget/PhoenixWidgetRepository.kt`:
 ```kotlin
-package com.benyaminrasouli.phoniexprotocol.widget
+package com.benyaminrasouli.phoenixprotocol.widget
 
-import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.TaskDao
-import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.UserStatsDao
+import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.TaskDao
+import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.UserStatsDao
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -333,7 +333,7 @@ git commit -m "feat: PhoenixWidgetRepository for widget data"
 
 Create `app/src/main/java/.../widget/PhoenixWidgetProvider.kt`:
 ```kotlin
-package com.benyaminrasouli.phoniexprotocol.widget
+package com.benyaminrasouli.phoenixprotocol.widget
 
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
@@ -341,8 +341,8 @@ import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
-import com.benyaminrasouli.phoniexprotocol.MainActivity
-import com.benyaminrasouli.phoniexprotocol.R
+import com.benyaminrasouli.phoenixprotocol.MainActivity
+import com.benyaminrasouli.phoenixprotocol.R
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -459,7 +459,7 @@ git commit -m "feat: PhoenixWidgetProvider with real-time updates"
 
 Create `app/src/main/java/.../widget/PhoenixWidgetWorker.kt`:
 ```kotlin
-package com.benyaminrasouli.phoniexprotocol.widget
+package com.benyaminrasouli.phoenixprotocol.widget
 
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName

@@ -15,7 +15,7 @@
 
 ## Global Constraints
 - Min SDK 24, Target SDK 36, Compile SDK 36
-- Package: `com.benyaminrasouli.phoniexprotocol`
+- Package: `com.benyaminrasouli.phoenixprotocol`
 - Dark theme only (#0D0D0D base, #FF6B35 accent)
 - Bilingual: English default, Persian (RTL) from day one
 - All Room entities use Long auto-increment PKs
@@ -32,7 +32,7 @@
 - Modify: `gradle/libs.versions.toml`
 - Modify: `build.gradle.kts` (root)
 - Modify: `app/build.gradle.kts`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/PhoenixApp.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/PhoenixApp.kt`
 - Modify: `app/src/main/AndroidManifest.xml`
 
 **Interfaces:**
@@ -104,7 +104,7 @@ plugins {
 }
 
 android {
-    namespace = "com.benyaminrasouli.phoniexprotocol"
+    namespace = "com.benyaminrasouli.phoenixprotocol"
     compileSdk {
         version = release(36) {
             minorApiLevel = 1
@@ -112,7 +112,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.benyaminrasouli.phoniexprotocol"
+        applicationId = "com.benyaminrasouli.phoenixprotocol"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
@@ -189,7 +189,7 @@ dependencies {
 
 ```kotlin
 // PhoenixApp.kt
-package com.benyaminrasouli.phoniexprotocol
+package com.benyaminrasouli.phoenixprotocol
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
@@ -214,12 +214,12 @@ class PhoenixApp : Application()
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.PhoniexProtocol">
+        android:theme="@style/Theme.phoenixprotocol">
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.PhoniexProtocol">
+            android:theme="@style/Theme.phoenixprotocol">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -248,13 +248,13 @@ git commit -m "feat: foundation setup - dependencies, Hilt, Application class"
 **Covers:** [S12]
 
 **Files:**
-- Replace: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/ui/theme/Color.kt`
-- Replace: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/ui/theme/Theme.kt`
-- Replace: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/ui/theme/Type.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/ui/theme/Shape.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/ui/components/PhoenixButton.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/ui/components/PhoenixCard.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/ui/components/EnergyBar.kt`
+- Replace: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/ui/theme/Color.kt`
+- Replace: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/ui/theme/Theme.kt`
+- Replace: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/ui/theme/Type.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/ui/theme/Shape.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/ui/components/PhoenixButton.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/ui/components/PhoenixCard.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/ui/components/EnergyBar.kt`
 
 **Interfaces:**
 - Consumes: Task 1 (Hilt, Compose dependencies available)
@@ -264,7 +264,7 @@ git commit -m "feat: foundation setup - dependencies, Hilt, Application class"
 
 ```kotlin
 // ui/theme/Color.kt
-package com.benyaminrasouli.phoniexprotocol.ui.theme
+package com.benyaminrasouli.phoenixprotocol.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
@@ -322,7 +322,7 @@ val PhoenixOnErrorContainer = Color(0xFFFFDAD6)
 
 ```kotlin
 // ui/theme/Theme.kt
-package com.benyaminrasouli.phoniexprotocol.ui.theme
+package com.benyaminrasouli.phoenixprotocol.ui.theme
 
 import android.app.Activity
 import androidx.compose.material3.MaterialTheme
@@ -385,7 +385,7 @@ fun PhoenixProtocolTheme(content: @Composable () -> Unit) {
 
 ```kotlin
 // ui/theme/Type.kt
-package com.benyaminrasouli.phoniexprotocol.ui.theme
+package com.benyaminrasouli.phoenixprotocol.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
@@ -470,7 +470,7 @@ val PhoenixTypography = Typography(
 
 ```kotlin
 // ui/theme/Shape.kt
-package com.benyaminrasouli.phoniexprotocol.ui.theme
+package com.benyaminrasouli.phoenixprotocol.ui.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Shapes
@@ -488,7 +488,7 @@ val PhoenixShapes = Shapes(
 
 ```kotlin
 // core/ui/components/PhoenixButton.kt
-package com.benyaminrasouli.phoniexprotocol.core.ui.components
+package com.benyaminrasouli.phoenixprotocol.core.ui.components
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -499,7 +499,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.benyaminrasouli.phoniexprotocol.ui.theme.PhoenixOrange
+import com.benyaminrasouli.phoenixprotocol.ui.theme.PhoenixOrange
 
 @Composable
 fun PhoenixButton(
@@ -528,7 +528,7 @@ fun PhoenixButton(
 
 ```kotlin
 // core/ui/components/PhoenixCard.kt
-package com.benyaminrasouli.phoniexprotocol.core.ui.components
+package com.benyaminrasouli.phoenixprotocol.core.ui.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -540,7 +540,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.benyaminrasouli.phoniexprotocol.ui.theme.SurfaceDark
+import com.benyaminrasouli.phoenixprotocol.ui.theme.SurfaceDark
 
 @Composable
 fun PhoenixCard(
@@ -564,7 +564,7 @@ fun PhoenixCard(
 
 ```kotlin
 // core/ui/components/EnergyBar.kt
-package com.benyaminrasouli.phoniexprotocol.core.ui.components
+package com.benyaminrasouli.phoenixprotocol.core.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -575,10 +575,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import com.benyaminrasouli.phoniexprotocol.ui.theme.EnergyGreen
-import com.benyaminrasouli.phoniexprotocol.ui.theme.EnergyRed
-import com.benyaminrasouli.phoniexprotocol.ui.theme.EnergyYellow
-import com.benyaminrasouli.phoniexprotocol.ui.theme.SurfaceVariantDark
+import com.benyaminrasouli.phoenixprotocol.ui.theme.EnergyGreen
+import com.benyaminrasouli.phoenixprotocol.ui.theme.EnergyRed
+import com.benyaminrasouli.phoenixprotocol.ui.theme.EnergyYellow
+import com.benyaminrasouli.phoenixprotocol.ui.theme.SurfaceVariantDark
 
 @Composable
 fun EnergyBar(
@@ -613,13 +613,13 @@ fun EnergyBar(
 
 ```kotlin
 // MainActivity.kt
-package com.benyaminrasouli.phoniexprotocol
+package com.benyaminrasouli.phoenixprotocol
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.benyaminrasouli.phoniexprotocol.ui.theme.PhoenixProtocolTheme
+import com.benyaminrasouli.phoenixprotocol.ui.theme.PhoenixProtocolTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -655,12 +655,12 @@ git commit -m "feat: Phoenix dark theme, design tokens, shared components"
 **Covers:** [S8, S13]
 
 **Files:**
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/domain/model/IdentityPath.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/domain/model/Difficulty.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/domain/model/TaskRecurrence.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/domain/model/TaskStatus.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/domain/model/Rank.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/domain/model/Slogan.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/domain/model/IdentityPath.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/domain/model/Difficulty.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/domain/model/TaskRecurrence.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/domain/model/TaskStatus.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/domain/model/Rank.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/domain/model/Slogan.kt`
 
 **Interfaces:**
 - Consumes: Task 2 (theme)
@@ -670,7 +670,7 @@ git commit -m "feat: Phoenix dark theme, design tokens, shared components"
 
 ```kotlin
 // core/domain/model/IdentityPath.kt
-package com.benyaminrasouli.phoniexprotocol.core.domain.model
+package com.benyaminrasouli.phoenixprotocol.core.domain.model
 
 enum class IdentityPath {
     WARRIOR,
@@ -688,7 +688,7 @@ enum class IdentityPath {
 
 ```kotlin
 // core/domain/model/Difficulty.kt
-package com.benyaminrasouli.phoniexprotocol.core.domain.model
+package com.benyaminrasouli.phoenixprotocol.core.domain.model
 
 enum class Difficulty(val xpValue: Int) {
     EASY(10),
@@ -702,7 +702,7 @@ enum class Difficulty(val xpValue: Int) {
 
 ```kotlin
 // core/domain/model/TaskRecurrence.kt
-package com.benyaminrasouli.phoniexprotocol.core.domain.model
+package com.benyaminrasouli.phoenixprotocol.core.domain.model
 
 enum class TaskRecurrence {
     NONE,
@@ -716,7 +716,7 @@ enum class TaskRecurrence {
 
 ```kotlin
 // core/domain/model/TaskStatus.kt
-package com.benyaminrasouli.phoniexprotocol.core.domain.model
+package com.benyaminrasouli.phoenixprotocol.core.domain.model
 
 enum class TaskStatus {
     PENDING,
@@ -730,7 +730,7 @@ enum class TaskStatus {
 
 ```kotlin
 // core/domain/model/Rank.kt
-package com.benyaminrasouli.phoniexprotocol.core.domain.model
+package com.benyaminrasouli.phoenixprotocol.core.domain.model
 
 enum class Rank(val displayName: String, val levelRequired: Int) {
     INITIATE("Initiate", 1),
@@ -756,7 +756,7 @@ enum class Rank(val displayName: String, val levelRequired: Int) {
 
 ```kotlin
 // core/domain/model/Slogan.kt
-package com.benyaminrasouli.phoniexprotocol.core.domain.model
+package com.benyaminrasouli.phoenixprotocol.core.domain.model
 
 object Slogans {
     private val dailySlogans = listOf(
@@ -804,15 +804,15 @@ git commit -m "feat: domain models - IdentityPath, Difficulty, Rank, TaskStatus,
 **Covers:** [S13]
 
 **Files:**
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/data/db/entity/UserProfile.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/data/db/entity/Task.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/data/db/entity/UserStats.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/data/db/dao/UserProfileDao.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/data/db/dao/TaskDao.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/data/db/dao/UserStatsDao.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/data/db/converter/Converters.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/data/db/PhoenixDatabase.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/data/datastore/SettingsDataStore.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/data/db/entity/UserProfile.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/data/db/entity/Task.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/data/db/entity/UserStats.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/data/db/dao/UserProfileDao.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/data/db/dao/TaskDao.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/data/db/dao/UserStatsDao.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/data/db/converter/Converters.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/data/db/PhoenixDatabase.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/data/datastore/SettingsDataStore.kt`
 
 **Interfaces:**
 - Consumes: Task 3 (domain models)
@@ -822,7 +822,7 @@ git commit -m "feat: domain models - IdentityPath, Difficulty, Rank, TaskStatus,
 
 ```kotlin
 // core/data/db/entity/UserProfile.kt
-package com.benyaminrasouli.phoniexprotocol.core.data.db.entity
+package com.benyaminrasouli.phoenixprotocol.core.data.db.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -843,7 +843,7 @@ data class UserProfile(
 
 ```kotlin
 // core/data/db/entity/Task.kt
-package com.benyaminrasouli.phoniexprotocol.core.data.db.entity
+package com.benyaminrasouli.phoenixprotocol.core.data.db.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -868,7 +868,7 @@ data class Task(
 
 ```kotlin
 // core/data/db/entity/UserStats.kt
-package com.benyaminrasouli.phoniexprotocol.core.data.db.entity
+package com.benyaminrasouli.phoenixprotocol.core.data.db.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -893,13 +893,13 @@ data class UserStats(
 
 ```kotlin
 // core/data/db/dao/UserProfileDao.kt
-package com.benyaminrasouli.phoniexprotocol.core.data.db.dao
+package com.benyaminrasouli.phoenixprotocol.core.data.db.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.UserProfile
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.UserProfile
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -917,7 +917,7 @@ interface UserProfileDao {
 
 ```kotlin
 // core/data/db/dao/TaskDao.kt
-package com.benyaminrasouli.phoniexprotocol.core.data.db.dao
+package com.benyaminrasouli.phoenixprotocol.core.data.db.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
@@ -925,7 +925,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.Task
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.Task
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -958,14 +958,14 @@ interface TaskDao {
 
 ```kotlin
 // core/data/db/dao/UserStatsDao.kt
-package com.benyaminrasouli.phoniexprotocol.core.data.db.dao
+package com.benyaminrasouli.phoenixprotocol.core.data.db.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.UserStats
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.UserStats
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -988,16 +988,16 @@ interface UserStatsDao {
 
 ```kotlin
 // core/data/db/PhoenixDatabase.kt
-package com.benyaminrasouli.phoniexprotocol.core.data.db
+package com.benyaminrasouli.phoenixprotocol.core.data.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.TaskDao
-import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.UserProfileDao
-import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.UserStatsDao
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.Task
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.UserProfile
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.UserStats
+import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.TaskDao
+import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.UserProfileDao
+import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.UserStatsDao
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.Task
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.UserProfile
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.UserStats
 
 @Database(
     entities = [UserProfile::class, Task::class, UserStats::class],
@@ -1015,7 +1015,7 @@ abstract class PhoenixDatabase : RoomDatabase() {
 
 ```kotlin
 // core/data/datastore/SettingsDataStore.kt
-package com.benyaminrasouli.phoniexprotocol.core.data.datastore
+package com.benyaminrasouli.phoenixprotocol.core.data.datastore
 
 import android.content.Context
 import androidx.datastore.core.DataStore
@@ -1079,14 +1079,14 @@ class SettingsDataStore @Inject constructor(
 
 ```kotlin
 // di/DatabaseModule.kt
-package com.benyaminrasouli.phoniexprotocol.di
+package com.benyaminrasouli.phoenixprotocol.di
 
 import android.content.Context
 import androidx.room.Room
-import com.benyaminrasouli.phoniexprotocol.core.data.db.PhoenixDatabase
-import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.TaskDao
-import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.UserProfileDao
-import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.UserStatsDao
+import com.benyaminrasouli.phoenixprotocol.core.data.db.PhoenixDatabase
+import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.TaskDao
+import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.UserProfileDao
+import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.UserStatsDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -1138,20 +1138,20 @@ git commit -m "feat: data layer - Room entities, DAOs, database, DataStore, DI m
 **Covers:** [S3, S7, S8]
 
 **Files:**
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/domain/repository/UserRepository.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/domain/repository/TaskRepository.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/domain/repository/StatsRepository.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/data/repository/UserRepositoryImpl.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/data/repository/TaskRepositoryImpl.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/data/repository/StatsRepositoryImpl.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/domain/usecase/CreateProfileUseCase.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/domain/usecase/GetProfileUseCase.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/domain/usecase/CreateTaskUseCase.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/domain/usecase/CompleteTaskUseCase.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/domain/usecase/GetTasksUseCase.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/domain/usecase/GetStatsUseCase.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/domain/usecase/GetSloganUseCase.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/di/AppModule.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/domain/repository/UserRepository.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/domain/repository/TaskRepository.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/domain/repository/StatsRepository.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/data/repository/UserRepositoryImpl.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/data/repository/TaskRepositoryImpl.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/data/repository/StatsRepositoryImpl.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/domain/usecase/CreateProfileUseCase.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/domain/usecase/GetProfileUseCase.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/domain/usecase/CreateTaskUseCase.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/domain/usecase/CompleteTaskUseCase.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/domain/usecase/GetTasksUseCase.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/domain/usecase/GetStatsUseCase.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/domain/usecase/GetSloganUseCase.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/di/AppModule.kt`
 
 **Interfaces:**
 - Consumes: Task 4 (entities, DAOs, DataStore)
@@ -1161,9 +1161,9 @@ git commit -m "feat: data layer - Room entities, DAOs, database, DataStore, DI m
 
 ```kotlin
 // core/domain/repository/UserRepository.kt
-package com.benyaminrasouli.phoniexprotocol.core.domain.repository
+package com.benyaminrasouli.phoenixprotocol.core.domain.repository
 
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.UserProfile
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.UserProfile
 import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {
@@ -1175,9 +1175,9 @@ interface UserRepository {
 
 ```kotlin
 // core/domain/repository/TaskRepository.kt
-package com.benyaminrasouli.phoniexprotocol.core.domain.repository
+package com.benyaminrasouli.phoenixprotocol.core.domain.repository
 
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.Task
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.Task
 import kotlinx.coroutines.flow.Flow
 
 interface TaskRepository {
@@ -1195,9 +1195,9 @@ interface TaskRepository {
 
 ```kotlin
 // core/domain/repository/StatsRepository.kt
-package com.benyaminrasouli.phoniexprotocol.core.domain.repository
+package com.benyaminrasouli.phoenixprotocol.core.domain.repository
 
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.UserStats
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.UserStats
 import kotlinx.coroutines.flow.Flow
 
 interface StatsRepository {
@@ -1216,11 +1216,11 @@ interface StatsRepository {
 
 ```kotlin
 // core/data/repository/UserRepositoryImpl.kt
-package com.benyaminrasouli.phoniexprotocol.core.data.repository
+package com.benyaminrasouli.phoenixprotocol.core.data.repository
 
-import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.UserProfileDao
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.UserProfile
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.UserRepository
+import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.UserProfileDao
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.UserProfile
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.UserRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -1244,11 +1244,11 @@ class UserRepositoryImpl @Inject constructor(
 
 ```kotlin
 // core/data/repository/TaskRepositoryImpl.kt
-package com.benyaminrasouli.phoniexprotocol.core.data.repository
+package com.benyaminrasouli.phoenixprotocol.core.data.repository
 
-import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.TaskDao
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.Task
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.TaskRepository
+import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.TaskDao
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.Task
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.TaskRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -1296,11 +1296,11 @@ class TaskRepositoryImpl @Inject constructor(
 
 ```kotlin
 // core/data/repository/StatsRepositoryImpl.kt
-package com.benyaminrasouli.phoniexprotocol.core.data.repository
+package com.benyaminrasouli.phoenixprotocol.core.data.repository
 
-import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.UserStatsDao
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.UserStats
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.StatsRepository
+import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.UserStatsDao
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.UserStats
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.StatsRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -1324,7 +1324,7 @@ class StatsRepositoryImpl @Inject constructor(
         val current = dao.getStatsOnce() ?: return
         val newXp = current.xp + amount
         val newLevel = calculateLevel(newXp)
-        val newRank = com.benyaminrasouli.phoniexprotocol.core.domain.model.Rank.forLevel(newLevel)
+        val newRank = com.benyaminrasouli.phoenixprotocol.core.domain.model.Rank.forLevel(newLevel)
         dao.updateStats(current.copy(
             xp = newXp,
             level = newLevel,
@@ -1376,12 +1376,12 @@ class StatsRepositoryImpl @Inject constructor(
 
 ```kotlin
 // core/domain/usecase/CreateProfileUseCase.kt
-package com.benyaminrasouli.phoniexprotocol.core.domain.usecase
+package com.benyaminrasouli.phoenixprotocol.core.domain.usecase
 
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.UserProfile
-import com.benyaminrasouli.phoniexprotocol.core.data.datastore.SettingsDataStore
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.StatsRepository
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.UserRepository
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.UserProfile
+import com.benyaminrasouli.phoenixprotocol.core.data.datastore.SettingsDataStore
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.StatsRepository
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.UserRepository
 import javax.inject.Inject
 
 class CreateProfileUseCase @Inject constructor(
@@ -1399,10 +1399,10 @@ class CreateProfileUseCase @Inject constructor(
 
 ```kotlin
 // core/domain/usecase/GetProfileUseCase.kt
-package com.benyaminrasouli.phoniexprotocol.core.domain.usecase
+package com.benyaminrasouli.phoenixprotocol.core.domain.usecase
 
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.UserProfile
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.UserRepository
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.UserProfile
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.UserRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -1417,10 +1417,10 @@ class GetProfileUseCase @Inject constructor(
 
 ```kotlin
 // core/domain/usecase/CreateTaskUseCase.kt
-package com.benyaminrasouli.phoniexprotocol.core.domain.usecase
+package com.benyaminrasouli.phoenixprotocol.core.domain.usecase
 
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.Task
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.TaskRepository
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.Task
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.TaskRepository
 import javax.inject.Inject
 
 class CreateTaskUseCase @Inject constructor(
@@ -1434,11 +1434,11 @@ class CreateTaskUseCase @Inject constructor(
 
 ```kotlin
 // core/domain/usecase/CompleteTaskUseCase.kt
-package com.benyaminrasouli.phoniexprotocol.core.domain.usecase
+package com.benyaminrasouli.phoenixprotocol.core.domain.usecase
 
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.Task
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.StatsRepository
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.TaskRepository
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.Task
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.StatsRepository
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.TaskRepository
 import javax.inject.Inject
 
 class CompleteTaskUseCase @Inject constructor(
@@ -1456,10 +1456,10 @@ class CompleteTaskUseCase @Inject constructor(
 
 ```kotlin
 // core/domain/usecase/GetTasksUseCase.kt
-package com.benyaminrasouli.phoniexprotocol.core.domain.usecase
+package com.benyaminrasouli.phoenixprotocol.core.domain.usecase
 
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.Task
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.TaskRepository
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.Task
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.TaskRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -1478,10 +1478,10 @@ class GetTasksUseCase @Inject constructor(
 
 ```kotlin
 // core/domain/usecase/GetStatsUseCase.kt
-package com.benyaminrasouli.phoniexprotocol.core.domain.usecase
+package com.benyaminrasouli.phoenixprotocol.core.domain.usecase
 
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.UserStats
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.StatsRepository
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.UserStats
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.StatsRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -1496,10 +1496,10 @@ class GetStatsUseCase @Inject constructor(
 
 ```kotlin
 // core/domain/usecase/GetSloganUseCase.kt
-package com.benyaminrasouli.phoniexprotocol.core.domain.usecase
+package com.benyaminrasouli.phoenixprotocol.core.domain.usecase
 
-import com.benyaminrasouli.phoniexprotocol.core.data.datastore.SettingsDataStore
-import com.benyaminrasouli.phoniexprotocol.core.domain.model.Slogans
+import com.benyaminrasouli.phoenixprotocol.core.data.datastore.SettingsDataStore
+import com.benyaminrasouli.phoenixprotocol.core.domain.model.Slogans
 import javax.inject.Inject
 
 class GetSloganUseCase @Inject constructor(
@@ -1527,14 +1527,14 @@ class GetSloganUseCase @Inject constructor(
 
 ```kotlin
 // di/AppModule.kt
-package com.benyaminrasouli.phoniexprotocol.di
+package com.benyaminrasouli.phoenixprotocol.di
 
-import com.benyaminrasouli.phoniexprotocol.core.data.repository.StatsRepositoryImpl
-import com.benyaminrasouli.phoniexprotocol.core.data.repository.TaskRepositoryImpl
-import com.benyaminrasouli.phoniexprotocol.core.data.repository.UserRepositoryImpl
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.StatsRepository
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.TaskRepository
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.UserRepository
+import com.benyaminrasouli.phoenixprotocol.core.data.repository.StatsRepositoryImpl
+import com.benyaminrasouli.phoenixprotocol.core.data.repository.TaskRepositoryImpl
+import com.benyaminrasouli.phoenixprotocol.core.data.repository.UserRepositoryImpl
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.StatsRepository
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.TaskRepository
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.UserRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -1578,9 +1578,9 @@ git commit -m "feat: repository layer, use cases, DI bindings"
 **Covers:** [S3, S4, S5, S6, S9]
 
 **Files:**
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/navigation/Screen.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/core/navigation/NavGraph.kt`
-- Modify: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/MainActivity.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/navigation/Screen.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/core/navigation/NavGraph.kt`
+- Modify: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/MainActivity.kt`
 
 **Interfaces:**
 - Consumes: Task 2 (theme), Task 5 (use cases for routing logic)
@@ -1590,7 +1590,7 @@ git commit -m "feat: repository layer, use cases, DI bindings"
 
 ```kotlin
 // core/navigation/Screen.kt
-package com.benyaminrasouli.phoniexprotocol.core.navigation
+package com.benyaminrasouli.phoenixprotocol.core.navigation
 
 sealed class Screen(val route: String) {
     data object Splash : Screen("splash")
@@ -1609,15 +1609,15 @@ sealed class Screen(val route: String) {
 
 ```kotlin
 // core/navigation/NavGraph.kt
-package com.benyaminrasouli.phoniexprotocol.core.navigation
+package com.benyaminrasouli.phoenixprotocol.core.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.benyaminrasouli.phoniexprotocol.feature.splash.SplashScreen
-import com.benyaminrasouli.phoniexprotocol.feature.onboarding.OnboardingScreen
-import com.benyaminrasouli.phoniexprotocol.feature.dashboard.DashboardScreen
+import com.benyaminrasouli.phoenixprotocol.feature.splash.SplashScreen
+import com.benyaminrasouli.phoenixprotocol.feature.onboarding.OnboardingScreen
+import com.benyaminrasouli.phoenixprotocol.feature.dashboard.DashboardScreen
 
 @Composable
 fun NavGraph(navController: NavHostController) {
@@ -1642,15 +1642,15 @@ fun NavGraph(navController: NavHostController) {
 
 ```kotlin
 // MainActivity.kt
-package com.benyaminrasouli.phoniexprotocol
+package com.benyaminrasouli.phoenixprotocol
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.navigation.compose.rememberNavController
-import com.benyaminrasouli.phoniexprotocol.core.navigation.NavGraph
-import com.benyaminrasouli.phoniexprotocol.ui.theme.PhoenixProtocolTheme
+import com.benyaminrasouli.phoenixprotocol.core.navigation.NavGraph
+import com.benyaminrasouli.phoenixprotocol.ui.theme.PhoenixProtocolTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -1687,8 +1687,8 @@ git commit -m "feat: navigation setup - routes, NavGraph, MainActivity wiring"
 **Covers:** [S4]
 
 **Files:**
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/feature/splash/SplashViewModel.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/feature/splash/SplashScreen.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/feature/splash/SplashViewModel.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/feature/splash/SplashScreen.kt`
 
 **Interfaces:**
 - Consumes: Task 5 (SettingsDataStore via ViewModel), Task 6 (Screen routes)
@@ -1698,10 +1698,10 @@ git commit -m "feat: navigation setup - routes, NavGraph, MainActivity wiring"
 
 ```kotlin
 // feature/splash/SplashViewModel.kt
-package com.benyaminrasouli.phoniexprotocol.feature.splash
+package com.benyaminrasouli.phoenixprotocol.feature.splash
 
 import androidx.lifecycle.ViewModel
-import com.benyaminrasouli.phoniexprotocol.core.data.datastore.SettingsDataStore
+import com.benyaminrasouli.phoenixprotocol.core.data.datastore.SettingsDataStore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
@@ -1721,7 +1721,7 @@ class SplashViewModel @Inject constructor(
 
 ```kotlin
 // feature/splash/SplashScreen.kt
-package com.benyaminrasouli.phoniexprotocol.feature.splash
+package com.benyaminrasouli.phoenixprotocol.feature.splash
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
@@ -1745,10 +1745,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.benyaminrasouli.phoniexprotocol.core.navigation.Screen
-import com.benyaminrasouli.phoniexprotocol.ui.theme.BackgroundDark
-import com.benyaminrasouli.phoniexprotocol.ui.theme.PhoenixOrange
-import com.benyaminrasouli.phoniexprotocol.ui.theme.PhoenixRed
+import com.benyaminrasouli.phoenixprotocol.core.navigation.Screen
+import com.benyaminrasouli.phoenixprotocol.ui.theme.BackgroundDark
+import com.benyaminrasouli.phoenixprotocol.ui.theme.PhoenixOrange
+import com.benyaminrasouli.phoenixprotocol.ui.theme.PhoenixRed
 import kotlinx.coroutines.delay
 
 @Composable
@@ -1824,12 +1824,12 @@ git commit -m "feat: splash screen with Phoenix animation and first-run routing"
 **Covers:** [S5]
 
 **Files:**
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/feature/onboarding/OnboardingViewModel.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/feature/onboarding/OnboardingScreen.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/feature/onboarding/LanguageStep.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/feature/onboarding/ProfileStep.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/feature/onboarding/IdentityStep.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/feature/onboarding/ReviewStep.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/feature/onboarding/OnboardingViewModel.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/feature/onboarding/OnboardingScreen.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/feature/onboarding/LanguageStep.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/feature/onboarding/ProfileStep.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/feature/onboarding/IdentityStep.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/feature/onboarding/ReviewStep.kt`
 
 **Interfaces:**
 - Consumes: Task 5 (CreateProfileUseCase, SettingsDataStore), Task 3 (IdentityPath)
@@ -1839,13 +1839,13 @@ git commit -m "feat: splash screen with Phoenix animation and first-run routing"
 
 ```kotlin
 // feature/onboarding/OnboardingViewModel.kt
-package com.benyaminrasouli.phoniexprotocol.feature.onboarding
+package com.benyaminrasouli.phoenixprotocol.feature.onboarding
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.benyaminrasouli.phoniexprotocol.core.data.datastore.SettingsDataStore
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.UserProfile
-import com.benyaminrasouli.phoniexprotocol.core.domain.usecase.CreateProfileUseCase
+import com.benyaminrasouli.phoenixprotocol.core.data.datastore.SettingsDataStore
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.UserProfile
+import com.benyaminrasouli.phoenixprotocol.core.domain.usecase.CreateProfileUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -1928,7 +1928,7 @@ class OnboardingViewModel @Inject constructor(
 
 ```kotlin
 // feature/onboarding/LanguageStep.kt
-package com.benyaminrasouli.phoniexprotocol.feature.onboarding
+package com.benyaminrasouli.phoenixprotocol.feature.onboarding
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
@@ -1946,9 +1946,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.benyaminrasouli.phoniexprotocol.ui.theme.PhoenixOrange
-import com.benyaminrasouli.phoniexprotocol.ui.theme.SurfaceDark
-import com.benyaminrasouli.phoniexprotocol.ui.theme.TextSecondary
+import com.benyaminrasouli.phoenixprotocol.ui.theme.PhoenixOrange
+import com.benyaminrasouli.phoenixprotocol.ui.theme.SurfaceDark
+import com.benyaminrasouli.phoenixprotocol.ui.theme.TextSecondary
 
 @Composable
 fun LanguageStep(
@@ -2025,7 +2025,7 @@ private fun LanguageOption(
 
 ```kotlin
 // feature/onboarding/ProfileStep.kt
-package com.benyaminrasouli.phoniexprotocol.feature.onboarding
+package com.benyaminrasouli.phoenixprotocol.feature.onboarding
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -2041,9 +2041,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import com.benyaminrasouli.phoniexprotocol.ui.theme.PhoenixOrange
-import com.benyaminrasouli.phoniexprotocol.ui.theme.SurfaceDark
-import com.benyaminrasouli.phoniexprotocol.ui.theme.TextSecondary
+import com.benyaminrasouli.phoenixprotocol.ui.theme.PhoenixOrange
+import com.benyaminrasouli.phoenixprotocol.ui.theme.SurfaceDark
+import com.benyaminrasouli.phoenixprotocol.ui.theme.TextSecondary
 
 @Composable
 fun ProfileStep(
@@ -2128,7 +2128,7 @@ fun ProfileStep(
 
 ```kotlin
 // feature/onboarding/IdentityStep.kt
-package com.benyaminrasouli.phoniexprotocol.feature.onboarding
+package com.benyaminrasouli.phoenixprotocol.feature.onboarding
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
@@ -2147,10 +2147,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.benyaminrasouli.phoniexprotocol.core.domain.model.IdentityPath
-import com.benyaminrasouli.phoniexprotocol.ui.theme.PhoenixOrange
-import com.benyaminrasouli.phoniexprotocol.ui.theme.SurfaceDark
-import com.benyaminrasouli.phoniexprotocol.ui.theme.TextSecondary
+import com.benyaminrasouli.phoenixprotocol.core.domain.model.IdentityPath
+import com.benyaminrasouli.phoenixprotocol.ui.theme.PhoenixOrange
+import com.benyaminrasouli.phoenixprotocol.ui.theme.SurfaceDark
+import com.benyaminrasouli.phoenixprotocol.ui.theme.TextSecondary
 
 data class IdentityOption(
     val path: IdentityPath,
@@ -2249,7 +2249,7 @@ private fun IdentityCard(
 
 ```kotlin
 // feature/onboarding/ReviewStep.kt
-package com.benyaminrasouli.phoniexprotocol.feature.onboarding
+package com.benyaminrasouli.phoenixprotocol.feature.onboarding
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -2262,8 +2262,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.benyaminrasouli.phoniexprotocol.ui.theme.PhoenixOrange
-import com.benyaminrasouli.phoniexprotocol.ui.theme.TextSecondary
+import com.benyaminrasouli.phoenixprotocol.ui.theme.PhoenixOrange
+import com.benyaminrasouli.phoenixprotocol.ui.theme.TextSecondary
 
 @Composable
 fun ReviewStep(
@@ -2328,7 +2328,7 @@ private fun ReviewRow(label: String, value: String) {
 
 ```kotlin
 // feature/onboarding/OnboardingScreen.kt
-package com.benyaminrasouli.phoniexprotocol.feature.onboarding
+package com.benyaminrasouli.phoenixprotocol.feature.onboarding
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.slideInHorizontally
@@ -2352,9 +2352,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.benyaminrasouli.phoniexprotocol.core.navigation.Screen
-import com.benyaminrasouli.phoniexprotocol.core.ui.components.PhoenixButton
-import com.benyaminrasouli.phoniexprotocol.ui.theme.BackgroundDark
+import com.benyaminrasouli.phoenixprotocol.core.navigation.Screen
+import com.benyaminrasouli.phoenixprotocol.core.ui.components.PhoenixButton
+import com.benyaminrasouli.phoenixprotocol.ui.theme.BackgroundDark
 
 @Composable
 fun OnboardingScreen(
@@ -2499,11 +2499,11 @@ git commit -m "feat: onboarding flow - language, profile, identity, review steps
 **Covers:** [S6, S8]
 
 **Files:**
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/feature/dashboard/DashboardViewModel.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/feature/dashboard/DashboardScreen.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/feature/dashboard/StatusCard.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/feature/dashboard/TaskListSection.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/feature/dashboard/SloganBar.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/feature/dashboard/DashboardViewModel.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/feature/dashboard/DashboardScreen.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/feature/dashboard/StatusCard.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/feature/dashboard/TaskListSection.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/feature/dashboard/SloganBar.kt`
 
 **Interfaces:**
 - Consumes: Task 5 (GetStatsUseCase, GetTasksUseCase, GetSloganUseCase, GetProfileUseCase)
@@ -2513,19 +2513,19 @@ git commit -m "feat: onboarding flow - language, profile, identity, review steps
 
 ```kotlin
 // feature/dashboard/DashboardViewModel.kt
-package com.benyaminrasouli.phoniexprotocol.feature.dashboard
+package com.benyaminrasouli.phoenixprotocol.feature.dashboard
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.Task
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.UserProfile
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.UserStats
-import com.benyaminrasouli.phoniexprotocol.core.domain.model.Rank
-import com.benyaminrasouli.phoniexprotocol.core.domain.usecase.CompleteTaskUseCase
-import com.benyaminrasouli.phoniexprotocol.core.domain.usecase.GetProfileUseCase
-import com.benyaminrasouli.phoniexprotocol.core.domain.usecase.GetStatsUseCase
-import com.benyaminrasouli.phoniexprotocol.core.domain.usecase.GetSloganUseCase
-import com.benyaminrasouli.phoniexprotocol.core.domain.usecase.GetTasksUseCase
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.Task
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.UserProfile
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.UserStats
+import com.benyaminrasouli.phoenixprotocol.core.domain.model.Rank
+import com.benyaminrasouli.phoenixprotocol.core.domain.usecase.CompleteTaskUseCase
+import com.benyaminrasouli.phoenixprotocol.core.domain.usecase.GetProfileUseCase
+import com.benyaminrasouli.phoenixprotocol.core.domain.usecase.GetStatsUseCase
+import com.benyaminrasouli.phoenixprotocol.core.domain.usecase.GetSloganUseCase
+import com.benyaminrasouli.phoenixprotocol.core.domain.usecase.GetTasksUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -2595,7 +2595,7 @@ class DashboardViewModel @Inject constructor(
 
 ```kotlin
 // feature/dashboard/SloganBar.kt
-package com.benyaminrasouli.phoniexprotocol.feature.dashboard
+package com.benyaminrasouli.phoenixprotocol.feature.dashboard
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -2605,8 +2605,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.benyaminrasouli.phoniexprotocol.ui.theme.PhoenixOrange
-import com.benyaminrasouli.phoniexprotocol.ui.theme.TextSecondary
+import com.benyaminrasouli.phoenixprotocol.ui.theme.PhoenixOrange
+import com.benyaminrasouli.phoenixprotocol.ui.theme.TextSecondary
 
 @Composable
 fun SloganBar(slogan: String, modifier: Modifier = Modifier) {
@@ -2626,7 +2626,7 @@ fun SloganBar(slogan: String, modifier: Modifier = Modifier) {
 
 ```kotlin
 // feature/dashboard/StatusCard.kt
-package com.benyaminrasouli.phoniexprotocol.feature.dashboard
+package com.benyaminrasouli.phoenixprotocol.feature.dashboard
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -2641,11 +2641,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.benyaminrasouli.phoniexprotocol.core.ui.components.EnergyBar
-import com.benyaminrasouli.phoniexprotocol.core.ui.components.PhoenixCard
-import com.benyaminrasouli.phoniexprotocol.ui.theme.PhoenixGold
-import com.benyaminrasouli.phoniexprotocol.ui.theme.PhoenixOrange
-import com.benyaminrasouli.phoniexprotocol.ui.theme.TextSecondary
+import com.benyaminrasouli.phoenixprotocol.core.ui.components.EnergyBar
+import com.benyaminrasouli.phoenixprotocol.core.ui.components.PhoenixCard
+import com.benyaminrasouli.phoenixprotocol.ui.theme.PhoenixGold
+import com.benyaminrasouli.phoenixprotocol.ui.theme.PhoenixOrange
+import com.benyaminrasouli.phoenixprotocol.ui.theme.TextSecondary
 
 @Composable
 fun StatusCard(
@@ -2712,7 +2712,7 @@ fun StatusCard(
 
 ```kotlin
 // feature/dashboard/TaskListSection.kt
-package com.benyaminrasouli.phoniexprotocol.feature.dashboard
+package com.benyaminrasouli.phoenixprotocol.feature.dashboard
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -2732,10 +2732,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.Task
-import com.benyaminrasouli.phoniexprotocol.ui.theme.PhoenixOrange
-import com.benyaminrasouli.phoniexprotocol.ui.theme.PhoenixRed
-import com.benyaminrasouli.phoniexprotocol.ui.theme.TextSecondary
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.Task
+import com.benyaminrasouli.phoenixprotocol.ui.theme.PhoenixOrange
+import com.benyaminrasouli.phoenixprotocol.ui.theme.PhoenixRed
+import com.benyaminrasouli.phoenixprotocol.ui.theme.TextSecondary
 
 @Composable
 fun TaskListSection(
@@ -2807,7 +2807,7 @@ private fun TaskItem(
 
 ```kotlin
 // feature/dashboard/DashboardScreen.kt
-package com.benyaminrasouli.phoniexprotocol.feature.dashboard
+package com.benyaminrasouli.phoenixprotocol.feature.dashboard
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -2829,9 +2829,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.benyaminrasouli.phoniexprotocol.ui.theme.BackgroundDark
-import com.benyaminrasouli.phoniexprotocol.ui.theme.PhoenixOrange
-import com.benyaminrasouli.phoniexprotocol.ui.theme.TextSecondary
+import com.benyaminrasouli.phoenixprotocol.ui.theme.BackgroundDark
+import com.benyaminrasouli.phoenixprotocol.ui.theme.PhoenixOrange
+import com.benyaminrasouli.phoenixprotocol.ui.theme.TextSecondary
 
 @Composable
 fun DashboardScreen(
@@ -2934,8 +2934,8 @@ git commit -m "feat: dashboard - status card, task lists, slogan bar"
 **Covers:** [S9, S10]
 
 **Files:**
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/feature/drawer/DrawerScreen.kt`
-- Create: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/feature/drawer/DrawerViewModel.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/feature/drawer/DrawerScreen.kt`
+- Create: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/feature/drawer/DrawerViewModel.kt`
 
 **Interfaces:**
 - Consumes: Task 5 (GetProfileUseCase, GetStatsUseCase), Task 9 (DashboardScreen)
@@ -2945,14 +2945,14 @@ git commit -m "feat: dashboard - status card, task lists, slogan bar"
 
 ```kotlin
 // feature/drawer/DrawerViewModel.kt
-package com.benyaminrasouli.phoniexprotocol.feature.drawer
+package com.benyaminrasouli.phoenixprotocol.feature.drawer
 
 import androidx.lifecycle.ViewModel
-import com.benyaminrasouli.phoniexprotocol.core.data.datastore.SettingsDataStore
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.UserProfile
-import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.UserStats
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.UserRepository
-import com.benyaminrasouli.phoniexprotocol.core.domain.repository.StatsRepository
+import com.benyaminrasouli.phoenixprotocol.core.data.datastore.SettingsDataStore
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.UserProfile
+import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.UserStats
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.UserRepository
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.StatsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -2979,7 +2979,7 @@ class DrawerViewModel @Inject constructor(
 
 ```kotlin
 // feature/drawer/DrawerScreen.kt
-package com.benyaminrasouli.phoniexprotocol.feature.drawer
+package com.benyaminrasouli.phoenixprotocol.feature.drawer
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -3012,11 +3012,11 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.benyaminrasouli.phoniexprotocol.ui.theme.BackgroundDark
-import com.benyaminrasouli.phoniexprotocol.ui.theme.PhoenixOrange
-import com.benyaminrasouli.phoniexprotocol.ui.theme.PhoenixRed
-import com.benyaminrasouli.phoniexprotocol.ui.theme.SurfaceDark
-import com.benyaminrasouli.phoniexprotocol.ui.theme.TextSecondary
+import com.benyaminrasouli.phoenixprotocol.ui.theme.BackgroundDark
+import com.benyaminrasouli.phoenixprotocol.ui.theme.PhoenixOrange
+import com.benyaminrasouli.phoenixprotocol.ui.theme.PhoenixRed
+import com.benyaminrasouli.phoenixprotocol.ui.theme.SurfaceDark
+import com.benyaminrasouli.phoenixprotocol.ui.theme.TextSecondary
 
 @Composable
 fun DrawerScreen(
@@ -3457,8 +3457,8 @@ git commit -m "feat: bilingual localization - English and Persian strings"
 **Covers:** [S16, S17]
 
 **Files:**
-- Modify: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/feature/splash/SplashScreen.kt`
-- Modify: `app/src/main/java/com/benyaminrasouli/phoniexprotocol/feature/dashboard/DashboardScreen.kt`
+- Modify: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/feature/splash/SplashScreen.kt`
+- Modify: `app/src/main/java/com/benyaminrasouli/phoenixprotocol/feature/dashboard/DashboardScreen.kt`
 
 **Interfaces:**
 - Consumes: All previous tasks
