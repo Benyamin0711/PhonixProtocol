@@ -6,6 +6,7 @@ import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.AchievementDao
 import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.BossDao
 import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.CategoryDao
 import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.DailyChallengeDao
+import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.FocusSessionDao
 import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.TaskDao
 import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.TemplateDao
 import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.UserProfileDao
@@ -14,6 +15,7 @@ import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.Achievement
 import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.Boss
 import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.Category
 import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.DailyChallenge
+import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.FocusSession
 import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.Task
 import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.Template
 import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.UserAchievement
@@ -30,9 +32,10 @@ import com.benyaminrasouli.phoniexprotocol.core.data.db.entity.UserStats
         Boss::class,
         DailyChallenge::class,
         Template::class,
-        Category::class
+        Category::class,
+        FocusSession::class
     ],
-    version = 8,
+    version = 9,
     exportSchema = false
 )
 abstract class PhoenixDatabase : RoomDatabase() {
@@ -44,4 +47,5 @@ abstract class PhoenixDatabase : RoomDatabase() {
     abstract fun dailyChallengeDao(): DailyChallengeDao
     abstract fun templateDao(): TemplateDao
     abstract fun categoryDao(): CategoryDao
+    abstract fun focusSessionDao(): FocusSessionDao
 }

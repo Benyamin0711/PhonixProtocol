@@ -10,6 +10,7 @@ import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.AchievementDao
 import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.BossDao
 import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.CategoryDao
 import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.DailyChallengeDao
+import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.FocusSessionDao
 import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.TaskDao
 import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.TemplateDao
 import com.benyaminrasouli.phoniexprotocol.core.data.db.dao.UserProfileDao
@@ -121,6 +122,21 @@ object DatabaseModule {
         }
     }
 
+    private val MIGRATION_8_9 = object : Migration(8, 9) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL(
+                "CREATE TABLE IF NOT EXISTS focus_sessions " +
+                "(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                "taskId INTEGER, " +
+                "startedAt INTEGER NOT NULL, " +
+                "endedAt INTEGER, " +
+                "durationSeconds INTEGER NOT NULL, " +
+                "completed INTEGER NOT NULL DEFAULT 0, " +
+                "mode TEXT NOT NULL DEFAULT 'POMODORO')"
+            )
+        }
+    }
+
     @Provides
     @Singleton
     fun provideDatabase(@ApplicationContext context: Context): PhoenixDatabase {
@@ -129,7 +145,7 @@ object DatabaseModule {
             PhoenixDatabase::class.java,
             "phoenix_database"
         )
-            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8)
+            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9)
             .addCallback(object : RoomDatabase.Callback() {
                 override fun onCreate(db: SupportSQLiteDatabase) {
                     super.onCreate(db)
@@ -189,4 +205,7 @@ object DatabaseModule {
 
     @Provides
     fun provideCategoryDao(db: PhoenixDatabase): CategoryDao = db.categoryDao()
+
+    @Provides
+    fun provideFocusSessionDao(db: PhoenixDatabase): FocusSessionDao = db.focusSessionDao()
 }
