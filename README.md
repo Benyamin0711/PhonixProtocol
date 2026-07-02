@@ -110,7 +110,6 @@ com.benyaminrasouli.phoenixprotocol/
 ```
 
 ---
-
 ## Tech Stack | تکنولوژی‌ها
 
 | Layer / لایه | Technology / تکنولوژی |
@@ -130,7 +129,7 @@ com.benyaminrasouli.phoenixprotocol/
 
 1. Clone the repo / ریپو رو کلون کن
    ```bash
-   git clone https://github.com/BenyaminRasouli/phoenixprotocol.git
+   git clone https://github.com/Benyamin0711/PhoniexProtocol.git
    ```
 
 2. Open in Android Studio (Ladybug or newer) / در Android Studio باز کن (Ladybug یا جدیدتر)
@@ -187,7 +186,7 @@ com.benyaminrasouli.phoenixprotocol/
 
 <div align="center">
 
-**Built with fire by [Benyamin Rasouli](https://github.com/BenyaminRasouli)**
+**Built with fire by [Benyamin Rasouli](https://github.com/Benyamin0711)**
 **ساخته شده با آتش توسط بنیامین رسولی**
 
 *Discipline is the bridge between goals and accomplishment.*
