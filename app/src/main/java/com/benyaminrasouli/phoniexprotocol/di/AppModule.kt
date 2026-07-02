@@ -3,6 +3,7 @@ package com.benyaminrasouli.phoniexprotocol.di
 import com.benyaminrasouli.phoniexprotocol.core.data.repository.AchievementRepositoryImpl
 import com.benyaminrasouli.phoniexprotocol.core.data.repository.BossRepositoryImpl
 import com.benyaminrasouli.phoniexprotocol.core.data.repository.DailyChallengeRepositoryImpl
+import com.benyaminrasouli.phoniexprotocol.core.data.repository.FocusRepositoryImpl
 import com.benyaminrasouli.phoniexprotocol.core.data.repository.StatsRepositoryImpl
 import com.benyaminrasouli.phoniexprotocol.core.data.repository.TaskRepositoryImpl
 import com.benyaminrasouli.phoniexprotocol.core.data.repository.CategoryRepositoryImpl
@@ -12,6 +13,7 @@ import com.benyaminrasouli.phoniexprotocol.core.domain.repository.AchievementRep
 import com.benyaminrasouli.phoniexprotocol.core.domain.repository.CategoryRepository
 import com.benyaminrasouli.phoniexprotocol.core.domain.repository.BossRepository
 import com.benyaminrasouli.phoniexprotocol.core.domain.repository.DailyChallengeRepository
+import com.benyaminrasouli.phoniexprotocol.core.domain.repository.FocusRepository
 import com.benyaminrasouli.phoniexprotocol.core.domain.repository.StatsRepository
 import com.benyaminrasouli.phoniexprotocol.core.domain.repository.TaskRepository
 import com.benyaminrasouli.phoniexprotocol.core.domain.repository.TemplateRepository
@@ -57,4 +59,8 @@ abstract class AppModule {
     @Binds
     @Singleton
     abstract fun bindCategoryRepository(impl: CategoryRepositoryImpl): CategoryRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindFocusRepository(impl: FocusRepositoryImpl): FocusRepository
 }
