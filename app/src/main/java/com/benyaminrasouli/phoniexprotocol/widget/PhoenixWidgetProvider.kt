@@ -8,10 +8,12 @@ import android.content.Intent
 import android.widget.RemoteViews
 import com.benyaminrasouli.phoniexprotocol.MainActivity
 import com.benyaminrasouli.phoniexprotocol.R
+import com.benyaminrasouli.phoniexprotocol.core.data.datastore.SettingsDataStore
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,6 +22,9 @@ class PhoenixWidgetProvider : AppWidgetProvider() {
 
     @Inject
     lateinit var repository: PhoenixWidgetRepository
+
+    @Inject
+    lateinit var settingsDataStore: SettingsDataStore
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
@@ -40,8 +45,11 @@ class PhoenixWidgetProvider : AppWidgetProvider() {
     ) {
         scope.launch {
             try {
-                val data = repository.getWidgetData()
-                val views = RemoteViews(context.packageName, R.layout.widget_phoenix)
+                val theme = settingsDataStore.widgetTheme.first()
+                val categoryId = settingsDataStore.widgetCategoryFilter.first()
+                val data = repository.getWidgetData(categoryId)
+                val layoutRes = if (theme == "LIGHT") R.layout.widget_phoenix_light else R.layout.widget_phoenix
+                val views = RemoteViews(context.packageName, layoutRes)
 
                 views.setTextViewText(R.id.widget_title, context.getString(R.string.widget_title))
                 views.setTextViewText(R.id.widget_energy, context.getString(R.string.widget_energy, data.energy))

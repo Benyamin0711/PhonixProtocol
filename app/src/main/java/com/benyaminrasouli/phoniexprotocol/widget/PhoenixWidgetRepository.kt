@@ -24,16 +24,21 @@ class PhoenixWidgetRepository @Inject constructor(
     private val taskDao: TaskDao,
     private val userStatsDao: UserStatsDao
 ) {
-    suspend fun getWidgetData(): WidgetData {
+    suspend fun getWidgetData(categoryId: Long = -1L): WidgetData {
         val allTasks = taskDao.getAllTasks().first()
+        val filteredTasks = if (categoryId > 0) {
+            allTasks.filter { it.categoryId == categoryId }
+        } else {
+            allTasks
+        }
         val stats = userStatsDao.getStatsOnce()
 
-        val activeTasks = allTasks
+        val activeTasks = filteredTasks
             .filter { it.status != "COMPLETED" && it.status != "SKIPPED" }
             .take(4)
             .map { WidgetTask(title = it.title, isCompleted = false) }
 
-        val completedTasks = allTasks.filter { it.status == "COMPLETED" }
+        val completedTasks = filteredTasks.filter { it.status == "COMPLETED" }
         val todayCompleted = completedTasks.count {
             val today = java.time.LocalDate.now().toString()
             it.completedAt?.let { completedAt ->
@@ -46,7 +51,7 @@ class PhoenixWidgetRepository @Inject constructor(
         return WidgetData(
             activeTasks = activeTasks,
             completedCount = todayCompleted,
-            totalCount = allTasks.size,
+            totalCount = filteredTasks.size,
             energy = stats?.phoenixEnergy ?: 0,
             streak = stats?.currentStreak ?: 0
         )
