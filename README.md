@@ -1,10 +1,12 @@
 <div align="center">
 
-# PHOENIX PROTOCOL
+# PHOENIX PROTOCOL | پروتکل فینیکس
 
 ### Rise from the ashes of procrastination.
+### از خاکستر تنبلی برخیز.
 
 **A gamified productivity app that turns your daily tasks into an epic RPG quest.**
+**یک اپلیکیشن بهره‌وری گیمیفاید که کارهای روزانه‌ات رو تبدیل به یک ماجراجویی حماسی RPG می‌کنه.**
 
 ![Kotlin](https://img.shields.io/badge/Kotlin-2.2-blue?logo=kotlin)
 ![Jetpack Compose](https://img.shields.io/badge/Jetpack%20Compose-Material3-green?logo=android)
@@ -14,165 +16,156 @@
 
 ---
 
-## What is Phoenix Protocol?
+## What is Phoenix Protocol? | پروتکل فینیکس چیه؟
 
-Phoenix Protocol is not your average to-do list. It's a **gamified life system** where every task you complete earns XP, every day you stay consistent builds your streak, and every week a new **Boss** appears that you must defeat through discipline and focus.
+**EN:** Phoenix Protocol is not your average to-do list. It's a **gamified life system** where every task you complete earns XP, every day you stay consistent builds your streak, and every week a new **Boss** appears that you must defeat through discipline and focus. Miss a task? Your **Shadow Level** rises. Recover from failure? You earn an epic achievement. This is productivity as an RPG — designed to keep you motivated through game mechanics that actually work.
 
-Miss a task? Your **Shadow Level** rises. Recover from failure? You earn an epic achievement. This is productivity as an RPG — designed to keep you motivated through game mechanics that actually work.
+**فا:** پروتکل فینیکس یه لیست کار معمولی نیست. یه **سیستم زندگی گیمیفایده** که هر کاری که تکمیل کنی XP می‌گیری، هر روز که پیگیر باشی استریکت بالا میره، و هر هفته یه **باس جدید** ظاهر می‌شه که باید با انضباط و تمرکز شکستش بدی. یه کار رو از دست بدی؟ **سطح شدوت** بالا میره. از شکست برگردی؟ یه اچیومنت حماسی می‌گیری. این بهره‌وری به شکل RPG طراحی شده تا با مکانیک‌های بازی انگیزه‌ات حفظ بشه.
 
 ---
 
-## Core Mechanics
+## Core Mechanics | مکانیک‌های اصلی
 
-### XP & Ranking System
-Complete tasks to earn XP and level up through 10 ranks:
+### XP & Ranking System | سیستم XP و رنکینگ
+**EN:** Complete tasks to earn XP and level up through 10 ranks:
 
-| Rank | Level |
+**فا:** کارها رو تکمیل کن تا XP بگیری و از ۱۰ رنک رد بشی:
+
+| Rank / رنک | Level / سطح |
 |------|-------|
-| Initiate | 1 |
-| Survivor | 5 |
-| Hunter | 10 |
-| Warrior | 15 |
-| Elite | 20 |
-| Commander | 30 |
-| Phantom | 40 |
-| Titan | 50 |
-| Ascendant | 65 |
-| **Phoenix** | **80** |
+| Initiate / آغازگر | 1 |
+| Survivor / بازمانده | 5 |
+| Hunter / شکارچی | 10 |
+| Warrior / جنگجو | 15 |
+| Elite / نخبه | 20 |
+| Commander / فرمانده | 30 |
+| Phantom / شبح | 40 |
+| Titan / تایتان | 50 |
+| Ascendant / صعودکننده | 65 |
+| **Phoenix / فینیکس** | **80** |
 
-### Phoenix Energy
-Your energy bar depletes as you take on tasks and recovers over time. Manage it wisely — burnout is real, even for a phoenix.
+### Phoenix Energy | انرژی فینیکس
+**EN:** Your energy bar depletes as you take on tasks and recovers over time. Manage it wisely — burnout is real, even for a phoenix.
 
-### Shadow Level
-Skip tasks or break your streak? Shadow builds up. High shadow means higher penalties. Break through the darkness to earn the **Shadow Breaker** achievement.
+**فا:** نوار انرژیت با انجام کارها کم میشه و با مرور زمان برمیگرده. عاقلانه مدیریتش کن — فرسودگی واقعیه، حتی برای یه فینیکس.
 
-### Weekly Bosses
-Every week, a new **Boss** spawns with unique goals and a deadline. Defeat it by completing the required tasks before time runs out. Track your boss history and prove you're a true slayer.
+### Shadow Level | سطح شدو
+**EN:** Skip tasks or break your streak? Shadow builds up. High shadow means higher penalties. Break through the darkness to earn the **Shadow Breaker** achievement.
 
-### Daily Challenges
-Three auto-generated challenges every day. Complete them for bonus XP and energy rewards. Consistency is the name of the game.
+**فا:** کارها رو رد کنی یا استریکت رو بشکنی؟ شدو جمع میشه. شدوی بالا یعنی جریمه‌های سنگین‌تر. از تاریکی رد شو تا اچیومنت **شکستن شدو** رو بگیری.
 
-### Focus Timer
-Built-in Pomodoro-style focus timer with session tracking. Stay locked in and earn focus XP.
+### Weekly Bosses | باس‌های هفتگی
+**EN:** Every week, a new **Boss** spawns with unique goals and a deadline. Defeat it by completing the required tasks before time runs out. Track your boss history and prove you're a true slayer.
 
----
+**فا:** هر هفته یه **باس جدید** با اهداف و ضرب‌الأجل منحصربفرد ظاهر میشه. با تکمیل کارهای لازم قبل از اتمام زمان شکستش بده. تاریخچه باس‌هات رو دنبال کن و ثابت کن یه شکست‌دهنده واقعی هستی.
 
-## Features
+### Daily Challenges | چالش‌های روزانه
+**EN:** Three auto-generated challenges every day. Complete them for bonus XP and energy rewards. Consistency is the name of the game.
 
-- **Task Management** — Create tasks with difficulty levels, categories, priorities, and recurrence
-- **Task Templates** — Save and reuse task templates for repetitive workflows
-- **Categories** — Organize tasks into life areas
-- **Achievements** — 15+ achievements across 4 rarity tiers (Common, Rare, Epic, Legendary)
-- **Statistics Dashboard** — Track your XP, streaks, completion rate, and progress
-- **Home Screen Widget** — Glance at your status without opening the app
-- **Onboarding** — Personalized setup with identity path selection
-- **Daily Motivational Slogans** — Rotating quotes to keep you going
-- **Dark Theme** — Full dark mode with Phoenix Orange accent
-- **Multi-language Support** — English and Persian (Farsi)
+**فا:** هر روز سه چالش خودکار. تکمیلشون کن تا XP و انرژی بونوس بگیری. پیگیری کلید موفقیته.
+
+### Focus Timer | تایمر تمرکز
+**EN:** Built-in Pomodoro-style focus timer with session tracking. Stay locked in and earn focus XP.
+
+**فا:** تایمر تمرکز پومودورویی داخلی با ردیابی جلسات. متمرکز بمون و XP تمرکز بگیر.
 
 ---
 
-## Architecture
+## Features | قابلیت‌ها
 
-Built with **Clean Architecture** and **MVVM** pattern:
-
-```
-com.benyaminrasouli.phoniexprotocol/
-├── core/
-│   ├── data/          # Room DB, DAOs, Repositories, DataStore
-│   ├── domain/        # Use cases, domain models
-│   ├── navigation/    # Nav graph & screen routes
-│   ├── notification/  # Notification helpers
-│   ├── service/       # Foreground focus timer service
-│   ├── ui/            # Reusable composables (EnergyBar, PhoenixCard, etc.)
-│   ├── util/          # Locale helpers
-│   └── work/          # WorkManager workers (boss deadlines, energy recovery, etc.)
-├── di/                # Hilt modules (App, Database, Worker)
-├── feature/           # Feature screens (Dashboard, Tasks, Boss, Focus, etc.)
-├── ui/theme/          # Material3 theme, colors, typography
-└── widget/            # Home screen widget
-```
+- **Task Management / مدیریت وظایف** — Create tasks with difficulty levels, categories, priorities, and recurrence
+- **Task Templates / قالب وظایف** — Save and reuse task templates for repetitive workflows
+- **Categories / دسته‌بندی‌ها** — Organize tasks into life areas
+- **Achievements / اچیومنت‌ها** — 15+ achievements across 4 rarity tiers (Common, Rare, Epic, Legendary)
+- **Statistics Dashboard / داشبورد آمار** — Track your XP, streaks, completion rate, and progress
+- **Home Screen Widget / ویجت صفحه اصلی** — Glance at your status without opening the app
+- **Onboarding / ورود به اپ** — Personalized setup with identity path selection
+- **Daily Motivational Slogans / شعارهای انگیزشی روزانه** — Rotating quotes to keep you going
+- **Dark Theme / تم تاریک** — Full dark mode with Phoenix Orange accent
+- **Multi-language Support / پشتیبانی چندزبانه** — English and Persian (Farsi)
 
 ---
 
-## Tech Stack
+## Tech Stack | تکنولوژی‌ها
 
-| Layer | Technology |
+| Layer / لایه | Technology / تکنولوژی |
 |-------|-----------|
 | UI | Jetpack Compose + Material 3 |
 | DI | Hilt |
-| Database | Room (10 entities, 9 DAOs) |
-| Preferences | DataStore |
-| Background | WorkManager |
-| Navigation | Navigation Compose |
-| Serialization | Kotlinx Serialization + Gson |
-| Language | Kotlin |
+| Database / دیتابیس | Room (10 entities, 9 DAOs) |
+| Preferences / تنظیمات | DataStore |
+| Background / پس‌زمینه | WorkManager |
+| Navigation / ناوبری | Navigation Compose |
+| Serialization / سریال‌سازی | Kotlinx Serialization + Gson |
+| Language / زبان | Kotlin |
 
 ---
 
-## Getting Started
+## Getting Started | شروع کار
 
-1. Clone the repo
+1. Clone the repo / ریپو رو کلون کن
    ```bash
    git clone https://github.com/BenyaminRasouli/PhoniexProtocol.git
    ```
 
-2. Open in Android Studio (Ladybug or newer)
+2. Open in Android Studio (Ladybug or newer) / در Android Studio باز کن (Ladybug یا جدیدتر)
 
-3. Sync Gradle and run on an emulator or device (minSdk 24)
+3. Sync Gradle and run / Gradle رو هماهنگ کن و اجرا کن (minSdk 24)
 
 ---
 
-## Screens
+## Screens | صفحات
 
-| Screen | Description |
+| Screen / صفحه | Description / توضیحات |
 |--------|-------------|
-| Splash | App intro with Phoenix branding |
-| Onboarding | User setup (language, identity, profile) |
-| Dashboard | Main hub — status, tasks, boss, challenges |
-| Task List | All tasks with filters |
-| Create Task | New task with difficulty, category, recurrence |
-| Boss Detail | Active boss fight progress |
-| Boss History | Past boss战绩 |
-| Daily Challenges | Today's challenges and rewards |
-| Focus Timer | Pomodoro timer with modes |
-| Statistics | XP, streaks, completion stats |
-| Achievements | Badge collection with rarity |
-| Profile | User info and identity path |
-| Templates | Reusable task templates |
-| Categories | Life area organization |
-| Settings | App preferences |
-| About | App info |
-| Support | Help & feedback |
+| Splash / اسپلش | App intro with Phoenix branding / معرفی اولیه اپ |
+| Onboarding / ورود | User setup / تنظیمات اولیه کاربر |
+| Dashboard / داشبورد | Main hub / مرکز اصلی — وضعیت، وظایف، باس، چالش‌ها |
+| Task List / لیست وظایف | All tasks with filters / همه وظایف با فیلتر |
+| Create Task / ساخت وظیفه | New task creation / ساخت وظیفه جدید |
+| Boss Detail / جزئیات باس | Active boss fight progress / پیشرفت نبرد باس فعال |
+| Boss History / تاریخچه باس | Past boss战绩 / تاریخچه باس‌های قبلی |
+| Daily Challenges / چالش‌های روزانه | Today's challenges / چالش‌ها و پاداش‌های امروز |
+| Focus Timer / تایمر تمرکز | Pomodoro timer / تایمر پومودورو |
+| Statistics / آمار | XP, streaks, completion stats / آمار XP، استریک، تکمیل |
+| Achievements / اچیومنت‌ها | Badge collection / مجموعه نشان‌ها |
+| Profile / پروفایل | User info / اطلاعات کاربر |
+| Templates / قالب‌ها | Reusable task templates / قالب‌های قابل استفاده مجدد |
+| Categories / دسته‌بندی‌ها | Life area organization / سازماندهی حوزه‌های زندگی |
+| Settings / تنظیمات | App preferences / تنظیمات اپلیکیشن |
+| About / درباره | App info / اطلاعات اپلیکیشن |
+| Support / پشتیبانی | Help & feedback / راهنما و بازخورد |
 
 ---
 
-## Achievements
+## Achievements | اچیومنت‌ها
 
-| Achievement | Rarity | Condition |
+| Achievement / اچیومنت | Rarity / نادری | Condition / شرط |
 |-------------|--------|-----------|
-| First Blood | Common | Complete your first task |
-| 7-Day Warrior | Common | Maintain a 7-day streak |
-| No Excuses | Common | Complete 10 tasks |
-| Night Owl | Common | Complete task after midnight |
-| Early Bird | Common | Complete task before 6 AM |
-| 30-Day Legend | Rare | Maintain a 30-day streak |
-| Shadow Breaker | Rare | Reduce Shadow to 0 after being > 30 |
-| Speed Demon | Rare | Complete 5 tasks in one day |
-| Marathon Runner | Rare | Complete 50 tasks total |
-| Phoenix Rising | Epic | Recover from 3+ day absence |
-| Boss Slayer | Epic | Complete 5 boss missions |
-| Discipline Above Mood | Rare | Complete task when Shadow > 50 |
-| Elite Consistency | Legendary | 90% completion rate for 7 days |
-| Unbroken | Legendary | 100-day streak |
-| Life Master | Legendary | Complete task in all 8 life areas |
+| First Blood / اولین خون | Common / معمولی | Complete your first task / تکمیل اولین وظیفه |
+| 7-Day Warrior / جنگجوی ۷ روزه | Common / معمولی | Maintain a 7-day streak / حفظ استریک ۷ روزه |
+| No Excuses / بدون بهانه | Common / معمولی | Complete 10 tasks / تکمیل ۱۰ وظیفه |
+| Night Owl / جغد شب | Common / معمولی | Complete task after midnight / تکمیل وظیفه بعد از نیمه‌شب |
+| Early Bird / پرنده صبح‌گاهی | Common / معمولی | Complete task before 6 AM / تکمیل وظیفه قبل از ۶ صبح |
+| 30-Day Legend / افسانه ۳۰ روزه | Rare / نادر | Maintain a 30-day streak / حفظ استریک ۳۰ روزه |
+| Shadow Breaker / شکستن شدو | Rare / نادر | Reduce Shadow to 0 after being > 30 / کاهش شدو به ۰ بعد از بالای ۳۰ بودن |
+| Speed Demon / شیطان سرعت | Rare / نادر | Complete 5 tasks in one day / تکمیل ۵ وظیفه در یک روز |
+| Marathon Runner / دونده ماراتن | Rare / نادر | Complete 50 tasks total / تکمیل ۵۰ وظیفه در مجموع |
+| Phoenix Rising / برخاست فینیکس | Epic / حماسی | Recover from 3+ day absence / بازیابی از غیبت ۳+ روزه |
+| Boss Slayer / شکست‌دهنده باس | Epic / حماسی | Complete 5 boss missions / تکمیل ۵ مأموریت باس |
+| Discipline Above Mood / انضباط بالاتر از حال | Rare / نادر | Complete task when Shadow > 50 / تکمیل وظیفه وقتی شدو بالای ۵۰ باشه |
+| Elite Consistency / ثبات نخبگان | Legendary / افسانه‌ای | 90% completion rate for 7 days / نرخ تکمیل ۹۰٪ به مدت ۷ روز |
+| Unbroken / شکست‌ناپذیر | Legendary / افسانه‌ای | 100-day streak / استریک ۱۰۰ روزه |
+| Life Master / استاد زندگی | Legendary / افسانه‌ای | Complete task in all 8 life areas / تکمیل وظیفه در تمام ۸ حوزه زندگی |
 
 ---
 
 <div align="center">
 
 **Built with fire by [Benyamin Rasouli](https://github.com/Benyamin0711)**
+**ساخته شده با آتش توسط بنیامین رسولی**
 
 *Discipline is the bridge between goals and accomplishment.*
+*انضباط پل بین اهداف و دستیابی به آن‌هاست.*
 
 </div>
