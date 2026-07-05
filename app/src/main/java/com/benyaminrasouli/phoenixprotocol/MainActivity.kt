@@ -47,7 +47,15 @@ class MainActivity : ComponentActivity() {
                 }
             }
 
-            PhoenixProtocolTheme {
+            val accentColor by settingsDataStore.accentColor.collectAsState(initial = "orange")
+            val backgroundLevel by settingsDataStore.backgroundLevel.collectAsState(initial = 0)
+            val brightness by settingsDataStore.brightness.collectAsState(initial = 100)
+
+            PhoenixProtocolTheme(
+                accentColor = accentColor,
+                backgroundLevel = backgroundLevel,
+                brightness = brightness
+            ) {
                 val navController = rememberNavController()
                 NavGraph(navController = navController)
             }
