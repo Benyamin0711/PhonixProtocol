@@ -30,6 +30,9 @@ class SettingsDataStore @Inject constructor(
         val ENERGY_NOTIFICATIONS_ENABLED = booleanPreferencesKey("energy_notifications_enabled")
         val WIDGET_THEME = stringPreferencesKey("widget_theme")
         val WIDGET_CATEGORY_FILTER = longPreferencesKey("widget_category_filter")
+        val ACCENT_COLOR = stringPreferencesKey("accent_color")
+        val BACKGROUND_LEVEL = intPreferencesKey("background_level")
+        val BRIGHTNESS = intPreferencesKey("brightness")
     }
 
     val language: Flow<String> = context.dataStore.data.map { prefs ->
@@ -62,6 +65,18 @@ class SettingsDataStore @Inject constructor(
 
     val widgetCategoryFilter: Flow<Long> = context.dataStore.data.map { prefs ->
         prefs[Keys.WIDGET_CATEGORY_FILTER] ?: -1L
+    }
+
+    val accentColor: Flow<String> = context.dataStore.data.map { prefs ->
+        prefs[Keys.ACCENT_COLOR] ?: "orange"
+    }
+
+    val backgroundLevel: Flow<Int> = context.dataStore.data.map { prefs ->
+        prefs[Keys.BACKGROUND_LEVEL] ?: 0
+    }
+
+    val brightness: Flow<Int> = context.dataStore.data.map { prefs ->
+        prefs[Keys.BRIGHTNESS] ?: 100
     }
 
     suspend fun setLanguage(language: String) {
@@ -109,6 +124,24 @@ class SettingsDataStore @Inject constructor(
     suspend fun setWidgetCategoryFilter(categoryId: Long) {
         context.dataStore.edit { prefs ->
             prefs[Keys.WIDGET_CATEGORY_FILTER] = categoryId
+        }
+    }
+
+    suspend fun setAccentColor(color: String) {
+        context.dataStore.edit { prefs ->
+            prefs[Keys.ACCENT_COLOR] = color
+        }
+    }
+
+    suspend fun setBackgroundLevel(level: Int) {
+        context.dataStore.edit { prefs ->
+            prefs[Keys.BACKGROUND_LEVEL] = level
+        }
+    }
+
+    suspend fun setBrightness(brightness: Int) {
+        context.dataStore.edit { prefs ->
+            prefs[Keys.BRIGHTNESS] = brightness
         }
     }
 }
