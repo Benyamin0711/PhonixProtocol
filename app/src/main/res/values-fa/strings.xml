@@ -79,6 +79,9 @@
     <string name="settings_language">زبان</string>
     <string name="settings_notifications">اعلان‌ها</string>
     <string name="settings_theme">پوسته</string>
+    <string name="settings_accent_color">رنگ لهجه</string>
+    <string name="settings_background">پس‌زمینه</string>
+    <string name="settings_brightness">روشنایی</string>
     <string name="settings_account">حساب کاربری</string>
     <string name="settings_data_privacy">داده‌ها و حریم خصوصی</string>
     <string name="settings_about">درباره ما</string>
@@ -379,4 +382,42 @@
     <string name="settings_import_success">داده‌ها با موفقیت وارد شد</string>
     <string name="settings_import_error">ورودی ناموفق — فایل نامعتبر</string>
     <string name="settings_import_wrong_version">نسخه بکاپ سازگار نیست</string>
+
+    <!-- Habits -->
+    <string name="drawer_habits">عادت‌ها</string>
+    <string name="drawer_mood">پیگیری حالت</string>
+    <string name="habits_title">عادت‌ها</string>
+    <string name="habits_empty">هنوز عادتی نداری. روی + کلیک کن تا بسازی!</string>
+    <string name="habits_add">افزودن عادت</string>
+    <string name="habits_add_title">عادت جدید</string>
+    <string name="habits_edit">ویرایش عادت</string>
+    <string name="habits_name">نام</string>
+    <string name="habits_description">توضیحات</string>
+    <string name="habits_target">هدف</string>
+    <string name="habits_unit">واحد</string>
+    <string name="habits_save">ذخیره</string>
+    <string name="habits_current_streak">استریک فعلی</string>
+    <string name="habits_best_streak">بهترین استریک</string>
+    <string name="habits_dashboard_subtitle">%1$d/%2$d عادت امروز تکمیل شده</string>
+
+    <!-- Dashboard X -->
+    <string name="dashboard_title">PHOENIX PROTOCOL X</string>
+    <string name="dashboard_subtitle">60 Day Tactical Rebuild System</string>
+    <string name="dashboard_quote">«از خاکسترها برمی‌خیزیم.»</string>
+    <string name="dashboard_missions">DAILY MISSIONS</string>
+    <string name="dashboard_spirit">SPIRIT SYSTEM</string>
+    <string name="dashboard_note">DAILY MEMORY LOG</string>
+    <string name="dashboard_academic">ACADEMIC WAR ROOM</string>
+    <string name="dashboard_campaign">60 DAY CAMPAIGN</string>
+    <string name="dashboard_dopamine">DOPAMINE CONTROL</string>
+    <string name="dashboard_prev">⬅ روز قبل</string>
+    <string name="dashboard_next">روز بعد ➡</string>
+    <string name="dashboard_start">START</string>
+    <string name="dashboard_undo">UNDO</string>
+    <string name="dashboard_relapse">ثبت Relapse</string>
+    <string name="dashboard_recover">Recovery</string>
+    <string name="dashboard_reset">ریست روز</string>
+    <string name="dashboard_ash_warning">ASH MODE ACTIVE\nتمرکز افت کرده.\nکنترل ذهن ضعیف شده.</string>
+    <string name="dashboard_recovery_warning">RECOVERY MODE ACTIVE\nبازگشت ثبت شد.</string>
+    <string name="dashboard_stable">وضعیت پایدار.\nهنوز وارد Ash Mode نشده‌ای.</string>
 </resources>

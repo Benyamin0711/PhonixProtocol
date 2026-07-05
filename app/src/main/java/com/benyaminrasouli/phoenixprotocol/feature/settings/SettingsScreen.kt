@@ -1,6 +1,7 @@
 package com.benyaminrasouli.phoenixprotocol.feature.settings
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -34,6 +35,10 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RadioButton
+import androidx.compose.material3.RadioButtonDefaults
+import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
@@ -52,6 +57,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -67,6 +73,7 @@ import com.benyaminrasouli.phoenixprotocol.feature.settings.ExportImportResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import com.benyaminrasouli.phoenixprotocol.ui.theme.accentColorMap
 import com.benyaminrasouli.phoenixprotocol.ui.theme.BackgroundDark
 import com.benyaminrasouli.phoenixprotocol.ui.theme.EnergyGreen
 import com.benyaminrasouli.phoenixprotocol.ui.theme.PhoenixGold
@@ -76,6 +83,12 @@ import com.benyaminrasouli.phoenixprotocol.ui.theme.ShadowPurple
 import com.benyaminrasouli.phoenixprotocol.ui.theme.SurfaceDark
 import com.benyaminrasouli.phoenixprotocol.ui.theme.SurfaceVariantDark
 import com.benyaminrasouli.phoenixprotocol.ui.theme.TextSecondary
+
+private val backgroundOptions = listOf(
+    0 to "Dark",
+    1 to "Darker",
+    2 to "AMOLED"
+)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -88,6 +101,9 @@ fun SettingsScreen(
     val taskRemindersEnabled by viewModel.taskRemindersEnabled.collectAsStateWithLifecycle()
     val bossAlertsEnabled by viewModel.bossAlertsEnabled.collectAsStateWithLifecycle()
     val energyNotificationsEnabled by viewModel.energyNotificationsEnabled.collectAsStateWithLifecycle()
+    val currentAccentColor by viewModel.accentColor.collectAsStateWithLifecycle()
+    val currentBackgroundLevel by viewModel.backgroundLevel.collectAsStateWithLifecycle()
+    val currentBrightness by viewModel.brightness.collectAsStateWithLifecycle()
     val exportMessage by viewModel.exportMessage.collectAsStateWithLifecycle()
     var showResetDialog by remember { mutableStateOf(false) }
     var showImportDialog by remember { mutableStateOf(false) }
@@ -169,6 +185,113 @@ fun SettingsScreen(
                             viewModel.setLanguage(if (language == "en") "fa" else "en")
                         }
                     )
+                }
+            }
+
+            // Theme Section
+            item {
+                SettingsSection(title = stringResource(R.string.settings_theme)) {
+                    // Accent Color
+                    Text(
+                        text = stringResource(R.string.settings_accent_color),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = TextSecondary
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    val colorEntries = accentColorMap.entries.toList()
+                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        for (row in 0..1) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.spacedBy(12.dp)
+                            ) {
+                                for (col in 0..3) {
+                                    val index = row * 4 + col
+                                    if (index < colorEntries.size) {
+                                        val (name, color) = colorEntries[index]
+                                        val isSelected = currentAccentColor == name
+                                        Box(
+                                            modifier = Modifier
+                                                .size(40.dp)
+                                                .clip(CircleShape)
+                                                .background(color)
+                                                .then(
+                                                    if (isSelected) Modifier.border(3.dp, Color.White, CircleShape)
+                                                    else Modifier
+                                                )
+                                                .clickable { viewModel.setAccentColor(name) }
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    HorizontalDivider(color = MaterialTheme.colorScheme.surfaceVariant)
+
+                    // Background
+                    Text(
+                        text = stringResource(R.string.settings_background),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = TextSecondary
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    backgroundOptions.forEach { (level, label) ->
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable { viewModel.setBackgroundLevel(level) }
+                                .padding(vertical = 4.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            RadioButton(
+                                selected = currentBackgroundLevel == level,
+                                onClick = { viewModel.setBackgroundLevel(level) },
+                                colors = RadioButtonDefaults.colors(
+                                    selectedColor = PhoenixOrange,
+                                    unselectedColor = TextSecondary
+                                )
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(
+                                text = label,
+                                style = MaterialTheme.typography.bodyLarge,
+                                color = MaterialTheme.colorScheme.onSurface
+                            )
+                        }
+                    }
+
+                    HorizontalDivider(color = MaterialTheme.colorScheme.surfaceVariant)
+
+                    // Brightness
+                    Text(
+                        text = stringResource(R.string.settings_brightness),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = TextSecondary
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Slider(
+                            value = currentBrightness.toFloat(),
+                            onValueChange = { viewModel.setBrightness(it.toInt()) },
+                            valueRange = 0f..100f,
+                            modifier = Modifier.weight(1f),
+                            colors = SliderDefaults.colors(
+                                thumbColor = PhoenixOrange,
+                                activeTrackColor = PhoenixOrange,
+                                inactiveTrackColor = SurfaceVariantDark
+                            )
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(
+                            text = "$currentBrightness%",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
                 }
             }
 
