@@ -44,6 +44,15 @@ class SettingsViewModel @Inject constructor(
     val energyNotificationsEnabled: StateFlow<Boolean> = settingsDataStore.energyNotificationsEnabled
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
 
+    val accentColor: StateFlow<String> = settingsDataStore.accentColor
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), "orange")
+
+    val backgroundLevel: StateFlow<Int> = settingsDataStore.backgroundLevel
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0)
+
+    val brightness: StateFlow<Int> = settingsDataStore.brightness
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 100)
+
     private val _exportMessage = MutableStateFlow<ExportImportResult?>(null)
     val exportMessage: StateFlow<ExportImportResult?> = _exportMessage.asStateFlow()
 
@@ -71,11 +80,32 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    fun setAccentColor(color: String) {
+        viewModelScope.launch {
+            settingsDataStore.setAccentColor(color)
+        }
+    }
+
+    fun setBackgroundLevel(level: Int) {
+        viewModelScope.launch {
+            settingsDataStore.setBackgroundLevel(level)
+        }
+    }
+
+    fun setBrightness(brightness: Int) {
+        viewModelScope.launch {
+            settingsDataStore.setBrightness(brightness)
+        }
+    }
+
     fun resetAllData(onComplete: () -> Unit) {
         viewModelScope.launch {
-            settingsDataStore.setOnboardingComplete(false)
-            userRepository.clearProfile()
-            statsRepository.clearStats()
+            try {
+                settingsDataStore.setOnboardingComplete(false)
+                userRepository.clearProfile()
+                statsRepository.clearStats()
+            } catch (_: Exception) {
+            }
             onComplete()
         }
     }
