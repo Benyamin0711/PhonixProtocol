@@ -6,6 +6,7 @@ import com.benyaminrasouli.phoenixprotocol.core.domain.usecase.ActiveBoss
 import com.benyaminrasouli.phoenixprotocol.core.domain.usecase.CompleteBossUseCase
 import com.benyaminrasouli.phoenixprotocol.core.domain.usecase.GetActiveBossUseCase
 import com.benyaminrasouli.phoenixprotocol.core.domain.usecase.SpawnWeeklyBossUseCase
+import android.util.Log
 import com.benyaminrasouli.phoenixprotocol.core.domain.usecase.UpdateBossProgressUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
@@ -34,8 +35,8 @@ class BossViewModel @Inject constructor(
                 try {
                     updateBossProgressUseCase()
                     spawnWeeklyBossUseCase()
-                } catch (_: Exception) {
-                    // Log and continue polling
+                } catch (e: Exception) {
+                    Log.e("BossViewModel", "Error updating boss progress", e)
                 }
             }
         }
@@ -49,7 +50,11 @@ class BossViewModel @Inject constructor(
 
     fun completeBoss(bossId: Long) {
         viewModelScope.launch {
-            completeBossUseCase(bossId)
+            try {
+                completeBossUseCase(bossId)
+            } catch (e: Exception) {
+                Log.e("BossViewModel", "Error completing boss", e)
+            }
         }
     }
 }

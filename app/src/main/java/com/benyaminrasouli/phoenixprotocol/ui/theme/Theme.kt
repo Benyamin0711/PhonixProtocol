@@ -4,10 +4,13 @@ import android.app.Activity
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.core.view.WindowCompat
 
 @Composable
@@ -31,23 +34,23 @@ fun PhoenixProtocolTheme(
         secondaryContainer = accent.copy(alpha = 0.1f),
         onSecondaryContainer = accent.copy(alpha = 0.6f),
         tertiary = PhoenixGold,
-        onTertiary = Color(0xFF1A1A1A),
+        onTertiary = PhoenixOnTertiary,
         tertiaryContainer = PhoenixGold.copy(alpha = 0.15f),
         onTertiaryContainer = PhoenixGold.copy(alpha = 0.8f),
         background = bg,
-        onBackground = Color.White,
+        onBackground = TextPrimary,
         surface = surface,
-        onSurface = Color.White,
+        onSurface = TextPrimary,
         surfaceVariant = surface.copy(
             red = (surface.red + 0.05f).coerceAtMost(1f),
             green = (surface.green + 0.05f).coerceAtMost(1f),
             blue = (surface.blue + 0.08f).coerceAtMost(1f)
         ),
-        onSurfaceVariant = Color(0xFFA0A0B0),
-        error = Color(0xFFFF5252),
-        onError = Color.White,
-        errorContainer = Color(0xFF3B0000),
-        onErrorContainer = Color(0xFFFFDAD6)
+        onSurfaceVariant = TextSecondary,
+        error = EnergyRed,
+        onError = TextPrimary,
+        errorContainer = PhoenixErrorContainer,
+        onErrorContainer = PhoenixOnErrorContainer
     )
 
     val view = LocalView.current
@@ -58,10 +61,14 @@ fun PhoenixProtocolTheme(
         }
     }
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = PhoenixTypography,
-        shapes = PhoenixShapes,
-        content = content
-    )
+    androidx.compose.runtime.CompositionLocalProvider(
+        LocalLayoutDirection provides LayoutDirection.Ltr
+    ) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = PhoenixTypography,
+            shapes = PhoenixShapes,
+            content = content
+        )
+    }
 }

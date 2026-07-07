@@ -46,7 +46,7 @@ class FocusTimerService : android.app.Service() {
             ACTION_START -> startTimer()
             ACTION_STOP -> stopTimer()
         }
-        return START_STICKY
+        return START_NOT_STICKY
     }
 
     override fun onCreate() {
@@ -79,16 +79,14 @@ class FocusTimerService : android.app.Service() {
 
         _isRunning.value = true
 
-        serviceScope.launch {
+        timerJob = serviceScope.launch {
             val session = FocusSession(
                 startedAt = System.currentTimeMillis(),
                 durationSeconds = 0,
                 completed = false
             )
             currentSessionId = focusRepository.insertSession(session)
-        }
 
-        timerJob = serviceScope.launch {
             startForeground(NOTIFICATION_ID, buildNotification(0))
             while (_isRunning.value) {
                 delay(1000L)
@@ -103,19 +101,18 @@ class FocusTimerService : android.app.Service() {
         timerJob?.cancel()
 
         val elapsed = _elapsedSeconds.value
-        if (elapsed > 0 && currentSessionId != null) {
+        val sessionId = currentSessionId
+        if (elapsed > 0 && sessionId != null) {
             serviceScope.launch {
-                currentSessionId?.let { sessionId ->
-                    val session = focusRepository.getSessionById(sessionId)
-                    session?.let {
-                        focusRepository.updateSession(
-                            it.copy(
-                                endedAt = System.currentTimeMillis(),
-                                durationSeconds = elapsed,
-                                completed = true
-                            )
+                val session = focusRepository.getSessionById(sessionId)
+                session?.let {
+                    focusRepository.updateSession(
+                        it.copy(
+                            endedAt = System.currentTimeMillis(),
+                            durationSeconds = elapsed,
+                            completed = true
                         )
-                    }
+                    )
                 }
             }
         }

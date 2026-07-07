@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -39,7 +40,7 @@ fun BarChart(
                 drawText(value.toString(), x + barWidth / 2, chartHeight - barHeight - 5.dp.toPx(),
                     android.graphics.Paint().apply { color = android.graphics.Color.WHITE; textSize = 10.sp.toPx(); textAlign = android.graphics.Paint.Align.CENTER })
                 drawText(label, x + barWidth / 2, size.height - 5.dp.toPx(),
-                    android.graphics.Paint().apply { color = TextSecondary.hashCode(); textSize = 9.sp.toPx(); textAlign = android.graphics.Paint.Align.CENTER })
+                    android.graphics.Paint().apply { color = TextSecondary.toArgb(); textSize = 9.sp.toPx(); textAlign = android.graphics.Paint.Align.CENTER })
             }
         }
     }

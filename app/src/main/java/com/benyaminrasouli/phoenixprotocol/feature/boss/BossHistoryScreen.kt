@@ -45,6 +45,7 @@ import com.benyaminrasouli.phoenixprotocol.ui.theme.FailedRed
 import com.benyaminrasouli.phoenixprotocol.ui.theme.PhoenixOrange
 import com.benyaminrasouli.phoenixprotocol.ui.theme.SurfaceDark
 import com.benyaminrasouli.phoenixprotocol.ui.theme.TextSecondary
+import android.util.Log
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -130,7 +131,8 @@ private fun BossHistoryItem(boss: Boss) {
     val deadlineText = try {
         val sdf = SimpleDateFormat("yyyy/MM/dd", Locale.getDefault())
         sdf.format(Date(boss.deadline))
-    } catch (_: Exception) {
+    } catch (e: Exception) {
+        Log.e("BossHistoryScreen", "Error formatting deadline", e)
         ""
     }
 
@@ -181,7 +183,19 @@ private fun BossHistoryItem(boss: Boss) {
             Spacer(modifier = Modifier.height(8.dp))
 
             LinearProgressIndicator(
-                progress = { 0f },
+                progress = {
+                    when (boss.status) {
+                        "COMPLETED" -> 1f
+                        "FAILED" -> 0f
+                        else -> {
+                            val total = boss.deadline - boss.createdAt
+                            if (total > 0) {
+                                val elapsed = System.currentTimeMillis() - boss.createdAt
+                                (elapsed.toFloat() / total).coerceIn(0f, 1f)
+                            } else 0f
+                        }
+                    }
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(6.dp),

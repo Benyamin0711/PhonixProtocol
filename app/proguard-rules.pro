@@ -28,7 +28,7 @@
 
 # Kotlin Serialization
 -keepattributes *Annotation*, InnerClasses
-dontnote kotlinx.serialization.AnnotationsKt
+-dontnote kotlinx.serialization.AnnotationsKt
 
 # Compose
 -dontwarn androidx.compose.**

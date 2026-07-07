@@ -26,7 +26,7 @@ class FocusRepositoryImpl @Inject constructor(
         return dao.getSessionById(sessionId)
     }
 
-    override suspend fun getTotalFocusTimeSeconds(): Int {
+    override suspend fun getTotalFocusTimeSeconds(): Long {
         return dao.getTotalFocusTimeSeconds()
     }
 

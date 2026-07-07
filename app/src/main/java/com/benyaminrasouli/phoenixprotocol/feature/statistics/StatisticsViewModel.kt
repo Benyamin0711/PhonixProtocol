@@ -21,7 +21,7 @@ data class StatisticsState(
     val completedTasks: Int = 0,
     val achievementsUnlocked: Int = 0,
     val completionRate: Float = 0f,
-    val totalFocusSeconds: Int = 0,
+    val totalFocusSeconds: Long = 0,
     val completedFocusSessions: Int = 0
 )
 

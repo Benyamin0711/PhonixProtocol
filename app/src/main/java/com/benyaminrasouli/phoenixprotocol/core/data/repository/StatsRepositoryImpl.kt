@@ -14,7 +14,10 @@ class StatsRepositoryImpl @Inject constructor(
 ) : StatsRepository {
 
     override suspend fun initStats(userId: Long) {
-        dao.insertStats(UserStats(userId = userId))
+        val existing = dao.getStatsOnce()
+        if (existing == null) {
+            dao.insertStats(UserStats(userId = userId))
+        }
     }
 
     override fun getStats(): Flow<UserStats?> {
@@ -28,7 +31,6 @@ class StatsRepositoryImpl @Inject constructor(
     override suspend fun addXp(amount: Int) {
         val current = dao.getStatsOnce() ?: return
 
-        // Apply shadow penalty before adding XP
         val penaltyPercent = when {
             current.shadowLevel < 30 -> 0
             current.shadowLevel < 60 -> 10
@@ -36,45 +38,37 @@ class StatsRepositoryImpl @Inject constructor(
             else -> 50
         }
         val actualXp = amount * (100 - penaltyPercent) / 100
+        if (actualXp <= 0) return
 
-        val newXp = current.xp + actualXp
-        val newLevel = calculateLevel(newXp)
+        dao.addXpAtomic(actualXp)
+
+        val fresh = dao.getStatsOnce() ?: return
+        val newLevel = calculateLevel(fresh.xp)
         val newRank = com.benyaminrasouli.phoenixprotocol.core.domain.model.Rank.forLevel(newLevel)
-        dao.updateStats(current.copy(
-            xp = newXp,
-            level = newLevel,
-            rank = newRank.name
-        ))
+        if (fresh.level != newLevel || fresh.rank != newRank.name) {
+            dao.updateStats(fresh.copy(level = newLevel, rank = newRank.name))
+        }
     }
 
     override suspend fun increasePhoenixEnergy(amount: Int) {
-        val current = dao.getStatsOnce() ?: return
-        dao.updateStats(current.copy(
-            phoenixEnergy = (current.phoenixEnergy + amount).coerceAtMost(100)
-        ))
+        dao.increaseEnergyAtomic(amount)
     }
 
     override suspend fun decreasePhoenixEnergy(amount: Int) {
-        val current = dao.getStatsOnce() ?: return
-        dao.updateStats(current.copy(
-            phoenixEnergy = (current.phoenixEnergy - amount).coerceAtLeast(0)
-        ))
+        dao.decreaseEnergyAtomic(amount)
     }
 
     override suspend fun increaseShadowLevel(amount: Int) {
-        val current = dao.getStatsOnce() ?: return
-        dao.updateStats(current.copy(
-            shadowLevel = current.shadowLevel + amount
-        ))
+        dao.increaseShadowAtomic(amount)
         val action = when (amount) {
             1 -> "SKIP"
             2 -> "STREAK_BREAK"
-            else -> "CANCEL"
+            else -> "SHADOW_DAMAGE"
         }
         val description = when (action) {
             "SKIP" -> "Task skipped"
             "STREAK_BREAK" -> "Streak broken"
-            else -> "Task cancelled"
+            else -> "Shadow damage: -$amount"
         }
         shadowLogDao.insert(
             ShadowLog(
@@ -86,18 +80,11 @@ class StatsRepositoryImpl @Inject constructor(
     }
 
     override suspend fun decreaseShadowLevel(amount: Int) {
-        val current = dao.getStatsOnce() ?: return
-        val newShadowLevel = (current.shadowLevel - amount).coerceAtLeast(0)
-        dao.updateStats(current.copy(
-            shadowLevel = newShadowLevel
-        ))
+        dao.decreaseShadowAtomic(amount)
     }
 
     override suspend fun incrementCompletedTasks() {
-        val current = dao.getStatsOnce() ?: return
-        dao.updateStats(current.copy(
-            completedTasks = current.completedTasks + 1
-        ))
+        dao.incrementCompletedTasksAtomic()
     }
 
     override suspend fun clearStats() {
@@ -107,7 +94,7 @@ class StatsRepositoryImpl @Inject constructor(
     private fun calculateLevel(xp: Int): Int {
         var level = 1
         var requiredXp = 0
-        while (requiredXp <= xp) {
+        while (requiredXp <= xp && level < 1000) {
             level++
             requiredXp += (level * 100) + (level * level * 10)
         }

@@ -6,6 +6,7 @@ import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.Task
 import com.benyaminrasouli.phoenixprotocol.core.domain.usecase.CancelTaskUseCase
 import com.benyaminrasouli.phoenixprotocol.core.domain.usecase.CheckAchievementsUseCase
 import com.benyaminrasouli.phoenixprotocol.core.domain.usecase.CompleteTaskUseCase
+import android.util.Log
 import com.benyaminrasouli.phoenixprotocol.core.domain.usecase.SkipTaskUseCase
 import com.benyaminrasouli.phoenixprotocol.core.domain.repository.TaskRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -60,20 +61,32 @@ class TaskListViewModel @Inject constructor(
 
     fun completeTask(task: Task) {
         viewModelScope.launch {
-            completeTaskUseCase(task)
-            checkAchievementsUseCase()
+            try {
+                completeTaskUseCase(task)
+                checkAchievementsUseCase()
+            } catch (e: Exception) {
+                Log.e("TaskListViewModel", "Error completing task", e)
+            }
         }
     }
 
     fun skipTask(task: Task) {
         viewModelScope.launch {
-            skipTaskUseCase(task)
+            try {
+                skipTaskUseCase(task)
+            } catch (e: Exception) {
+                Log.e("TaskListViewModel", "Error skipping task", e)
+            }
         }
     }
 
     fun cancelTask(task: Task) {
         viewModelScope.launch {
-            cancelTaskUseCase(task)
+            try {
+                cancelTaskUseCase(task)
+            } catch (e: Exception) {
+                Log.e("TaskListViewModel", "Error cancelling task", e)
+            }
         }
     }
 }

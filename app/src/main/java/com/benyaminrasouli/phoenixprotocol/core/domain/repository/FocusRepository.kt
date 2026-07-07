@@ -8,6 +8,6 @@ interface FocusRepository {
     suspend fun updateSession(session: FocusSession)
     fun getAllSessions(): Flow<List<FocusSession>>
     suspend fun getSessionById(sessionId: Long): FocusSession?
-    suspend fun getTotalFocusTimeSeconds(): Int
+    suspend fun getTotalFocusTimeSeconds(): Long
     suspend fun getCompletedSessionCount(): Int
 }

@@ -90,7 +90,6 @@
     <string name="settings_export_data">خروجی داده‌ها</string>
     <string name="settings_reset_data">بازنشانی تمام داده‌ها</string>
     <string name="settings_reset_confirm">آیا مطمئنید؟ تمام داده‌های شما حذف خواهند شد و قابل بازگشت نیستند.</string>
-    <string name="settings_coming_soon">به زودی</string>
     <string name="settings_dark_theme">پوسته تاریک</string>
     <string name="settings_theme_desc">همیشه فعال</string>
     <string name="settings_about_title">پروتکل ققنوس</string>
@@ -143,6 +142,19 @@
     <string name="support_instagram">اینستاگرام</string>
     <string name="support_twitter">توییتر / X</string>
     <string name="support_github">گیت‌هاب</string>
+
+    <!-- Privacy Policy -->
+    <string name="privacy_policy_title">سیاست حریم خصوصی</string>
+    <string name="privacy_section_1_title">جمع‌آوری داده‌ها</string>
+    <string name="privacy_section_1_content">پروتکل ققنوس فقط داده‌هایی را که شما در برنامه ایجاد می‌کنید جمع‌آوری می‌کند: وظایف، عادت‌ها، یادداشت‌های حالت، دستاوردها و اطلاعات پروفایل. تمام داده‌ها توسط شما ایجاد شده و به صورت محلی در دستگاه شما ذخیره می‌شوند.</string>
+    <string name="privacy_section_2_title">ذخیره‌سازی داده‌ها</string>
+    <string name="privacy_section_2_content">تمام داده‌های شما به صورت محلی در دستگاه شما با استفاده از پایگاه داده Room و DataStore اندروید ذخیره می‌شوند. هیچ داده‌ای به سرورهای خارجی ارسال نمی‌شود. داده‌های شما هرگز دستگاه شما را ترک نمی‌کنند.</string>
+    <string name="privacy_section_3_title">عدم دسترسی به اینترنت</string>
+    <string name="privacy_section_3_content">پروتکل ققنوس مجوز اینترنت را درخواست یا استفاده نمی‌کند. برنامه کاملاً آفلاین کار می‌کند. هیچ SDK تحلیلی، ردیابی یا تبلیغاتی در آن وجود ندارد.</string>
+    <string name="privacy_section_4_title">حریم خصوصی کودکان</string>
+    <string name="privacy_section_4_content">پروتکل ققنوس برای کودکان زیر ۱۳ سال طراحی نشده است. ما عمداً اطلاعات شخصی کودکان را جمع‌آوری نمی‌کنیم. اگر فکر می‌کنید کودکی اطلاعات شخصی خود را در اختیار ما قرار داده است، لطفاً با ما تماس بگیرید.</string>
+    <string name="privacy_section_5_title">تغییرات در این سیاست</string>
+    <string name="privacy_section_5_content">ما ممکن است این سیاست حریم خصوصی را از زمان به زمان به‌روزرسانی کنیم. هرگونه تغییر از طریق به‌روزرسانی‌ها در برنامه منعكس خواهد شد. توصیه می‌کنیم این سیاست را به طور دوره‌ای بررسی کنید.</string>
 
     <!-- Common -->
     <string name="menu">منو</string>
@@ -268,7 +280,6 @@
     <string name="profile_xp">%d ایکس‌پی</string>
     <string name="profile_streak">%d روز پیاپی</string>
     <string name="profile_tasks_completed">%d وظیفه تکمیل شده</string>
-    <string name="profile_updated">پروفایل به‌روزرسانی شد</string>
 
     <!-- Templates -->
     <string name="templates_title">قالب‌ها</string>
@@ -295,7 +306,6 @@
     <string name="notifications_energy_full_title">انرژی ققنوس پر شد</string>
     <string name="notifications_energy_full_body">انرژی شما کاملاً بازیابی شد. وقت فتح کردن است!</string>
     <string name="notifications_permission_rationale">اعلان‌ها برای یادآوری وظایف و مهلت باس‌ها لازم هستند.</string>
-    <string name="settings_reminder_time">زمان یادآوری</string>
     <string name="settings_energy_notifications">اعلان‌های انرژی</string>
 
     <!-- Categories -->
@@ -311,16 +321,7 @@
 
     <!-- Focus Timer -->
     <string name="focus_timer">تایمر تمرکز</string>
-    <string name="focus_start">شروع</string>
-    <string name="focus_pause">توقف</string>
     <string name="focus_stop">پایان</string>
-    <string name="focus_pomodoro">پومودورو</string>
-    <string name="focus_custom">سفارشی</string>
-    <string name="focus_in_progress">تمرکز در حال انجام</string>
-    <string name="focus_session_complete">جلسه تمام شد!</string>
-    <string name="focus_duration">مدت: %d دقیقه</string>
-    <string name="focus_total_time">کل زمان تمرکز</string>
-    <string name="focus_sessions_completed">جلسات: %d</string>
 
     <!-- Widget Customization -->
     <string name="widget_theme">پوسته ویجت</string>
@@ -402,7 +403,13 @@
 
     <!-- Dashboard X -->
     <string name="dashboard_title">PHOENIX PROTOCOL X</string>
-    <string name="dashboard_subtitle">60 Day Tactical Rebuild System</string>
+    <string name="dashboard_subtitle">سیستم بازسازی ۶۰ روزه تاکتیکی\nاز خاکسترها برمی‌خیزیم.</string>
+    <string name="dashboard_day">روز %d</string>
+    <string name="dashboard_note_placeholder">خاطرات، تأملات، پیروزی‌ها، شکست‌ها، افکار…</string>
+    <string name="dashboard_rank">رتبه</string>
+    <string name="dashboard_level_label">سطح</string>
+    <string name="dashboard_total_xp">کل XP</string>
+    <string name="dashboard_discipline">انضباط</string>
     <string name="dashboard_quote">«از خاکسترها برمی‌خیزیم.»</string>
     <string name="dashboard_missions">DAILY MISSIONS</string>
     <string name="dashboard_spirit">SPIRIT SYSTEM</string>
@@ -420,4 +427,12 @@
     <string name="dashboard_ash_warning">ASH MODE ACTIVE\nتمرکز افت کرده.\nکنترل ذهن ضعیف شده.</string>
     <string name="dashboard_recovery_warning">RECOVERY MODE ACTIVE\nبازگشت ثبت شد.</string>
     <string name="dashboard_stable">وضعیت پایدار.\nهنوز وارد Ash Mode نشده‌ای.</string>
+
+    <!-- Bottom Navigation -->
+    <string name="bottom_nav_dashboard">داشبورد</string>
+    <string name="bottom_nav_account">حساب کاربری</string>
+    <string name="bottom_nav_settings">تنظیمات</string>
+    <string name="bottom_nav_leaderboard">رتبه‌بندی</string>
+    <string name="bottom_nav_support">پشتیبانی</string>
+    <string name="menu_open">منو</string>
 </resources>

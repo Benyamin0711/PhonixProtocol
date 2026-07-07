@@ -25,7 +25,10 @@ class AchievementSeeder @Inject constructor(
             Achievement("night_owl", "Night Owl", "Complete task after midnight", "bedtime", "COMMON", "night"),
             Achievement("early_bird", "Early Bird", "Complete task before 6 AM", "wb_sunny", "COMMON", "morning"),
             Achievement("speed_demon", "Speed Demon", "Complete 5 tasks in one day", "bolt", "RARE", "speed_5"),
-            Achievement("marathon_runner", "Marathon Runner", "Complete 50 tasks total", "directions_run", "RARE", "tasks_50")
+            Achievement("marathon_runner", "Marathon Runner", "Complete 50 tasks total", "directions_run", "RARE", "tasks_50"),
+            Achievement("daily_warrior", "Daily Warrior", "Complete all challenges 7 days in a row", "emoji_events", "RARE", "daily_7"),
+            Achievement("challenge_master", "Challenge Master", "Complete 100 total challenges", "military_tech", "LEGENDARY", "challenges_100"),
+            Achievement("perfect_day", "Perfect Day", "Complete all challenges in a single day", "star", "EPIC", "perfect_day")
         )
         achievements.forEach { achievementDao.insertAchievement(it) }
     }

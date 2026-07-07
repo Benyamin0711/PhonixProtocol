@@ -90,7 +90,6 @@
     <string name="settings_export_data">Export Data</string>
     <string name="settings_reset_data">Reset All Data</string>
     <string name="settings_reset_confirm">Are you sure? This will delete all your data and cannot be undone.</string>
-    <string name="settings_coming_soon">Coming soon</string>
     <string name="settings_dark_theme">Dark Theme</string>
     <string name="settings_theme_desc">Always on</string>
     <string name="settings_about_title">Phoenix Protocol</string>
@@ -143,6 +142,19 @@
     <string name="support_instagram">Instagram</string>
     <string name="support_twitter">Twitter / X</string>
     <string name="support_github">GitHub</string>
+
+    <!-- Privacy Policy -->
+    <string name="privacy_policy_title">Privacy Policy</string>
+    <string name="privacy_section_1_title">Data Collection</string>
+    <string name="privacy_section_1_content">Phoenix Protocol collects only the data you create within the app: tasks, habits, mood entries, achievements, and profile information. All data is created by you and stored locally on your device.</string>
+    <string name="privacy_section_2_title">Data Storage</string>
+    <string name="privacy_section_2_content">All your data is stored locally on your device using Android\'s Room database and DataStore. No data is transmitted to external servers. Your data never leaves your device.</string>
+    <string name="privacy_section_3_title">No Internet Access</string>
+    <string name="privacy_section_3_content">Phoenix Protocol does not request or use internet permissions. The app operates entirely offline. No analytics, tracking, or advertising SDKs are included.</string>
+    <string name="privacy_section_4_title">Children\'s Privacy</string>
+    <string name="privacy_section_4_content">Phoenix Protocol is not directed at children under 13. We do not knowingly collect personal information from children. If you believe a child has provided us with personal information, please contact us.</string>
+    <string name="privacy_section_5_title">Changes to This Policy</string>
+    <string name="privacy_section_5_content">We may update this Privacy Policy from time to time. Any changes will be reflected in the app through updates. We encourage you to review this policy periodically.</string>
 
     <!-- Common -->
     <string name="menu">Menu</string>
@@ -268,7 +280,6 @@
     <string name="profile_xp">%d XP</string>
     <string name="profile_streak">%d day streak</string>
     <string name="profile_tasks_completed">%d tasks completed</string>
-    <string name="profile_updated">Profile updated</string>
 
     <!-- Templates -->
     <string name="templates_title">Templates</string>
@@ -295,7 +306,6 @@
     <string name="notifications_energy_full_title">Phoenix Energy Full</string>
     <string name="notifications_energy_full_body">Your energy is fully recovered. Time to conquer!</string>
     <string name="notifications_permission_rationale">Notifications are needed to remind you about tasks and boss deadlines.</string>
-    <string name="settings_reminder_time">Reminder Time</string>
     <string name="settings_energy_notifications">Energy Notifications</string>
 
     <!-- Categories -->
@@ -320,16 +330,7 @@
     <string name="focus_timer_stop">Stop</string>
     <string name="focus_timer_total_focus">Total Focus Time</string>
     <string name="focus_timer_completed">Completed Sessions</string>
-    <string name="focus_start">Start</string>
-    <string name="focus_pause">Pause</string>
     <string name="focus_stop">Stop</string>
-    <string name="focus_pomodoro">Pomodoro</string>
-    <string name="focus_custom">Custom</string>
-    <string name="focus_in_progress">Focus in progress</string>
-    <string name="focus_session_complete">Session complete!</string>
-    <string name="focus_duration">Duration: %d min</string>
-    <string name="focus_total_time">Total Focus Time</string>
-    <string name="focus_sessions_completed">Sessions: %d</string>
     <string name="focus_notification_channel_name">Focus Timer</string>
     <string name="focus_notification_channel_description">Shows when a focus session is in progress</string>
     <string name="focus_notification_title">Focus in Progress</string>
@@ -415,7 +416,13 @@
 
     <!-- Dashboard X -->
     <string name="dashboard_title">PHOENIX PROTOCOL X</string>
-    <string name="dashboard_subtitle">60 Day Tactical Rebuild System</string>
+    <string name="dashboard_subtitle">60 Day Tactical Rebuild System\nFrom Ashes We Rise.</string>
+    <string name="dashboard_day">DAY %d</string>
+    <string name="dashboard_note_placeholder">Hash memories, reflections, wins, losses, thoughts…</string>
+    <string name="dashboard_rank">RANK</string>
+    <string name="dashboard_level_label">LEVEL</string>
+    <string name="dashboard_total_xp">TOTAL XP</string>
+    <string name="dashboard_discipline">DISCIPLINE</string>
     <string name="dashboard_quote">\u00AB\u0627\u0632 \u062E\u0627\u06A9\u0633\u062A\u0631\u0647\u0627 \u0628\u0631\u0645\u06CC\u200C\u062E\u06CC\u0632\u06CC\u0645.\u00BB</string>
     <string name="dashboard_missions">DAILY MISSIONS</string>
     <string name="dashboard_spirit">SPIRIT SYSTEM</string>
@@ -433,4 +440,12 @@
     <string name="dashboard_ash_warning">ASH MODE ACTIVE\n\u062A\u0645\u0631\u06A9\u0632 \u0627\u0641\u062A \u06A9\u0631\u062F\u0647.\n\u06A9\u0646\u062A\u0631\u0644 \u0630\u0647\u0646 \u0636\u0639\u06CC\u0641 \u0634\u062F\u0647.</string>
     <string name="dashboard_recovery_warning">RECOVERY MODE ACTIVE\n\u0628\u0627\u0632\u06AF\u0634\u062A \u062B\u0628\u062A \u0634\u062F.</string>
     <string name="dashboard_stable">\u0648\u0636\u0639\u06CC\u062A \u067E\u0627\u06CC\u062F\u0627\u0631.\n\u0647\u0646\u0648\u0632 \u0648\u0627\u0631\u062F Ash Mode \u0646\u0634\u062F\u0647\u0627\u06CC.</string>
+
+    <!-- Bottom Navigation -->
+    <string name="bottom_nav_dashboard">Dashboard</string>
+    <string name="bottom_nav_account">Account</string>
+    <string name="bottom_nav_settings">Settings</string>
+    <string name="bottom_nav_leaderboard">Leaderboard</string>
+    <string name="bottom_nav_support">Support</string>
+    <string name="menu_open">Menu</string>
 </resources>

@@ -3,6 +3,7 @@ package com.benyaminrasouli.phoenixprotocol.feature.boss
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.Boss
+import android.util.Log
 import com.benyaminrasouli.phoenixprotocol.core.domain.repository.BossRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,18 +31,22 @@ class BossHistoryViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            combine(
-                bossRepository.getAllBosses(),
-                _filter
-            ) { bosses, filter ->
-                val filtered = when (filter) {
-                    BossFilter.ALL -> bosses
-                    BossFilter.ACTIVE -> bosses.filter { it.status == "ACTIVE" }
-                    BossFilter.COMPLETED -> bosses.filter { it.status == "COMPLETED" }
-                    BossFilter.FAILED -> bosses.filter { it.status == "FAILED" }
-                }
-                BossHistoryState(bosses = filtered, filter = filter)
-            }.collect { _state.value = it }
+            try {
+                combine(
+                    bossRepository.getAllBosses(),
+                    _filter
+                ) { bosses, filter ->
+                    val filtered = when (filter) {
+                        BossFilter.ALL -> bosses
+                        BossFilter.ACTIVE -> bosses.filter { it.status == "ACTIVE" }
+                        BossFilter.COMPLETED -> bosses.filter { it.status == "COMPLETED" }
+                        BossFilter.FAILED -> bosses.filter { it.status == "FAILED" }
+                    }
+                    BossHistoryState(bosses = filtered, filter = filter)
+                }.collect { _state.value = it }
+            } catch (e: Exception) {
+                Log.e("BossHistoryViewModel", "Error loading boss history", e)
+            }
         }
     }
 

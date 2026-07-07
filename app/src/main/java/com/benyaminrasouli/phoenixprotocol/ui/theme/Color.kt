@@ -25,6 +25,47 @@ val ShadowPurple = Color(0xFF9C27B0)
 val CompletedGreen = Color(0xFF4CAF50)
 val FailedRed = Color(0xFFFF5252)
 
+// Leaderboard medals
+val LeaderboardGold = PhoenixGold
+val LeaderboardSilver = Color(0xFFC0C0C0)
+val LeaderboardBronze = Color(0xFFCD7F32)
+
+// Mood scale
+val MoodNoData = SurfaceDark
+val MoodTerrible = Color(0xFFE53935)
+val MoodBad = Color(0xFFFF9800)
+val MoodOkay = Color(0xFFFFC107)
+val MoodGood = Color(0xFF8BC34A)
+val MoodAmazing = EnergyGreen
+
+// Shadow tiers
+val ShadowWarning = EnergyYellow
+val ShadowCritical = Color(0xFFF44336)
+val ShadowCorrupted = Color(0xFF673AB7)
+
+// Analytics category colors
+val CategoryBlue = Color(0xFF4A90D9)
+val CategoryGreen = EnergyGreen
+val CategoryPurple = ShadowPurple
+val CategoryOrange = PhoenixOrange
+val CategoryYellow = Color(0xFFFFC107)
+val CategoryPink = Color(0xFFE91E63)
+val CategoryGray = Color(0xFF607D8B)
+
+// Splash
+val SplashRadialDark = Color(0xFF1A0A00)
+
+// Campaign gradient stops
+val CampaignActiveStart = Color(0xFF5C2800)
+val CampaignActiveEnd = Color(0xFF3D1A00)
+val CampaignInactiveStart = Color(0xFF402000)
+val CampaignInactiveEnd = Color(0xFF261200)
+val CampaignCompletedStart = Color(0xFF0D2818)
+val CampaignCompletedEnd = Color(0xFF0A1A10)
+
+// Mood input card
+val MoodCardBackground = Color(0xFF101010)
+
 // Seed colors for Material 3
 val PhoenixPrimary = PhoenixOrange
 val PhoenixOnPrimary = Color(0xFFFFFFFF)

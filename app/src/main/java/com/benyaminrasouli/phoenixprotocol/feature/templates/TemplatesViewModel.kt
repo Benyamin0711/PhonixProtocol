@@ -7,9 +7,11 @@ import com.benyaminrasouli.phoenixprotocol.core.domain.usecase.CreateTemplateUse
 import com.benyaminrasouli.phoenixprotocol.core.domain.usecase.DeleteTemplateUseCase
 import com.benyaminrasouli.phoenixprotocol.core.domain.usecase.GetTemplatesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import android.util.Log
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -36,7 +38,7 @@ class TemplatesViewModel @Inject constructor(
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     private val _uiState = MutableStateFlow(TemplatesUiState())
-    val uiState: StateFlow<TemplatesUiState> = _uiState
+    val uiState: StateFlow<TemplatesUiState> = _uiState.asStateFlow()
 
     fun showCreateDialog() {
         _uiState.value = TemplatesUiState(showCreateDialog = true)
@@ -79,23 +81,31 @@ class TemplatesViewModel @Inject constructor(
         if (state.newTemplateName.isBlank()) return
 
         viewModelScope.launch {
-            val template = Template(
-                title = state.newTemplateName,
-                description = state.newTemplateDescription,
-                difficulty = state.newTemplateDifficulty,
-                category = state.newTemplateCategory,
-                recurrence = state.newTemplateRecurrence,
-                taskType = state.newTemplateTaskType,
-                isPriority = state.newTemplateIsPriority
-            )
-            createTemplateUseCase(template)
+            try {
+                val template = Template(
+                    title = state.newTemplateName,
+                    description = state.newTemplateDescription,
+                    difficulty = state.newTemplateDifficulty,
+                    category = state.newTemplateCategory,
+                    recurrence = state.newTemplateRecurrence,
+                    taskType = state.newTemplateTaskType,
+                    isPriority = state.newTemplateIsPriority
+                )
+                createTemplateUseCase(template)
+            } catch (e: Exception) {
+                Log.e("TemplatesViewModel", "Error creating template", e)
+            }
             dismissCreateDialog()
         }
     }
 
     fun deleteTemplate(template: Template) {
         viewModelScope.launch {
-            deleteTemplateUseCase(template)
+            try {
+                deleteTemplateUseCase(template)
+            } catch (e: Exception) {
+                Log.e("TemplatesViewModel", "Error deleting template", e)
+            }
         }
     }
 }

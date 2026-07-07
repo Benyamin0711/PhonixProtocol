@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.benyaminrasouli.phoenixprotocol.core.data.datastore.SettingsDataStore
 import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.UserProfile
 import com.benyaminrasouli.phoenixprotocol.core.domain.usecase.CreateProfileUseCase
+import android.util.Log
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -69,15 +70,20 @@ class OnboardingViewModel @Inject constructor(
 
         viewModelScope.launch {
             _state.update { it.copy(isSaving = true) }
-            val profile = UserProfile(
-                fullName = s.fullName.trim(),
-                username = s.username.trim(),
-                birthYear = s.birthYear.toIntOrNull(),
-                identityPath = s.identityPath
-            )
-            createProfileUseCase(profile)
-            _state.update { it.copy(isSaving = false) }
-            onSuccess()
+            try {
+                val profile = UserProfile(
+                    fullName = s.fullName.trim(),
+                    username = s.username.trim(),
+                    birthYear = s.birthYear.toIntOrNull(),
+                    identityPath = s.identityPath
+                )
+                createProfileUseCase(profile)
+                _state.update { it.copy(isSaving = false) }
+                onSuccess()
+            } catch (e: Exception) {
+                Log.e("OnboardingViewModel", "Error saving profile", e)
+                _state.update { it.copy(isSaving = false) }
+            }
         }
     }
 }

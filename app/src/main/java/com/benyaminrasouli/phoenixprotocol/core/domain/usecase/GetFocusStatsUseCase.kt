@@ -4,7 +4,7 @@ import com.benyaminrasouli.phoenixprotocol.core.domain.repository.FocusRepositor
 import javax.inject.Inject
 
 data class FocusStats(
-    val totalFocusTimeSeconds: Int,
+    val totalFocusTimeSeconds: Long,
     val completedSessionCount: Int
 )
 

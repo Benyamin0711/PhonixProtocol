@@ -6,6 +6,7 @@ import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.UserProfile
 import com.benyaminrasouli.phoenixprotocol.core.domain.model.IdentityPath
 import com.benyaminrasouli.phoenixprotocol.core.domain.repository.StatsRepository
 import com.benyaminrasouli.phoenixprotocol.core.domain.repository.UserRepository
+import android.util.Log
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -87,15 +88,20 @@ class ProfileViewModel @Inject constructor(
 
         viewModelScope.launch {
             _state.value = _state.value.copy(isSaving = true)
-            val profile = UserProfile(
-                id = currentState.profileId,
-                fullName = currentState.fullName,
-                username = currentState.username,
-                birthYear = currentState.birthYear.toIntOrNull(),
-                identityPath = currentState.identityPath
-            )
-            userRepository.updateProfile(profile)
-            _state.value = _state.value.copy(isEditing = false, isSaving = false)
+            try {
+                val profile = UserProfile(
+                    id = currentState.profileId,
+                    fullName = currentState.fullName,
+                    username = currentState.username,
+                    birthYear = currentState.birthYear.toIntOrNull(),
+                    identityPath = currentState.identityPath
+                )
+                userRepository.updateProfile(profile)
+                _state.value = _state.value.copy(isEditing = false, isSaving = false)
+            } catch (e: Exception) {
+                Log.e("ProfileViewModel", "Error saving profile", e)
+                _state.value = _state.value.copy(isSaving = false)
+            }
         }
     }
 }

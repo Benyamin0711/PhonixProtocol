@@ -2,6 +2,7 @@ package com.benyaminrasouli.phoenixprotocol.feature.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import android.util.Log
 import com.benyaminrasouli.phoenixprotocol.core.data.datastore.SettingsDataStore
 import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.UserProfile
 import com.benyaminrasouli.phoenixprotocol.core.data.export.DataExportManager
@@ -104,7 +105,8 @@ class SettingsViewModel @Inject constructor(
                 settingsDataStore.setOnboardingComplete(false)
                 userRepository.clearProfile()
                 statsRepository.clearStats()
-            } catch (_: Exception) {
+            } catch (e: Exception) {
+                Log.e("SettingsViewModel", "Error resetting data", e)
             }
             onComplete()
         }

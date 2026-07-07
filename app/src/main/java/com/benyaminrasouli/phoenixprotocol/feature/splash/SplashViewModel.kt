@@ -2,6 +2,7 @@ package com.benyaminrasouli.phoenixprotocol.feature.splash
 
 import androidx.lifecycle.ViewModel
 import com.benyaminrasouli.phoenixprotocol.core.data.datastore.SettingsDataStore
+import android.util.Log
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
@@ -12,6 +13,11 @@ class SplashViewModel @Inject constructor(
 ) : ViewModel() {
 
     suspend fun isOnboardingComplete(): Boolean {
-        return settingsDataStore.isOnboardingComplete.first()
+        return try {
+            settingsDataStore.isOnboardingComplete.first()
+        } catch (e: Exception) {
+            Log.e("SplashViewModel", "Error checking onboarding", e)
+            false
+        }
     }
 }

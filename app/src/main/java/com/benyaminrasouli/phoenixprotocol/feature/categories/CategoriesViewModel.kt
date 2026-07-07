@@ -7,9 +7,11 @@ import com.benyaminrasouli.phoenixprotocol.core.domain.usecase.CreateCategoryUse
 import com.benyaminrasouli.phoenixprotocol.core.domain.usecase.DeleteCategoryUseCase
 import com.benyaminrasouli.phoenixprotocol.core.domain.usecase.GetCategoriesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import android.util.Log
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -31,7 +33,7 @@ class CategoriesViewModel @Inject constructor(
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     private val _uiState = MutableStateFlow(CategoriesUiState())
-    val uiState: StateFlow<CategoriesUiState> = _uiState
+    val uiState: StateFlow<CategoriesUiState> = _uiState.asStateFlow()
 
     fun showCreateDialog() {
         _uiState.value = CategoriesUiState(showCreateDialog = true)
@@ -54,18 +56,26 @@ class CategoriesViewModel @Inject constructor(
         if (state.newCategoryName.isBlank()) return
 
         viewModelScope.launch {
-            val category = Category(
-                name = state.newCategoryName,
-                color = state.newCategoryColor
-            )
-            createCategoryUseCase(category)
+            try {
+                val category = Category(
+                    name = state.newCategoryName,
+                    color = state.newCategoryColor
+                )
+                createCategoryUseCase(category)
+            } catch (e: Exception) {
+                Log.e("CategoriesViewModel", "Error creating category", e)
+            }
             dismissCreateDialog()
         }
     }
 
     fun deleteCategory(category: Category) {
         viewModelScope.launch {
-            deleteCategoryUseCase(category)
+            try {
+                deleteCategoryUseCase(category)
+            } catch (e: Exception) {
+                Log.e("CategoriesViewModel", "Error deleting category", e)
+            }
         }
     }
 }

@@ -14,6 +14,7 @@ enum class Rank(val displayName: String, val levelRequired: Int) {
 
     companion object {
         fun forLevel(level: Int): Rank {
+            if (level <= 0) return INITIATE
             return entries.last { it.levelRequired <= level }
         }
     }

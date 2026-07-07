@@ -2,6 +2,7 @@ package com.benyaminrasouli.phoenixprotocol.core.domain.usecase
 
 import com.benyaminrasouli.phoenixprotocol.core.data.datastore.SettingsDataStore
 import com.benyaminrasouli.phoenixprotocol.core.domain.model.Slogans
+import android.util.Log
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
@@ -19,7 +20,8 @@ class GetSloganUseCase @Inject constructor(
     private suspend fun kotlinx.coroutines.flow.Flow<Int>.firstOr(default: Int): Int {
         return try {
             first()
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            Log.e("GetSloganUseCase", "Error getting slogan index", e)
             default
         }
     }

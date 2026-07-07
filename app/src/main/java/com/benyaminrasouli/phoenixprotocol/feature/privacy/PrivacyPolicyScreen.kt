@@ -89,7 +89,7 @@ fun PrivacyPolicyScreen(
 private fun PrivacySection(title: String, content: String) {
     Card(
         modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFF1A1A1A))
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
@@ -102,7 +102,7 @@ private fun PrivacySection(title: String, content: String) {
             Text(
                 text = content,
                 fontSize = 14.sp,
-                color = Color(0xFFA0A0B0),
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 lineHeight = 22.sp
             )
         }

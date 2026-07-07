@@ -10,7 +10,8 @@ import javax.inject.Inject
 
 class ShadowRepositoryImpl @Inject constructor(
     private val shadowLogDao: ShadowLogDao,
-    private val userStatsDao: UserStatsDao
+    private val userStatsDao: UserStatsDao,
+    private val achievementRepository: com.benyaminrasouli.phoenixprotocol.core.domain.repository.AchievementRepository
 ) : ShadowRepository {
 
     override fun getShadowLevel(): Flow<Int> {
@@ -56,8 +57,18 @@ class ShadowRepositoryImpl @Inject constructor(
     }
 
     override suspend fun decreaseShadow(amount: Int) {
-        val current = userStatsDao.getStatsOnce() ?: return
-        val newShadowLevel = (current.shadowLevel - amount).coerceAtLeast(0)
-        userStatsDao.updateStats(current.copy(shadowLevel = newShadowLevel))
+        val before = userStatsDao.getStatsOnce()?.shadowLevel ?: 0
+        userStatsDao.decreaseShadowAtomic(amount)
+        shadowLogDao.insert(
+            ShadowLog(
+                action = "SHADOW_RECOVERY",
+                amount = -amount,
+                description = "Shadow decreased by $amount"
+            )
+        )
+        val after = userStatsDao.getStatsOnce()?.shadowLevel ?: 0
+        if (before > 30 && after == 0) {
+            achievementRepository.unlock("shadow_breaker")
+        }
     }
 }

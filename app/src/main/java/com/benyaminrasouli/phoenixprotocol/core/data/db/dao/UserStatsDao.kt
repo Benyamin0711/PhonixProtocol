@@ -24,4 +24,22 @@ interface UserStatsDao {
 
     @Query("DELETE FROM user_stats")
     suspend fun deleteAllStats()
+
+    @Query("UPDATE user_stats SET xp = xp + :amount WHERE id = 1")
+    suspend fun addXpAtomic(amount: Int)
+
+    @Query("UPDATE user_stats SET phoenixEnergy = MIN(phoenixEnergy + :amount, 100) WHERE id = 1")
+    suspend fun increaseEnergyAtomic(amount: Int)
+
+    @Query("UPDATE user_stats SET phoenixEnergy = MAX(phoenixEnergy - :amount, 0) WHERE id = 1")
+    suspend fun decreaseEnergyAtomic(amount: Int)
+
+    @Query("UPDATE user_stats SET shadowLevel = shadowLevel + :amount WHERE id = 1")
+    suspend fun increaseShadowAtomic(amount: Int)
+
+    @Query("UPDATE user_stats SET shadowLevel = MAX(shadowLevel - :amount, 0) WHERE id = 1")
+    suspend fun decreaseShadowAtomic(amount: Int)
+
+    @Query("UPDATE user_stats SET completedTasks = completedTasks + 1 WHERE id = 1")
+    suspend fun incrementCompletedTasksAtomic()
 }

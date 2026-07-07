@@ -23,7 +23,7 @@ interface FocusSessionDao {
     suspend fun getSessionById(sessionId: Long): FocusSession?
 
     @Query("SELECT COALESCE(SUM(durationSeconds), 0) FROM focus_sessions WHERE completed = 1")
-    suspend fun getTotalFocusTimeSeconds(): Int
+    suspend fun getTotalFocusTimeSeconds(): Long
 
     @Query("SELECT COUNT(*) FROM focus_sessions WHERE completed = 1")
     suspend fun getCompletedSessionCount(): Int

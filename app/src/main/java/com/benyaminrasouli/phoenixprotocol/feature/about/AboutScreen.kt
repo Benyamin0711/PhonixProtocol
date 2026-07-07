@@ -47,6 +47,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.benyaminrasouli.phoenixprotocol.BuildConfig
 import com.benyaminrasouli.phoenixprotocol.R
+import com.benyaminrasouli.phoenixprotocol.core.navigation.Screen
 import com.benyaminrasouli.phoenixprotocol.ui.theme.BackgroundDark
 import com.benyaminrasouli.phoenixprotocol.ui.theme.PhoenixOrange
 import com.benyaminrasouli.phoenixprotocol.ui.theme.SurfaceDark
@@ -86,7 +87,7 @@ fun AboutScreen(
             item { DescriptionSection() }
             item { DeveloperSection() }
             item { SocialLinksSection() }
-            item { LegalSection() }
+            item { LegalSection(navController) }
             item { Spacer(modifier = Modifier.height(16.dp)) }
         }
     }
@@ -190,7 +191,7 @@ private fun SocialLinksSection() {
 }
 
 @Composable
-private fun LegalSection() {
+private fun LegalSection(navController: NavController) {
     val context = LocalContext.current
     val websiteUrl = stringResource(R.string.about_website_url)
 
@@ -200,8 +201,7 @@ private fun LegalSection() {
             subtitle = null,
             icon = { Icon(Icons.Default.Policy, contentDescription = null, tint = PhoenixOrange, modifier = Modifier.size(24.dp)) },
             onClick = {
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://$websiteUrl/privacy"))
-                context.startActivity(intent)
+                navController.navigate(Screen.PrivacyPolicy.route)
             }
         )
         HorizontalDivider(color = SurfaceVariantDark)

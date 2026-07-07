@@ -96,7 +96,7 @@ fun ShadowScreen(
                     modifier = Modifier
                         .size(200.dp)
                         .clip(CircleShape)
-                        .background(PhoenixOrange.copy(alpha = 1f - (shadowLevel / 200f)))
+                        .background(CriticalRed.copy(alpha = (shadowLevel / 100f).coerceIn(0.1f, 1f)))
                         .padding(2.dp),
                     contentAlignment = Alignment.Center
                 ) {

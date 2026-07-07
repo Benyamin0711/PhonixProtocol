@@ -10,6 +10,7 @@ import com.benyaminrasouli.phoenixprotocol.core.domain.model.TaskType
 import com.benyaminrasouli.phoenixprotocol.core.domain.repository.CategoryRepository
 import com.benyaminrasouli.phoenixprotocol.core.domain.usecase.CheckAchievementsUseCase
 import com.benyaminrasouli.phoenixprotocol.core.domain.usecase.CreateTaskUseCase
+import android.util.Log
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -61,22 +62,27 @@ class CreateTaskViewModel @Inject constructor(
 
         viewModelScope.launch {
             _state.update { it.copy(isSaving = true) }
-            val task = Task(
-                title = s.title.trim(),
-                description = s.description.trim(),
-                difficulty = s.difficulty.name,
-                category = s.category.ifBlank { "General" },
-                categoryId = s.selectedCategoryId,
-                xpValue = s.difficulty.xpValue,
-                recurrence = s.recurrence.name,
-                status = "PENDING",
-                taskType = s.taskType.name,
-                isPriority = s.isPriority
-            )
-            createTaskUseCase(task)
-            checkAchievementsUseCase()
-            _state.update { it.copy(isSaving = false) }
-            onSuccess()
+            try {
+                val task = Task(
+                    title = s.title.trim(),
+                    description = s.description.trim(),
+                    difficulty = s.difficulty.name,
+                    category = s.category.ifBlank { "General" },
+                    categoryId = s.selectedCategoryId,
+                    xpValue = s.difficulty.xpValue,
+                    recurrence = s.recurrence.name,
+                    status = "PENDING",
+                    taskType = s.taskType.name,
+                    isPriority = s.isPriority
+                )
+                createTaskUseCase(task)
+                checkAchievementsUseCase()
+                _state.update { it.copy(isSaving = false) }
+                onSuccess()
+            } catch (e: Exception) {
+                Log.e("CreateTaskViewModel", "Error saving task", e)
+                _state.update { it.copy(isSaving = false) }
+            }
         }
     }
 }

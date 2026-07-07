@@ -18,9 +18,7 @@ class AchievementRepositoryImpl @Inject constructor(
     override suspend fun isUnlocked(achievementId: String): Boolean = dao.isAchievementUnlocked(achievementId)
 
     override suspend fun unlock(achievementId: String) {
-        if (!dao.isAchievementUnlocked(achievementId)) {
-            dao.unlockAchievement(UserAchievement(achievementId = achievementId))
-        }
+        dao.unlockAchievement(UserAchievement(achievementId = achievementId))
     }
 
     override suspend fun getUnlockedCount(): Int = dao.getUnlockedCount()

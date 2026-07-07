@@ -38,12 +38,11 @@ class MainActivity : ComponentActivity() {
                 val currentLang = getSharedPreferences("phoenix_locale_prefs", MODE_PRIVATE)
                     .getString("language", "en") ?: "en"
                 if (language != currentLang) {
-                    LocaleHelper.setLocale(this@MainActivity, language)
                     getSharedPreferences("phoenix_locale_prefs", MODE_PRIVATE)
                         .edit()
                         .putString("language", language)
                         .apply()
-                    recreate()
+                    LocaleHelper.setLocale(this@MainActivity, language)
                 }
             }
 
