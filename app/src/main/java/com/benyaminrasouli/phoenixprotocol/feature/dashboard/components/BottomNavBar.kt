@@ -80,14 +80,6 @@ fun BottomNavBar(
 
             // Right buttons
             BottomNavItem(
-                icon = Icons.Filled.EmojiEvents,
-                label = stringResource(R.string.bottom_nav_leaderboard),
-                route = "leaderboard",
-                currentRoute = currentRoute,
-                onClick = { onNavigate("leaderboard") }
-            )
-
-            BottomNavItem(
                 icon = Icons.AutoMirrored.Filled.Help,
                 label = stringResource(R.string.bottom_nav_support),
                 route = "support",

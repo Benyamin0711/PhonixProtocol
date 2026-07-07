@@ -27,12 +27,8 @@ import com.benyaminrasouli.phoenixprotocol.feature.support.SupportScreen
 import com.benyaminrasouli.phoenixprotocol.feature.templates.TemplatesListScreen
 import com.benyaminrasouli.phoenixprotocol.feature.categories.CategoriesScreen
 import com.benyaminrasouli.phoenixprotocol.feature.focus.FocusTimerScreen
-import com.benyaminrasouli.phoenixprotocol.feature.leaderboard.LeaderboardScreen
 import com.benyaminrasouli.phoenixprotocol.feature.shadow.ShadowScreen
 import com.benyaminrasouli.phoenixprotocol.feature.analytics.AnalyticsScreen
-import com.benyaminrasouli.phoenixprotocol.feature.habits.HabitsScreen
-import com.benyaminrasouli.phoenixprotocol.feature.habits.HabitDetailScreen
-import com.benyaminrasouli.phoenixprotocol.feature.mood.MoodTrackerScreen
 import com.benyaminrasouli.phoenixprotocol.feature.privacy.PrivacyPolicyScreen
 
 @Composable
@@ -169,15 +165,6 @@ fun NavGraph(navController: NavHostController) {
             FocusTimerScreen(navController = navController)
         }
         composable(
-            Screen.Leaderboard.route,
-            enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
-            exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) }
-        ) {
-            MainScreen(navController = navController) {
-                LeaderboardScreen(navController = navController)
-            }
-        }
-        composable(
             Screen.Shadow.route,
             enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
             exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) }
@@ -190,36 +177,6 @@ fun NavGraph(navController: NavHostController) {
             exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) }
         ) {
             AnalyticsScreen(navController = navController)
-        }
-        composable(
-            Screen.Habits.route,
-            enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
-            exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) }
-        ) {
-            HabitsScreen(
-                onNavigateBack = { navController.popBackStack() },
-                onNavigateToDetail = { habitId ->
-                    navController.navigate(Screen.HabitDetail.createRoute(habitId))
-                }
-            )
-        }
-        composable(
-            Screen.HabitDetail.route,
-            enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
-            exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) }
-        ) { backStackEntry ->
-            val habitId = backStackEntry.arguments?.getString("habitId")?.toLongOrNull() ?: return@composable
-            HabitDetailScreen(
-                habitId = habitId,
-                onNavigateBack = { navController.popBackStack() }
-            )
-        }
-        composable(
-            Screen.MoodTracker.route,
-            enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
-            exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) }
-        ) {
-            MoodTrackerScreen(navController = navController)
         }
         composable(
             Screen.PrivacyPolicy.route,

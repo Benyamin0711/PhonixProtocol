@@ -11,6 +11,7 @@ import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.BossDao
 import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.CategoryDao
 import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.DailyChallengeDao
 import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.FocusSessionDao
+import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.CampaignDao
 import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.TaskDao
 import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.TemplateDao
 import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.ShadowLogDao
@@ -144,6 +145,123 @@ object DatabaseModule {
         }
     }
 
+    private val MIGRATION_10_11 = object : Migration(10, 11) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL(
+                "CREATE TABLE IF NOT EXISTS habits " +
+                "(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                "name TEXT NOT NULL, " +
+                "description TEXT NOT NULL DEFAULT '', " +
+                "target INTEGER NOT NULL, " +
+                "unit TEXT NOT NULL, " +
+                "categoryId INTEGER, " +
+                "color TEXT NOT NULL DEFAULT '#FF6B35', " +
+                "reminderEnabled INTEGER NOT NULL DEFAULT 0, " +
+                "reminderHour INTEGER NOT NULL DEFAULT 9, " +
+                "reminderMinute INTEGER NOT NULL DEFAULT 0, " +
+                "createdAt INTEGER NOT NULL, " +
+                "isActive INTEGER NOT NULL DEFAULT 1)"
+            )
+            db.execSQL(
+                "CREATE TABLE IF NOT EXISTS habit_logs " +
+                "(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                "habitId INTEGER NOT NULL, " +
+                "date TEXT NOT NULL, " +
+                "value INTEGER NOT NULL, " +
+                "createdAt INTEGER NOT NULL)"
+            )
+            db.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS index_habit_logs_habitId_date ON habit_logs (habitId, date)")
+        }
+    }
+
+    private val MIGRATION_11_12 = object : Migration(11, 12) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            // Campaigns table
+            db.execSQL(
+                "CREATE TABLE IF NOT EXISTS campaigns " +
+                "(id INTEGER PRIMARY KEY NOT NULL, " +
+                "currentDay INTEGER NOT NULL DEFAULT 1, " +
+                "totalXp INTEGER NOT NULL DEFAULT 0, " +
+                "startDate INTEGER NOT NULL)"
+            )
+            db.execSQL("INSERT INTO campaigns (id, currentDay, totalXp, startDate) VALUES (1, 1, 0, ${System.currentTimeMillis()})")
+
+            // Campaign days table
+            db.execSQL(
+                "CREATE TABLE IF NOT EXISTS campaign_days " +
+                "(dayNumber INTEGER PRIMARY KEY NOT NULL, " +
+                "completedMissions TEXT NOT NULL DEFAULT '', " +
+                "completedPrayers TEXT NOT NULL DEFAULT '', " +
+                "note TEXT NOT NULL DEFAULT '', " +
+                "relapseCount INTEGER NOT NULL DEFAULT 0, " +
+                "isAsh INTEGER NOT NULL DEFAULT 0)"
+            )
+
+            // Daily missions table
+            db.execSQL(
+                "CREATE TABLE IF NOT EXISTS daily_missions " +
+                "(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                "name TEXT NOT NULL, " +
+                "xp INTEGER NOT NULL, " +
+                "isActive INTEGER NOT NULL DEFAULT 1)"
+            )
+            val missions = arrayOf(
+                arrayOf("3 saat mothale'e daneshgah", "30"),
+                arrayOf("hal tamrin riazi", "20"),
+                arrayOf("hal tamrin fizik", "20"),
+                arrayOf("kodnevisi HabitAway", "25"),
+                arrayOf("baghesh / tamrin", "20"),
+                arrayOf("bedoon porn", "30"),
+                arrayOf("gitar", "10"),
+                arrayOf("mothale'e azad", "10"),
+                arrayOf("journal shab", "10"),
+                arrayOf("scroll control shode", "15"),
+                arrayOf("khabe muntazam", "15"),
+                arrayOf("marrat sazie mahal", "5")
+            )
+            missions.forEach { m ->
+                db.execSQL("INSERT INTO daily_missions (name, xp, isActive) VALUES (?, ?, 1)", m)
+            }
+
+            // Prayers table
+            db.execSQL(
+                "CREATE TABLE IF NOT EXISTS prayers " +
+                "(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                "name TEXT NOT NULL, " +
+                "xp INTEGER NOT NULL, " +
+                "isActive INTEGER NOT NULL DEFAULT 1)"
+            )
+            val prayers = arrayOf(
+                arrayOf("namaz sobh", "8"),
+                arrayOf("namaz zohr", "5"),
+                arrayOf("namaz asr", "5"),
+                arrayOf("namaz maghrib", "5"),
+                arrayOf("namaz esha", "5")
+            )
+            prayers.forEach { p ->
+                db.execSQL("INSERT INTO prayers (name, xp, isActive) VALUES (?, ?, 1)", p)
+            }
+
+            // Academic subjects table
+            db.execSQL(
+                "CREATE TABLE IF NOT EXISTS academic_subjects " +
+                "(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                "name TEXT NOT NULL, " +
+                "progress REAL NOT NULL DEFAULT 0, " +
+                "riskLevel TEXT NOT NULL DEFAULT 'NORMAL', " +
+                "isActive INTEGER NOT NULL DEFAULT 1)"
+            )
+            val subjects = arrayOf(
+                arrayOf("riazi 1", "18", "BOSS_FIGHT"),
+                arrayOf("fizik", "15", "HIGH_RISK"),
+                arrayOf("barnameh nevisi", "35", "MAIN_SKILL")
+            )
+            subjects.forEach { s ->
+                db.execSQL("INSERT INTO academic_subjects (name, progress, riskLevel, isActive) VALUES (?, ?, ?, 1)", s)
+            }
+        }
+    }
+
     @Provides
     @Singleton
     fun provideDatabase(@ApplicationContext context: Context): PhoenixDatabase {
@@ -152,7 +270,7 @@ object DatabaseModule {
             PhoenixDatabase::class.java,
             "phoenix_database"
         )
-            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9, MIGRATION_9_10)
+            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9, MIGRATION_9_10, MIGRATION_10_11, MIGRATION_11_12, MIGRATION_12_13)
             .addCallback(object : RoomDatabase.Callback() {
                 override fun onCreate(db: SupportSQLiteDatabase) {
                     super.onCreate(db)
@@ -218,4 +336,20 @@ object DatabaseModule {
 
     @Provides
     fun provideShadowLogDao(db: PhoenixDatabase): ShadowLogDao = db.shadowLogDao()
+
+    @Provides
+    fun provideCampaignDao(db: PhoenixDatabase): CampaignDao = db.campaignDao()
+
+    private val MIGRATION_12_13 = object : Migration(12, 13) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL(
+                "CREATE TABLE IF NOT EXISTS mood_entries " +
+                "(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                "moodLevel INTEGER NOT NULL, " +
+                "note TEXT NOT NULL DEFAULT '', " +
+                "tags TEXT NOT NULL DEFAULT '', " +
+                "timestamp INTEGER NOT NULL)"
+            )
+        }
+    }
 }

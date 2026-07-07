@@ -24,6 +24,8 @@ import androidx.compose.material.icons.filled.Timer
 import androidx.compose.material.icons.automirrored.filled.Help
 import androidx.compose.material.icons.filled.Insights
 import androidx.compose.material.icons.filled.Leaderboard
+import androidx.compose.material.icons.filled.Mood
+import androidx.compose.material.icons.filled.Repeat
 import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material.icons.filled.VerifiedUser
 import androidx.compose.material3.HorizontalDivider
@@ -145,11 +147,6 @@ fun DrawerScreen(
             icon = Icons.Filled.EmojiEvents,
             label = stringResource(R.string.drawer_challenges),
             onClick = onNavigateToDailyChallenges
-        )
-        DrawerMenuItem(
-            icon = Icons.Filled.Leaderboard,
-            label = stringResource(R.string.drawer_leaderboard),
-            onClick = onNavigateToLeaderboard
         )
         DrawerMenuItem(
             icon = Icons.Filled.Insights,

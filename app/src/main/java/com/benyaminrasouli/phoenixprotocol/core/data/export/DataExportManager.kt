@@ -1,6 +1,8 @@
 package com.benyaminrasouli.phoenixprotocol.core.data.export
 
 import android.content.Context
+import androidx.room.withTransaction
+import com.benyaminrasouli.phoenixprotocol.core.data.db.PhoenixDatabase
 import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.*
 import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.*
 import com.google.gson.Gson
@@ -21,6 +23,7 @@ data class ImportResult(val success: Boolean, val error: String? = null)
 @Singleton
 class DataExportManager @Inject constructor(
     @ApplicationContext private val context: Context,
+    private val database: PhoenixDatabase,
     private val taskDao: TaskDao,
     private val userProfileDao: UserProfileDao,
     private val userStatsDao: UserStatsDao,
@@ -30,10 +33,11 @@ class DataExportManager @Inject constructor(
     private val templateDao: TemplateDao,
     private val categoryDao: CategoryDao,
     private val focusSessionDao: FocusSessionDao,
-    private val shadowLogDao: ShadowLogDao
+    private val shadowLogDao: ShadowLogDao,
+    private val campaignDao: CampaignDao
 ) {
     private val gson: Gson = GsonBuilder().setPrettyPrinting().create()
-    private val exportVersion = 10
+    private val exportVersion = 12
 
     suspend fun export(): ExportResult {
         return try {
@@ -53,9 +57,14 @@ class DataExportManager @Inject constructor(
             json.put("dailyChallenges", JSONArray(gson.toJson(dailyChallengeDao.getAllChallengesOnce())))
             json.put("focusSessions", JSONArray(gson.toJson(focusSessionDao.getAllSessionsOnce())))
             json.put("shadowLog", JSONArray(gson.toJson(shadowLogDao.getAllLogsOnce())))
+            campaignDao.getCampaignOnce()?.let { json.put("campaign", JSONObject(gson.toJson(it))) }
 
             val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
-            val file = File(context.getExternalFilesDir(null), "phoenix_protocol_backup_$timestamp.json")
+            val dir = context.getExternalFilesDir(null)
+            if (dir == null) {
+                return ExportResult(success = false, error = "External storage not available")
+            }
+            val file = File(dir, "phoenix_protocol_backup_$timestamp.json")
             file.writeText(json.toString(2))
             ExportResult(success = true, filePath = file.absolutePath)
         } catch (e: Exception) {
@@ -69,31 +78,34 @@ class DataExportManager @Inject constructor(
             val version = json.optInt("version", 0)
             if (version > exportVersion) return ImportResult(success = false, error = "Incompatible backup version")
 
-            // Clear in FK-safe order
-            shadowLogDao.deleteAll()
-            focusSessionDao.deleteAll()
-            dailyChallengeDao.deleteAll()
-            bossDao.deleteAll()
-            achievementDao.deleteAllUserAchievements()
-            achievementDao.deleteAll()
-            templateDao.deleteAll()
-            taskDao.deleteAll()
-            categoryDao.deleteAll()
-            userStatsDao.deleteAllStats()
-            userProfileDao.deleteAll()
+            database.withTransaction {
+                // Clear in FK-safe order
+                shadowLogDao.deleteAll()
+                focusSessionDao.deleteAll()
+                dailyChallengeDao.deleteAll()
+                bossDao.deleteAll()
+                achievementDao.deleteAllUserAchievements()
+                achievementDao.deleteAll()
+                templateDao.deleteAll()
+                taskDao.deleteAll()
+                categoryDao.deleteAll()
+                userStatsDao.deleteAllStats()
+                userProfileDao.deleteAll()
 
-            // Import
-            json.optJSONObject("profile")?.let { userProfileDao.insertProfile(gson.fromJson(it.toString(), UserProfile::class.java)) }
-            json.optJSONObject("stats")?.let { userStatsDao.insertStats(gson.fromJson(it.toString(), UserStats::class.java)) }
-            json.optJSONArray("tasks")?.let { arr -> for (i in 0 until arr.length()) taskDao.insertTask(gson.fromJson(arr[i].toString(), Task::class.java)) }
-            json.optJSONArray("categories")?.let { arr -> for (i in 0 until arr.length()) categoryDao.insertCategory(gson.fromJson(arr[i].toString(), Category::class.java)) }
-            json.optJSONArray("templates")?.let { arr -> for (i in 0 until arr.length()) templateDao.insertTemplate(gson.fromJson(arr[i].toString(), Template::class.java)) }
-            json.optJSONArray("achievements")?.let { arr -> for (i in 0 until arr.length()) achievementDao.insertAchievement(gson.fromJson(arr[i].toString(), Achievement::class.java)) }
-            json.optJSONArray("userAchievements")?.let { arr -> for (i in 0 until arr.length()) achievementDao.insertUserAchievement(gson.fromJson(arr[i].toString(), UserAchievement::class.java)) }
-            json.optJSONArray("bosses")?.let { arr -> for (i in 0 until arr.length()) bossDao.insertBoss(gson.fromJson(arr[i].toString(), Boss::class.java)) }
-            json.optJSONArray("dailyChallenges")?.let { arr -> for (i in 0 until arr.length()) dailyChallengeDao.insertChallenge(gson.fromJson(arr[i].toString(), DailyChallenge::class.java)) }
-            json.optJSONArray("focusSessions")?.let { arr -> for (i in 0 until arr.length()) focusSessionDao.insertSession(gson.fromJson(arr[i].toString(), FocusSession::class.java)) }
-            json.optJSONArray("shadowLog")?.let { arr -> for (i in 0 until arr.length()) shadowLogDao.insert(gson.fromJson(arr[i].toString(), ShadowLog::class.java)) }
+                // Import in correct order
+                json.optJSONObject("profile")?.let { userProfileDao.insertProfile(gson.fromJson(it.toString(), UserProfile::class.java)) }
+                json.optJSONObject("stats")?.let { userStatsDao.insertStats(gson.fromJson(it.toString(), UserStats::class.java)) }
+                json.optJSONArray("categories")?.let { arr -> for (i in 0 until arr.length()) categoryDao.insertCategory(gson.fromJson(arr[i].toString(), Category::class.java)) }
+                json.optJSONArray("tasks")?.let { arr -> for (i in 0 until arr.length()) taskDao.insertTask(gson.fromJson(arr[i].toString(), Task::class.java)) }
+                json.optJSONArray("templates")?.let { arr -> for (i in 0 until arr.length()) templateDao.insertTemplate(gson.fromJson(arr[i].toString(), Template::class.java)) }
+                json.optJSONArray("achievements")?.let { arr -> for (i in 0 until arr.length()) achievementDao.insertAchievement(gson.fromJson(arr[i].toString(), Achievement::class.java)) }
+                json.optJSONArray("userAchievements")?.let { arr -> for (i in 0 until arr.length()) achievementDao.insertUserAchievement(gson.fromJson(arr[i].toString(), UserAchievement::class.java)) }
+                json.optJSONArray("bosses")?.let { arr -> for (i in 0 until arr.length()) bossDao.insertBoss(gson.fromJson(arr[i].toString(), Boss::class.java)) }
+                json.optJSONArray("dailyChallenges")?.let { arr -> for (i in 0 until arr.length()) dailyChallengeDao.insertChallenge(gson.fromJson(arr[i].toString(), DailyChallenge::class.java)) }
+                json.optJSONArray("focusSessions")?.let { arr -> for (i in 0 until arr.length()) focusSessionDao.insertSession(gson.fromJson(arr[i].toString(), FocusSession::class.java)) }
+                json.optJSONArray("shadowLog")?.let { arr -> for (i in 0 until arr.length()) shadowLogDao.insert(gson.fromJson(arr[i].toString(), ShadowLog::class.java)) }
+                json.optJSONObject("campaign")?.let { campaignDao.insertCampaign(gson.fromJson(it.toString(), Campaign::class.java)) }
+            }
 
             ImportResult(success = true)
         } catch (e: Exception) {

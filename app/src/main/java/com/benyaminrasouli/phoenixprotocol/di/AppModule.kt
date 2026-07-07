@@ -10,11 +10,11 @@ import com.benyaminrasouli.phoenixprotocol.core.data.repository.StatsRepositoryI
 import com.benyaminrasouli.phoenixprotocol.core.data.repository.TaskRepositoryImpl
 import com.benyaminrasouli.phoenixprotocol.core.data.repository.CategoryRepositoryImpl
 import com.benyaminrasouli.phoenixprotocol.core.data.repository.TemplateRepositoryImpl
-import com.benyaminrasouli.phoenixprotocol.core.data.repository.MockLeaderboardRepository
+import com.benyaminrasouli.phoenixprotocol.core.data.repository.CampaignRepositoryImpl
 import com.benyaminrasouli.phoenixprotocol.core.data.repository.UserRepositoryImpl
 import com.benyaminrasouli.phoenixprotocol.core.domain.repository.AchievementRepository
+import com.benyaminrasouli.phoenixprotocol.core.domain.repository.CampaignRepository
 import com.benyaminrasouli.phoenixprotocol.core.domain.repository.AnalyticsRepository
-import com.benyaminrasouli.phoenixprotocol.core.domain.repository.LeaderboardRepository
 import com.benyaminrasouli.phoenixprotocol.core.domain.repository.CategoryRepository
 import com.benyaminrasouli.phoenixprotocol.core.domain.repository.BossRepository
 import com.benyaminrasouli.phoenixprotocol.core.domain.repository.DailyChallengeRepository
@@ -76,9 +76,9 @@ abstract class AppModule {
 
     @Binds
     @Singleton
-    abstract fun bindLeaderboardRepository(impl: MockLeaderboardRepository): LeaderboardRepository
+    abstract fun bindAnalyticsRepository(impl: AnalyticsRepositoryImpl): AnalyticsRepository
 
     @Binds
     @Singleton
-    abstract fun bindAnalyticsRepository(impl: AnalyticsRepositoryImpl): AnalyticsRepository
+    abstract fun bindCampaignRepository(impl: CampaignRepositoryImpl): CampaignRepository
 }

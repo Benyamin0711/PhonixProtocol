@@ -3,7 +3,6 @@ package com.benyaminrasouli.phoenixprotocol.feature.dashboard
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -14,7 +13,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.benyaminrasouli.phoenixprotocol.feature.dashboard.components.AcademicSection
 import com.benyaminrasouli.phoenixprotocol.feature.dashboard.components.CampaignGrid
 import com.benyaminrasouli.phoenixprotocol.feature.dashboard.components.DailyNoteSection
 import com.benyaminrasouli.phoenixprotocol.feature.dashboard.components.DayNavigation
@@ -68,8 +66,6 @@ fun DashboardScreen(
             note = state.note,
             onNoteChange = { viewModel.saveNote(it) }
         )
-
-        AcademicSection(subjects = state.subjects)
 
         CampaignGrid(
             currentDay = state.currentDay,

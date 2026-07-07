@@ -88,10 +88,6 @@ fun MainScreen(
                         scope.launch { drawerState.close() }
                         navController.navigate(Screen.FocusTimer.route)
                     },
-                    onNavigateToLeaderboard = {
-                        scope.launch { drawerState.close() }
-                        navController.navigate(Screen.Leaderboard.route)
-                    },
                     onNavigateToShadow = {
                         scope.launch { drawerState.close() }
                         navController.navigate(Screen.Shadow.route)
@@ -99,14 +95,6 @@ fun MainScreen(
                     onNavigateToAnalytics = {
                         scope.launch { drawerState.close() }
                         navController.navigate(Screen.Analytics.route)
-                    },
-                    onNavigateToHabits = {
-                        scope.launch { drawerState.close() }
-                        navController.navigate(Screen.Habits.route)
-                    },
-                    onNavigateToMoodTracker = {
-                        scope.launch { drawerState.close() }
-                        navController.navigate(Screen.MoodTracker.route)
                     }
                 )
             }
@@ -142,7 +130,6 @@ fun MainScreen(
                             }
                             "profile" -> navController.navigate(Screen.Profile.route)
                             "settings" -> navController.navigate(Screen.Settings.route)
-                            "leaderboard" -> navController.navigate(Screen.Leaderboard.route)
                             "support" -> navController.navigate(Screen.Support.route)
                         }
                     }
