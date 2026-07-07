@@ -5,6 +5,7 @@ import com.benyaminrasouli.phoenixprotocol.core.data.db.dao.UserStatsDao
 import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.ShadowLog
 import com.benyaminrasouli.phoenixprotocol.core.domain.repository.ShadowRepository
 import kotlinx.coroutines.flow.Flow
+import com.benyaminrasouli.phoenixprotocol.core.util.ShadowCalculator
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -22,23 +23,13 @@ class ShadowRepositoryImpl @Inject constructor(
 
     override fun getShadowTier(): Flow<String> {
         return getShadowLevel().map { level ->
-            when {
-                level < 30 -> "SAFE"
-                level < 60 -> "WARNING"
-                level < 90 -> "CRITICAL"
-                else -> "CORRUPTED"
-            }
+            ShadowCalculator.shadowTier(level)
         }
     }
 
     override fun getXpPenaltyPercent(): Flow<Int> {
         return getShadowLevel().map { level ->
-            when {
-                level < 30 -> 0
-                level < 60 -> 10
-                level < 90 -> 25
-                else -> 50
-            }
+            ShadowCalculator.xpPenaltyPercent(level)
         }
     }
 

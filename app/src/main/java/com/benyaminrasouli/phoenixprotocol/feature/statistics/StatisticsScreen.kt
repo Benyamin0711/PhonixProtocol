@@ -32,6 +32,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.benyaminrasouli.phoenixprotocol.R
 import com.benyaminrasouli.phoenixprotocol.core.ui.components.EnergyBar
+import com.benyaminrasouli.phoenixprotocol.core.util.toFocusTimeText
 import com.benyaminrasouli.phoenixprotocol.ui.theme.BackgroundDark
 import com.benyaminrasouli.phoenixprotocol.ui.theme.PhoenixGold
 import com.benyaminrasouli.phoenixprotocol.ui.theme.PhoenixOrange
@@ -106,9 +107,7 @@ fun StatisticsScreen(
 
             // Focus Timer card
             StatCard(title = stringResource(R.string.focus_timer)) {
-                val hours = state.totalFocusSeconds / 3600
-                val minutes = (state.totalFocusSeconds % 3600) / 60
-                val focusTimeText = if (hours > 0) "${hours}h ${minutes}m" else "${minutes}m"
+                val focusTimeText = state.totalFocusSeconds.toFocusTimeText()
                 StatRow(label = stringResource(R.string.focus_timer_total_focus), value = focusTimeText)
                 StatRow(label = stringResource(R.string.focus_timer_completed), value = "${state.completedFocusSessions}")
             }

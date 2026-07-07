@@ -49,6 +49,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.benyaminrasouli.phoenixprotocol.R
+import com.benyaminrasouli.phoenixprotocol.core.util.toFocusTimeText
 import com.benyaminrasouli.phoenixprotocol.ui.theme.BackgroundDark
 import com.benyaminrasouli.phoenixprotocol.ui.theme.EnergyGreen
 import com.benyaminrasouli.phoenixprotocol.ui.theme.PhoenixGold
@@ -289,9 +290,7 @@ private fun StatsSection(
     totalFocusSeconds: Int,
     completedSessions: Int
 ) {
-    val hours = totalFocusSeconds / 3600
-    val minutes = (totalFocusSeconds % 3600) / 60
-    val focusTimeText = if (hours > 0) "${hours}h ${minutes}m" else "${minutes}m"
+    val focusTimeText = totalFocusSeconds.toFocusTimeText()
 
     Card(
         colors = CardDefaults.cardColors(containerColor = SurfaceDark),

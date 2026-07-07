@@ -21,7 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.benyaminrasouli.phoenixprotocol.R
-import com.benyaminrasouli.phoenixprotocol.feature.dashboard.PrayerItem
+import com.benyaminrasouli.phoenixprotocol.feature.dashboard.CampaignItem
 import com.benyaminrasouli.phoenixprotocol.ui.theme.BackgroundDark
 import com.benyaminrasouli.phoenixprotocol.ui.theme.CompletedGreen
 import com.benyaminrasouli.phoenixprotocol.ui.theme.EnergyYellow
@@ -31,7 +31,7 @@ import com.benyaminrasouli.phoenixprotocol.ui.theme.TextPrimary
 
 @Composable
 fun SpiritSection(
-    prayers: List<PrayerItem>,
+    prayers: List<CampaignItem>,
     onToggle: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {

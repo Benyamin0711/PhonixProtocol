@@ -23,18 +23,12 @@ data class DashboardState(
     val isAsh: Boolean = false,
     val currentDayData: CampaignDay? = null,
     val allDays: List<CampaignDay> = emptyList(),
-    val missions: List<MissionItem> = emptyList(),
-    val prayers: List<PrayerItem> = emptyList(),
+    val missions: List<CampaignItem> = emptyList(),
+    val prayers: List<CampaignItem> = emptyList(),
     val note: String = ""
 )
 
-data class MissionItem(
-    val name: String,
-    val xp: Int,
-    val isCompleted: Boolean
-)
-
-data class PrayerItem(
+data class CampaignItem(
     val name: String,
     val xp: Int,
     val isCompleted: Boolean
@@ -71,7 +65,7 @@ class DashboardViewModel @Inject constructor(
                     currentDayData = campaignState.currentDay,
                     allDays = campaignState.allDays,
                     missions = campaignState.missions.mapIndexed { index, m ->
-                        MissionItem(
+                        CampaignItem(
                             name = m.name,
                             xp = m.xp,
                             isCompleted = campaignState.currentDay?.completedMissions
@@ -82,7 +76,7 @@ class DashboardViewModel @Inject constructor(
                         )
                     },
                     prayers = campaignState.prayers.mapIndexed { index, p ->
-                        PrayerItem(
+                        CampaignItem(
                             name = p.name,
                             xp = p.xp,
                             isCompleted = campaignState.currentDay?.completedPrayers

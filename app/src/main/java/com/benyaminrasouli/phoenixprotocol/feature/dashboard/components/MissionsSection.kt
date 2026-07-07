@@ -21,7 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.benyaminrasouli.phoenixprotocol.R
-import com.benyaminrasouli.phoenixprotocol.feature.dashboard.MissionItem
+import com.benyaminrasouli.phoenixprotocol.feature.dashboard.CampaignItem
 import com.benyaminrasouli.phoenixprotocol.ui.theme.BackgroundDark
 import com.benyaminrasouli.phoenixprotocol.ui.theme.CompletedGreen
 import com.benyaminrasouli.phoenixprotocol.ui.theme.EnergyYellow
@@ -31,7 +31,7 @@ import com.benyaminrasouli.phoenixprotocol.ui.theme.TextPrimary
 
 @Composable
 fun MissionsSection(
-    missions: List<MissionItem>,
+    missions: List<CampaignItem>,
     onToggle: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -65,7 +65,7 @@ fun MissionsSection(
 
 @Composable
 private fun MissionRow(
-    mission: MissionItem,
+    mission: CampaignItem,
     onToggle: () -> Unit
 ) {
     Row(

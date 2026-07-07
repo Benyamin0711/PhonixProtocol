@@ -35,9 +35,6 @@ class OnboardingViewModel @Inject constructor(
 
     fun setLanguage(language: String) {
         _state.update { it.copy(language = language) }
-        viewModelScope.launch {
-            settingsDataStore.setLanguage(language)
-        }
     }
 
     fun setFullName(name: String) {
@@ -78,6 +75,7 @@ class OnboardingViewModel @Inject constructor(
                     identityPath = s.identityPath
                 )
                 createProfileUseCase(profile)
+                settingsDataStore.setLanguage(s.language)
                 _state.update { it.copy(isSaving = false) }
                 onSuccess()
             } catch (e: Exception) {

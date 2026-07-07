@@ -67,7 +67,6 @@ fun DrawerScreen(
 ) {
     val profile by viewModel.profile.collectAsStateWithLifecycle(initialValue = null)
     val stats by viewModel.stats.collectAsStateWithLifecycle(initialValue = null)
-    val language by viewModel.language.collectAsStateWithLifecycle(initialValue = "en")
 
     Column(
         modifier = Modifier
@@ -161,9 +160,7 @@ fun DrawerScreen(
         DrawerMenuItem(
             icon = Icons.Filled.Language,
             label = stringResource(R.string.drawer_language),
-            onClick = {
-                viewModel.setLanguage(if (language == "en") "fa" else "en")
-            }
+            onClick = onNavigateToSettings
         )
         DrawerMenuItem(
             icon = Icons.Filled.Info,

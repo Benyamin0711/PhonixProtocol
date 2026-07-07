@@ -6,6 +6,7 @@ import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.DailyMission
 import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.Prayer
 import com.benyaminrasouli.phoenixprotocol.core.domain.repository.CampaignRepository
 import kotlinx.coroutines.flow.Flow
+import com.benyaminrasouli.phoenixprotocol.core.util.parseCsvIndices
 import kotlinx.coroutines.flow.combine
 import javax.inject.Inject
 
@@ -66,13 +67,13 @@ class GetCampaignStateUseCase @Inject constructor(
     ): Int {
         var total = 0
         allDays.forEach { day ->
-            val completedMissions = day.completedMissions.split(",").filter { it.isNotBlank() }.mapNotNull { it.toIntOrNull() }
+            val completedMissions = day.completedMissions.parseCsvIndices()
             completedMissions.forEach { index ->
                 if (index in missions.indices) {
                     total += missions[index].xp
                 }
             }
-            val completedPrayers = day.completedPrayers.split(",").filter { it.isNotBlank() }.mapNotNull { it.toIntOrNull() }
+            val completedPrayers = day.completedPrayers.parseCsvIndices()
             completedPrayers.forEach { index ->
                 if (index in prayers.indices) {
                     total += prayers[index].xp
@@ -98,8 +99,8 @@ class GetCampaignStateUseCase @Inject constructor(
         prayers: List<Prayer>
     ): Int {
         if (day == null) return 0
-        val done = day.completedMissions.split(",").filter { it.isNotBlank() }.size +
-                   day.completedPrayers.split(",").filter { it.isNotBlank() }.size
+        val done = day.completedMissions.parseCsvIndices().size +
+                   day.completedPrayers.parseCsvIndices().size
         val all = missions.size + prayers.size
         return if (all > 0) (done * 100 / all) else 0
     }
