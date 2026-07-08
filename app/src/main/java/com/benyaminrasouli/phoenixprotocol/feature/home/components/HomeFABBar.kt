@@ -10,16 +10,15 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.automirrored.filled.List
-
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -48,12 +47,15 @@ fun HomeFABBar(
     Box(
         modifier = modifier
             .fillMaxWidth()
+            .height(72.dp)
             .background(SurfaceDark.copy(alpha = 0.95f))
-            .padding(horizontal = 8.dp, vertical = 8.dp)
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 24.dp)
+                .align(Alignment.Center),
+            horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
             FABNavItem(
@@ -71,7 +73,7 @@ fun HomeFABBar(
                 onClick = { onNavigate("support") }
             )
 
-            Spacer(modifier = Modifier.width(56.dp))
+            Spacer(modifier = Modifier.width(64.dp))
 
             FABNavItem(
                 icon = Icons.AutoMirrored.Filled.List,
@@ -82,13 +84,14 @@ fun HomeFABBar(
             )
         }
 
+        // Center FAB - square with rounded corners
         Box(
             modifier = Modifier
                 .align(Alignment.TopCenter)
-                .offset(y = (-16).dp)
-                .size(64.dp)
-                .shadow(12.dp, CircleShape)
-                .clip(CircleShape)
+                .offset(y = (-20).dp)
+                .size(56.dp)
+                .shadow(12.dp, RoundedCornerShape(16.dp))
+                .clip(RoundedCornerShape(16.dp))
                 .background(PhoenixOrange)
                 .clickable { onNavigate("home") },
             contentAlignment = Alignment.Center
@@ -96,7 +99,7 @@ fun HomeFABBar(
             Image(
                 painter = painterResource(R.drawable.ic_launcher_foreground),
                 contentDescription = "Home",
-                modifier = Modifier.size(40.dp)
+                modifier = Modifier.size(32.dp)
             )
         }
     }

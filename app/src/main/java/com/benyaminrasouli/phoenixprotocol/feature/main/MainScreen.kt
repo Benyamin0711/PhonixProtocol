@@ -12,7 +12,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -26,16 +30,17 @@ import kotlinx.coroutines.launch
 fun MainScreen(
     navController: NavController,
     currentRoute: String?,
-    content: @Composable () -> Unit
+    content: @Composable (onStoryVisibilityChanged: (Boolean) -> Unit) -> Unit
 ) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
+    var showFABBar by remember { mutableStateOf(true) }
 
     val noShellRoutes = listOf(Screen.Splash.route, Screen.Onboarding.route)
     val showShell = currentRoute !in noShellRoutes
 
     if (!showShell) {
-        content()
+        content { }
         return
     }
 
@@ -66,22 +71,24 @@ fun MainScreen(
     ) {
         Scaffold(
             bottomBar = {
-                HomeFABBar(
-                    currentRoute = navController.currentDestination?.route,
-                    onNavigate = { route ->
-                        when (route) {
-                            "home" -> {
-                                navController.navigate(Screen.Home.route) {
-                                    popUpTo(Screen.Home.route) { inclusive = true }
+                if (showFABBar) {
+                    HomeFABBar(
+                        currentRoute = navController.currentDestination?.route,
+                        onNavigate = { route ->
+                            when (route) {
+                                "home" -> {
+                                    navController.navigate(Screen.Home.route) {
+                                        popUpTo(Screen.Home.route) { inclusive = true }
+                                    }
                                 }
+                                "tasklist" -> onNavigate(Screen.TaskList.route)
+                                "focus" -> onNavigate(Screen.FocusTimer.route)
+                                "profile" -> onNavigate(Screen.Profile.route)
+                                "support" -> onNavigate(Screen.Support.route)
                             }
-                            "tasklist" -> onNavigate(Screen.TaskList.route)
-                            "focus" -> onNavigate(Screen.FocusTimer.route)
-                            "profile" -> onNavigate(Screen.Profile.route)
-                            "support" -> onNavigate(Screen.Support.route)
                         }
-                    }
-                )
+                    )
+                }
             },
             containerColor = MaterialTheme.colorScheme.background
         ) { paddingValues ->
@@ -90,7 +97,7 @@ fun MainScreen(
                     .fillMaxSize()
                     .padding(paddingValues)
             ) {
-                content()
+                content { isVisible -> showFABBar = !isVisible }
             }
         }
     }

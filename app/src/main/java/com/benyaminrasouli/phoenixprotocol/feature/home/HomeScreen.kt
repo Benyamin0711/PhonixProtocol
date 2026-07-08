@@ -1,5 +1,6 @@
 package com.benyaminrasouli.phoenixprotocol.feature.home
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -33,6 +34,7 @@ import androidx.navigation.NavController
 import com.benyaminrasouli.phoenixprotocol.feature.home.components.FeatureGrid
 import com.benyaminrasouli.phoenixprotocol.feature.home.components.StoryItem
 import com.benyaminrasouli.phoenixprotocol.feature.home.components.StorySection
+import com.benyaminrasouli.phoenixprotocol.feature.home.components.StorySlide
 import com.benyaminrasouli.phoenixprotocol.feature.home.components.StoryViewer
 import com.benyaminrasouli.phoenixprotocol.feature.home.components.SupportFooter
 import com.benyaminrasouli.phoenixprotocol.feature.home.components.UserStatusCard
@@ -42,24 +44,80 @@ import com.benyaminrasouli.phoenixprotocol.ui.theme.TextSecondary
 
 private val defaultStories = listOf(
     StoryItem(
-        title = "Pomodoro Timer",
-        description = "Boost your focus with timed work sessions",
-        gradientColors = listOf(PhoenixOrange, Color(0xFFFF6B35))
+        slides = listOf(
+            StorySlide(
+                title = "Pomodoro Technique",
+                description = "Work 25 minutes, break 5 minutes",
+                gradientColors = listOf(PhoenixOrange, Color(0xFFFF6B35))
+            ),
+            StorySlide(
+                title = "Stay Focused",
+                description = "Eliminate distractions during work sessions",
+                gradientColors = listOf(PhoenixOrange, Color(0xFFE85D2C))
+            ),
+            StorySlide(
+                title = "Track Progress",
+                description = "Monitor your daily productivity",
+                gradientColors = listOf(PhoenixOrange, Color(0xFFFF8C5A))
+            )
+        )
     ),
     StoryItem(
-        title = "Meditation",
-        description = "Find peace with guided meditation",
-        gradientColors = listOf(Color(0xFF6B73FF), Color(0xFF000DFE))
+        slides = listOf(
+            StorySlide(
+                title = "Guided Meditation",
+                description = "Find peace with guided meditation sessions",
+                gradientColors = listOf(Color(0xFF6B73FF), Color(0xFF000DFE))
+            ),
+            StorySlide(
+                title = "Mindfulness",
+                description = "Stay present and aware of each moment",
+                gradientColors = listOf(Color(0xFF5A63E8), Color(0xFF3D3BF5))
+            ),
+            StorySlide(
+                title = "Daily Practice",
+                description = "Build a consistent meditation habit",
+                gradientColors = listOf(Color(0xFF7B83FF), Color(0xFF1A1DFF))
+            )
+        )
     ),
     StoryItem(
-        title = "Breathing Exercises",
-        description = "Calm your mind with breathing techniques",
-        gradientColors = listOf(Color(0xFF11998E), Color(0xFF38EF7D))
+        slides = listOf(
+            StorySlide(
+                title = "Deep Breathing",
+                description = "Calm your mind with breathing techniques",
+                gradientColors = listOf(Color(0xFF11998E), Color(0xFF38EF7D))
+            ),
+            StorySlide(
+                title = "Box Breathing",
+                description = "4-4-4-4 pattern for stress relief",
+                gradientColors = listOf(Color(0xFF0D8C7E), Color(0xFF2BD86E))
+            ),
+            StorySlide(
+                title = "Recovery Breath",
+                description = "Restore energy between tasks",
+                gradientColors = listOf(Color(0xFF15A697), Color(0xFF45F88E))
+            )
+        )
     ),
     StoryItem(
-        title = "Frequency Listening",
-        description = "Train your ears with audio frequencies",
-        gradientColors = listOf(Color(0xFFEE0979), Color(0xFFFF6A00))
+        slides = listOf(
+            StorySlide(
+                title = "Binaural Beats",
+                description = "Train your ears with audio frequencies",
+                gradientColors = listOf(Color(0xFFEE0979), Color(0xFFFF6A00))
+            ),
+            StorySlide(
+                title = "Alpha Waves",
+                description = "Relaxation and light focus state",
+                gradientColors = listOf(Color(0xFFD90869), Color(0xFFE85A00))
+            ),
+            StorySlide(
+                title = "Theta Waves",
+                description = "Deep meditation and creativity",
+                gradientColors = listOf(Color(0xFFF01989), Color(0xFFFF7A10))
+            )
+        )
     )
 )
 
@@ -68,13 +126,19 @@ private val defaultStories = listOf(
 fun HomeScreen(
     navController: NavController,
     onOpenDrawer: () -> Unit = {},
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel(),
+    onStoryVisibilityChanged: (Boolean) -> Unit = {}
 ) {
     val profile by viewModel.userProfile.collectAsStateWithLifecycle(initialValue = null)
     val stats by viewModel.userStats.collectAsStateWithLifecycle(initialValue = null)
 
     var showStoryViewer by remember { mutableStateOf(false) }
-    var selectedStoryIndex by remember { mutableIntStateOf(0) }
+    var selectedSlideIndex by remember { mutableIntStateOf(0) }
+
+    BackHandler(enabled = showStoryViewer) {
+        showStoryViewer = false
+        onStoryVisibilityChanged(false)
+    }
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -117,8 +181,9 @@ fun HomeScreen(
             StorySection(
                 stories = defaultStories,
                 onStoryClick = { index ->
-                    selectedStoryIndex = index
+                    selectedSlideIndex = index * 3
                     showStoryViewer = true
+                    onStoryVisibilityChanged(true)
                 }
             )
 
@@ -146,8 +211,11 @@ fun HomeScreen(
         if (showStoryViewer) {
             StoryViewer(
                 stories = defaultStories,
-                initialIndex = selectedStoryIndex,
-                onDismiss = { showStoryViewer = false }
+                initialIndex = selectedSlideIndex,
+                onDismiss = {
+                    showStoryViewer = false
+                    onStoryVisibilityChanged(false)
+                }
             )
         }
     }

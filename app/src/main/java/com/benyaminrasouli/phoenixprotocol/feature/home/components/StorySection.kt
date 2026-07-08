@@ -28,10 +28,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-data class StoryItem(
+data class StorySlide(
     val title: String,
     val description: String,
     val gradientColors: List<Color>
+)
+
+data class StoryItem(
+    val slides: List<StorySlide>
 )
 
 @Composable
@@ -80,6 +84,8 @@ private fun StoryCard(
     story: StoryItem,
     onClick: () -> Unit
 ) {
+    val firstSlide = story.slides.first()
+
     Card(
         modifier = Modifier
             .width(200.dp)
@@ -92,7 +98,7 @@ private fun StoryCard(
             modifier = Modifier
                 .fillMaxSize()
                 .background(
-                    Brush.verticalGradient(colors = story.gradientColors)
+                    Brush.verticalGradient(colors = firstSlide.gradientColors)
                 )
         ) {
             Column(
@@ -102,14 +108,14 @@ private fun StoryCard(
                 verticalArrangement = Arrangement.Bottom
             ) {
                 Text(
-                    text = story.title,
+                    text = firstSlide.title,
                     color = Color.White,
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = story.description,
+                    text = firstSlide.description,
                     color = Color.White.copy(alpha = 0.8f),
                     fontSize = 12.sp
                 )

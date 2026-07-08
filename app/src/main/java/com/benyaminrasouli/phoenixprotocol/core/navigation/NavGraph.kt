@@ -51,9 +51,12 @@ fun NavGraph(navController: NavHostController) {
 
         routes.forEach { route ->
             composable(route) {
-                MainScreen(navController, currentRoute = route) {
+                MainScreen(navController, currentRoute = route) { onStoryVisibilityChanged ->
                     when (route) {
-                        Screen.Home.route -> HomeScreen(navController)
+                        Screen.Home.route -> HomeScreen(
+                            navController,
+                            onStoryVisibilityChanged = onStoryVisibilityChanged
+                        )
                         Screen.TaskList.route -> TaskListScreen(navController)
                         Screen.CreateTask.route -> CreateTaskScreen(navController)
                         Screen.Statistics.route -> StatisticsScreen(navController)
