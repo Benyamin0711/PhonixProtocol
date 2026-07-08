@@ -3,6 +3,7 @@ package com.benyaminrasouli.phoenixprotocol.core.navigation
 sealed class Screen(val route: String) {
     data object Splash : Screen("splash")
     data object Onboarding : Screen("onboarding")
+    data object Home : Screen("home")
     data object Dashboard : Screen("dashboard")
     data object TaskList : Screen("task_list")
     data object CreateTask : Screen("create_task")

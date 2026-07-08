@@ -1,4 +1,4 @@
-package com.benyaminrasouli.phoenixprotocol.feature.dashboard.components
+package com.benyaminrasouli.phoenixprotocol.feature.home.components
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.Image
@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -18,12 +17,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.EmojiEvents
-import androidx.compose.material.icons.automirrored.filled.Help
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -33,7 +31,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -43,7 +40,7 @@ import com.benyaminrasouli.phoenixprotocol.ui.theme.SurfaceDark
 import com.benyaminrasouli.phoenixprotocol.ui.theme.TextSecondary
 
 @Composable
-fun BottomNavBar(
+fun HomeFABBar(
     currentRoute: String?,
     onNavigate: (String) -> Unit,
     modifier: Modifier = Modifier
@@ -59,36 +56,39 @@ fun BottomNavBar(
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Left buttons
-            BottomNavItem(
-                icon = Icons.Filled.Person,
-                label = stringResource(R.string.bottom_nav_account),
-                route = "profile",
+            FABNavItem(
+                icon = Icons.Filled.PlayArrow,
+                label = "Timer",
+                route = "focus",
                 currentRoute = currentRoute,
-                onClick = { onNavigate("profile") }
+                onClick = { onNavigate("focus") }
             )
-
-            BottomNavItem(
-                icon = Icons.Filled.Settings,
-                label = stringResource(R.string.bottom_nav_settings),
-                route = "settings",
-                currentRoute = currentRoute,
-                onClick = { onNavigate("settings") }
-            )
-
-            Spacer(modifier = Modifier.width(48.dp))
-
-            // Right buttons
-            BottomNavItem(
-                icon = Icons.AutoMirrored.Filled.Help,
-                label = stringResource(R.string.bottom_nav_support),
+            FABNavItem(
+                icon = Icons.Filled.Info,
+                label = "Support",
                 route = "support",
                 currentRoute = currentRoute,
                 onClick = { onNavigate("support") }
             )
+
+            Spacer(modifier = Modifier.width(56.dp))
+
+            FABNavItem(
+                icon = Icons.AutoMirrored.Filled.List,
+                label = "Tasks",
+                route = "tasklist",
+                currentRoute = currentRoute,
+                onClick = { onNavigate("tasklist") }
+            )
+            FABNavItem(
+                icon = Icons.Filled.Person,
+                label = "Profile",
+                route = "profile",
+                currentRoute = currentRoute,
+                onClick = { onNavigate("profile") }
+            )
         }
 
-        // Center FAB (App Logo)
         Box(
             modifier = Modifier
                 .align(Alignment.TopCenter)
@@ -97,12 +97,12 @@ fun BottomNavBar(
                 .shadow(12.dp, CircleShape)
                 .clip(CircleShape)
                 .background(PhoenixOrange)
-                .clickable { onNavigate("dashboard") },
+                .clickable { onNavigate("home") },
             contentAlignment = Alignment.Center
         ) {
             Image(
                 painter = painterResource(R.drawable.ic_launcher_foreground),
-                contentDescription = stringResource(R.string.bottom_nav_dashboard),
+                contentDescription = "Home",
                 modifier = Modifier.size(40.dp)
             )
         }
@@ -110,7 +110,7 @@ fun BottomNavBar(
 }
 
 @Composable
-private fun BottomNavItem(
+private fun FABNavItem(
     icon: ImageVector,
     label: String,
     route: String,
@@ -120,7 +120,7 @@ private fun BottomNavItem(
     val isSelected = currentRoute == route
     val contentColor by animateColorAsState(
         targetValue = if (isSelected) PhoenixOrange else TextSecondary,
-        label = "bottomNavItemColor"
+        label = "fabNavItemColor"
     )
 
     Column(

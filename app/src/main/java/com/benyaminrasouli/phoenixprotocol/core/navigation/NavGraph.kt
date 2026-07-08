@@ -1,10 +1,5 @@
 package com.benyaminrasouli.phoenixprotocol.core.navigation
 
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -12,7 +7,7 @@ import androidx.navigation.compose.composable
 import com.benyaminrasouli.phoenixprotocol.feature.splash.SplashScreen
 import com.benyaminrasouli.phoenixprotocol.feature.main.MainScreen
 import com.benyaminrasouli.phoenixprotocol.feature.onboarding.OnboardingScreen
-import com.benyaminrasouli.phoenixprotocol.feature.dashboard.DashboardScreen
+import com.benyaminrasouli.phoenixprotocol.feature.home.HomeScreen
 import com.benyaminrasouli.phoenixprotocol.feature.tasks.TaskListScreen
 import com.benyaminrasouli.phoenixprotocol.feature.tasks.CreateTaskScreen
 import com.benyaminrasouli.phoenixprotocol.feature.statistics.StatisticsScreen
@@ -37,153 +32,48 @@ fun NavGraph(navController: NavHostController) {
         navController = navController,
         startDestination = Screen.Splash.route
     ) {
-        composable(
-            Screen.Splash.route,
-            enterTransition = { fadeIn(animationSpec = tween(300)) },
-            exitTransition = { fadeOut(animationSpec = tween(300)) }
-        ) {
+        composable(Screen.Splash.route) {
             SplashScreen(navController = navController)
         }
-        composable(
-            Screen.Onboarding.route,
-            enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
-            exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) }
-        ) {
+
+        composable(Screen.Onboarding.route) {
             OnboardingScreen(navController = navController)
         }
-        composable(
-            Screen.Dashboard.route,
-            enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
-            exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) }
-        ) {
-            MainScreen(navController = navController) {
-                DashboardScreen(navController = navController)
+
+        val routes = listOf(
+            Screen.Home.route, Screen.TaskList.route, Screen.CreateTask.route,
+            Screen.Statistics.route, Screen.Achievements.route, Screen.BossDetail.route,
+            Screen.Settings.route, Screen.About.route, Screen.DailyChallenges.route,
+            Screen.BossHistory.route, Screen.Support.route, Screen.Profile.route,
+            Screen.Templates.route, Screen.Categories.route, Screen.FocusTimer.route,
+            Screen.Shadow.route, Screen.Analytics.route, Screen.PrivacyPolicy.route
+        )
+
+        routes.forEach { route ->
+            composable(route) {
+                MainScreen(navController, currentRoute = route) {
+                    when (route) {
+                        Screen.Home.route -> HomeScreen(navController)
+                        Screen.TaskList.route -> TaskListScreen(navController)
+                        Screen.CreateTask.route -> CreateTaskScreen(navController)
+                        Screen.Statistics.route -> StatisticsScreen(navController)
+                        Screen.Achievements.route -> AchievementScreen(navController)
+                        Screen.BossDetail.route -> BossDetailScreen(navController)
+                        Screen.Settings.route -> SettingsScreen(navController)
+                        Screen.About.route -> AboutScreen(navController)
+                        Screen.DailyChallenges.route -> DailyChallengeScreen(navController)
+                        Screen.BossHistory.route -> BossHistoryScreen(navController)
+                        Screen.Support.route -> SupportScreen(navController)
+                        Screen.Profile.route -> ProfileScreen(navController)
+                        Screen.Templates.route -> TemplatesListScreen(navController)
+                        Screen.Categories.route -> CategoriesScreen(navController)
+                        Screen.FocusTimer.route -> FocusTimerScreen(navController)
+                        Screen.Shadow.route -> ShadowScreen(navController)
+                        Screen.Analytics.route -> AnalyticsScreen(navController)
+                        Screen.PrivacyPolicy.route -> PrivacyPolicyScreen(navController)
+                    }
+                }
             }
-        }
-        composable(
-            Screen.TaskList.route,
-            enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
-            exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) }
-        ) {
-            TaskListScreen(navController = navController)
-        }
-        composable(
-            Screen.CreateTask.route,
-            enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
-            exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) }
-        ) {
-            CreateTaskScreen(navController = navController)
-        }
-        composable(
-            Screen.Statistics.route,
-            enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
-            exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) }
-        ) {
-            StatisticsScreen(navController = navController)
-        }
-        composable(
-            Screen.Achievements.route,
-            enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
-            exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) }
-        ) {
-            AchievementScreen(navController = navController)
-        }
-        composable(
-            Screen.BossDetail.route,
-            enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
-            exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) }
-        ) {
-            BossDetailScreen(navController = navController)
-        }
-        composable(
-            Screen.Settings.route,
-            enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
-            exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) }
-        ) {
-            MainScreen(navController = navController) {
-                SettingsScreen(navController = navController)
-            }
-        }
-        composable(
-            Screen.About.route,
-            enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
-            exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) }
-        ) {
-            AboutScreen(navController = navController)
-        }
-        composable(
-            Screen.DailyChallenges.route,
-            enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
-            exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) }
-        ) {
-            DailyChallengeScreen(navController = navController)
-        }
-        composable(
-            Screen.BossHistory.route,
-            enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
-            exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) }
-        ) {
-            BossHistoryScreen(navController = navController)
-        }
-        composable(
-            Screen.Support.route,
-            enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
-            exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) }
-        ) {
-            MainScreen(navController = navController) {
-                SupportScreen(navController = navController)
-            }
-        }
-        composable(
-            Screen.Profile.route,
-            enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
-            exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) }
-        ) {
-            MainScreen(navController = navController) {
-                ProfileScreen(navController = navController)
-            }
-        }
-        composable(
-            Screen.Templates.route,
-            enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
-            exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) }
-        ) {
-            TemplatesListScreen(navController = navController)
-        }
-        composable(
-            Screen.Categories.route,
-            enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
-            exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) }
-        ) {
-            CategoriesScreen(navController = navController)
-        }
-        composable(
-            Screen.FocusTimer.route,
-            enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
-            exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) }
-        ) {
-            FocusTimerScreen(navController = navController)
-        }
-        composable(
-            Screen.Shadow.route,
-            enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
-            exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) }
-        ) {
-            ShadowScreen(navController = navController)
-        }
-        composable(
-            Screen.Analytics.route,
-            enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
-            exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) }
-        ) {
-            AnalyticsScreen(navController = navController)
-        }
-        composable(
-            Screen.PrivacyPolicy.route,
-            enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
-            exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) }
-        ) {
-            PrivacyPolicyScreen(navController = navController)
         }
     }
 }
