@@ -21,7 +21,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -31,12 +30,10 @@ import com.benyaminrasouli.phoenixprotocol.ui.theme.TextSecondary
 @Composable
 fun UserStatusCard(
     username: String = "Phoenix User",
-    level: Int = 5,
-    status: String = "Active",
-    rank: Int = 3,
-    currentXp: Int = 750,
+    level: Int = 1,
+    rank: String = "#1",
+    currentXp: Int = 0,
     maxXp: Int = 1000,
-    quote: String = "Stay consistent, stay strong",
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -79,7 +76,7 @@ fun UserStatusCard(
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = status,
+                        text = "Active",
                         style = MaterialTheme.typography.bodySmall,
                         color = TextSecondary
                     )
@@ -93,7 +90,7 @@ fun UserStatusCard(
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = "Rank #$rank",
+                        text = "Rank $rank",
                         style = MaterialTheme.typography.bodySmall,
                         color = TextSecondary
                     )
@@ -121,15 +118,6 @@ fun UserStatusCard(
                     color = TextSecondary
                 )
             }
-
-            Spacer(modifier = Modifier.height(12.dp))
-
-            Text(
-                text = "\"$quote\"",
-                style = MaterialTheme.typography.bodyMedium,
-                color = TextSecondary,
-                fontStyle = FontStyle.Italic
-            )
         }
     }
 }

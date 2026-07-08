@@ -19,7 +19,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.automirrored.filled.List
-import androidx.compose.material.icons.filled.Person
+
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -79,13 +79,6 @@ fun HomeFABBar(
                 route = "tasklist",
                 currentRoute = currentRoute,
                 onClick = { onNavigate("tasklist") }
-            )
-            FABNavItem(
-                icon = Icons.Filled.Person,
-                label = "Profile",
-                route = "profile",
-                currentRoute = currentRoute,
-                onClick = { onNavigate("profile") }
             )
         }
 

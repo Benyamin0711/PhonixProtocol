@@ -15,8 +15,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -29,46 +27,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.benyaminrasouli.phoenixprotocol.ui.theme.PhoenixOrange
 
 data class StoryItem(
     val title: String,
     val description: String,
-    val gradientColors: List<Color>,
-    val onLearnMore: () -> Unit
+    val gradientColors: List<Color>
 )
 
 @Composable
 fun StorySection(
-    onNavigateToFeature: (String) -> Unit,
+    stories: List<StoryItem>,
+    onStoryClick: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val stories = listOf(
-        StoryItem(
-            title = "Pomodoro Timer",
-            description = "Boost your focus with timed work sessions",
-            gradientColors = listOf(PhoenixOrange, Color(0xFFFF6B35)),
-            onLearnMore = { onNavigateToFeature("focus_timer") }
-        ),
-        StoryItem(
-            title = "Meditation",
-            description = "Find peace with guided meditation",
-            gradientColors = listOf(Color(0xFF6B73FF), Color(0xFF000DFE)),
-            onLearnMore = { onNavigateToFeature("meditation") }
-        ),
-        StoryItem(
-            title = "Breathing Exercises",
-            description = "Calm your mind with breathing techniques",
-            gradientColors = listOf(Color(0xFF11998E), Color(0xFF38EF7D)),
-            onLearnMore = { onNavigateToFeature("breathing") }
-        ),
-        StoryItem(
-            title = "Frequency Listening",
-            description = "Train your ears with audio frequencies",
-            gradientColors = listOf(Color(0xFFEE0979), Color(0xFFFF6A00)),
-            onLearnMore = { onNavigateToFeature("frequency") }
-        )
-    )
 
     Column(modifier = modifier) {
         Row(
@@ -94,20 +65,26 @@ fun StorySection(
                 .padding(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            stories.forEach { story ->
-                StoryCard(story = story)
+            stories.forEachIndexed { index, story ->
+                StoryCard(
+                    story = story,
+                    onClick = { onStoryClick(index) }
+                )
             }
         }
     }
 }
 
 @Composable
-private fun StoryCard(story: StoryItem) {
+private fun StoryCard(
+    story: StoryItem,
+    onClick: () -> Unit
+) {
     Card(
         modifier = Modifier
             .width(200.dp)
             .height(240.dp)
-            .clickable(onClick = story.onLearnMore),
+            .clickable(onClick = onClick),
         shape = RoundedCornerShape(16.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
@@ -136,20 +113,6 @@ private fun StoryCard(story: StoryItem) {
                     color = Color.White.copy(alpha = 0.8f),
                     fontSize = 12.sp
                 )
-                Spacer(modifier = Modifier.height(12.dp))
-                Button(
-                    onClick = story.onLearnMore,
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.White.copy(alpha = 0.2f)
-                    ),
-                    shape = RoundedCornerShape(8.dp)
-                ) {
-                    Text(
-                        text = "Learn More",
-                        color = Color.White,
-                        fontSize = 12.sp
-                    )
-                }
             }
         }
     }
