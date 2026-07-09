@@ -2,6 +2,8 @@ package com.benyaminrasouli.phoenixprotocol.feature.focus
 
 import android.app.Application
 import android.content.Intent
+import android.media.RingtoneManager
+import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.FocusSession
@@ -135,6 +137,9 @@ class FocusTimerViewModel @Inject constructor(
 
     private fun onTimerComplete(startedAt: Long) {
         val currentState = _state.value
+
+        // Play alarm sound
+        playAlarmSound()
 
         // Save work session to DB
         if (currentState.phase == SessionPhase.WORK) {
@@ -277,6 +282,25 @@ class FocusTimerViewModel @Inject constructor(
             )
         }
         startTimerJob()
+    }
+
+    private fun playAlarmSound() {
+        try {
+            val alarmUri: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
+                ?: RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+                ?: RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE)
+
+            val ringtone = RingtoneManager.getRingtone(getApplication(), alarmUri)
+            ringtone?.play()
+
+            // Stop after 5 seconds
+            viewModelScope.launch {
+                delay(5000)
+                ringtone?.stop()
+            }
+        } catch (e: Exception) {
+            // Silently fail if alarm can't be played
+        }
     }
 
     override fun onCleared() {
