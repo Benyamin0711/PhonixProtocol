@@ -6,7 +6,6 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
-import android.view.View
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.compose.animation.animateColorAsState
@@ -15,7 +14,6 @@ import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
@@ -68,7 +66,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
@@ -76,7 +73,6 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -109,10 +105,16 @@ private val CustomDurations = listOf(5, 15, 25, 30, 45, 60)
 @Composable
 fun FocusTimerScreen(
     navController: NavController,
+    onFullScreenChanged: (Boolean) -> Unit = {},
     viewModel: FocusTimerViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
+
+    // Notify MainScreen about fullscreen state
+    LaunchedEffect(state.isFullScreen) {
+        onFullScreenChanged(state.isFullScreen)
+    }
 
     // True fullscreen - hide system UI
     val window = (context as? Activity)?.window
@@ -121,7 +123,6 @@ fun FocusTimerScreen(
     LaunchedEffect(state.isFullScreen) {
         if (window != null && view != null) {
             if (state.isFullScreen) {
-                // Enter immersive fullscreen
                 WindowCompat.setDecorFitsSystemWindows(window, false)
                 val controller = WindowInsetsControllerCompat(window, view)
                 controller.hide(WindowInsetsCompat.Type.systemBars())
@@ -129,7 +130,6 @@ fun FocusTimerScreen(
                     WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
                 window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
             } else {
-                // Exit fullscreen
                 WindowCompat.setDecorFitsSystemWindows(window, true)
                 val controller = WindowInsetsControllerCompat(window, view)
                 controller.show(WindowInsetsCompat.Type.systemBars())
@@ -141,6 +141,7 @@ fun FocusTimerScreen(
     // Restore system UI when leaving screen
     DisposableEffect(Unit) {
         onDispose {
+            onFullScreenChanged(false)
             if (window != null && view != null) {
                 WindowCompat.setDecorFitsSystemWindows(window, true)
                 val controller = WindowInsetsControllerCompat(window, view)
@@ -334,7 +335,6 @@ private fun PhaseIndicator(
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // Session dots
         repeat(4) { index ->
             val isCompleted = index < (sessionsCompleted % 4)
             Box(
@@ -612,20 +612,17 @@ private fun TimerControls(
             )
         }
 
-        // Play/Pause button
+        // Play/Pause button - with color change
+        val buttonColor by animateColorAsState(
+            targetValue = if (isRunning) PhoenixRed else PhoenixOrange,
+            label = "buttonColor"
+        )
+
         IconButton(
             onClick = { if (isRunning) onPause() else onStart() },
             modifier = Modifier
                 .size(80.dp)
-                .background(
-                    Brush.radialGradient(
-                        colors = listOf(
-                            PhoenixOrange,
-                            PhoenixOrange.copy(alpha = 0.8f)
-                        )
-                    ),
-                    CircleShape
-                )
+                .background(buttonColor, CircleShape)
         ) {
             Icon(
                 imageVector = Icons.Default.PlayArrow,
@@ -763,16 +760,16 @@ private fun PremiumFullScreenTimer(
         scaleAnim.animateTo(1f, animationSpec = tween(400, easing = FastOutSlowInEasing))
     }
 
-    // Background particles
-    val infiniteTransition = rememberInfiniteTransition(label = "particles")
-    val particleOffset by infiniteTransition.animateFloat(
-        initialValue = 0f,
-        targetValue = 1f,
+    // Background glow animation
+    val infiniteTransition = rememberInfiniteTransition(label = "bgGlow")
+    val bgGlowAlpha by infiniteTransition.animateFloat(
+        initialValue = 0.1f,
+        targetValue = 0.25f,
         animationSpec = infiniteRepeatable(
-            animation = tween(3000, easing = LinearEasing),
-            repeatMode = RepeatMode.Restart
+            animation = tween(2000, easing = LinearEasing),
+            repeatMode = RepeatMode.Reverse
         ),
-        label = "particle"
+        label = "bgGlow"
     )
 
     Box(
@@ -780,16 +777,16 @@ private fun PremiumFullScreenTimer(
             .fillMaxSize()
             .background(Color.Black)
     ) {
-        // Animated background gradient
+        // Animated background glow
         Canvas(modifier = Modifier.fillMaxSize()) {
-            drawRect(
+            drawCircle(
                 brush = Brush.radialGradient(
                     colors = listOf(
-                        phaseColor.copy(alpha = 0.15f),
+                        phaseColor.copy(alpha = bgGlowAlpha),
                         Color.Black
                     ),
-                    center = Offset(size.width / 2, size.height / 2),
-                    radius = size.width * 0.7f
+                    center = Offset(size.width / 2, size.height * 0.4f),
+                    radius = size.width * 0.8f
                 )
             )
         }
@@ -817,7 +814,7 @@ private fun PremiumFullScreenTimer(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Large timer
+            // Large timer ring
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
@@ -825,29 +822,29 @@ private fun PremiumFullScreenTimer(
                     .scale(scaleAnim.value)
             ) {
                 Canvas(modifier = Modifier.fillMaxSize()) {
-                    val strokeWidth = 20.dp.toPx()
+                    val strokeWidth = 24.dp.toPx()
                     val diameter = size.minDimension - strokeWidth
                     val topLeft = Offset(strokeWidth / 2f, strokeWidth / 2f)
                     val center = Offset(size.width / 2, size.height / 2)
                     val radius = diameter / 2
 
-                    // Glow
+                    // Outer glow
                     drawCircle(
                         brush = Brush.radialGradient(
                             colors = listOf(
-                                phaseColor.copy(alpha = 0.2f),
+                                phaseColor.copy(alpha = 0.3f),
                                 Color.Transparent
                             ),
                             center = center,
-                            radius = radius + 60.dp.toPx()
+                            radius = radius + 80.dp.toPx()
                         ),
-                        radius = radius + 60.dp.toPx(),
+                        radius = radius + 80.dp.toPx(),
                         center = center
                     )
 
                     // Track
                     drawCircle(
-                        color = Color.White.copy(alpha = 0.1f),
+                        color = Color.White.copy(alpha = 0.08f),
                         radius = radius,
                         center = center,
                         style = Stroke(width = strokeWidth, cap = StrokeCap.Round)
@@ -860,7 +857,11 @@ private fun PremiumFullScreenTimer(
 
                     drawArc(
                         brush = Brush.sweepGradient(
-                            colors = listOf(phaseColor, phaseColor.copy(alpha = 0.5f), phaseColor),
+                            colors = listOf(
+                                phaseColor,
+                                phaseColor.copy(alpha = 0.6f),
+                                phaseColor
+                            ),
                             center = center
                         ),
                         startAngle = -90f,
@@ -870,6 +871,14 @@ private fun PremiumFullScreenTimer(
                         size = Size(diameter, diameter),
                         style = Stroke(width = strokeWidth, cap = StrokeCap.Round)
                     )
+
+                    // Inner ring decoration
+                    drawCircle(
+                        color = phaseColor.copy(alpha = 0.1f),
+                        radius = radius - 40.dp.toPx(),
+                        center = center,
+                        style = Stroke(width = 2.dp.toPx())
+                    )
                 }
 
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -878,6 +887,16 @@ private fun PremiumFullScreenTimer(
                         fontSize = 80.sp,
                         fontWeight = FontWeight.ExtraBold,
                         color = Color.White
+                    )
+                    Text(
+                        text = when (state.phase) {
+                            SessionPhase.WORK -> "Focus Time"
+                            SessionPhase.SHORT_BREAK -> "Short Break"
+                            SessionPhase.LONG_BREAK -> "Long Break"
+                        },
+                        color = phaseColor.copy(alpha = 0.8f),
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Medium
                     )
                 }
             }
@@ -889,21 +908,24 @@ private fun PremiumFullScreenTimer(
                 horizontalArrangement = Arrangement.spacedBy(24.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                // Play/Pause
+                // Play/Pause button with color animation
+                val buttonColor by animateColorAsState(
+                    targetValue = if (state.isRunning) PhoenixRed else phaseColor,
+                    label = "fsButtonColor"
+                )
+
                 Button(
                     onClick = { if (state.isRunning) onPause() else onStart() },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = phaseColor
-                    ),
+                    colors = ButtonDefaults.buttonColors(containerColor = buttonColor),
                     modifier = Modifier
-                        .size(72.dp)
+                        .size(80.dp)
                         .clip(CircleShape)
                 ) {
                     Icon(
                         imageVector = Icons.Default.PlayArrow,
                         contentDescription = null,
                         tint = Color.White,
-                        modifier = Modifier.size(36.dp)
+                        modifier = Modifier.size(40.dp)
                     )
                 }
 
@@ -911,12 +933,19 @@ private fun PremiumFullScreenTimer(
                 Button(
                     onClick = onExitFullScreen,
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.White.copy(alpha = 0.15f)
+                        containerColor = Color.White.copy(alpha = 0.12f)
                     ),
                     modifier = Modifier
                         .height(56.dp)
                         .clip(RoundedCornerShape(28.dp))
                 ) {
+                    Icon(
+                        imageVector = Icons.Default.Close,
+                        contentDescription = null,
+                        tint = Color.White,
+                        modifier = Modifier.size(24.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
                     Text(
                         text = "EXIT",
                         color = Color.White,
@@ -928,11 +957,29 @@ private fun PremiumFullScreenTimer(
 
             // Session info
             Spacer(modifier = Modifier.height(32.dp))
-            Text(
-                text = "Session ${state.sessionsCompleted + 1}",
-                color = Color.White.copy(alpha = 0.5f),
-                fontSize = 14.sp
-            )
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                repeat(4) { index ->
+                    val isCompleted = index < (state.sessionsCompleted % 4)
+                    Box(
+                        modifier = Modifier
+                            .size(8.dp)
+                            .clip(CircleShape)
+                            .background(if (isCompleted) phaseColor else Color.White.copy(alpha = 0.3f))
+                    )
+                    if (index < 3) {
+                        Spacer(modifier = Modifier.width(8.dp))
+                    }
+                }
+                Spacer(modifier = Modifier.width(12.dp))
+                Text(
+                    text = "Session ${state.sessionsCompleted + 1}",
+                    color = Color.White.copy(alpha = 0.5f),
+                    fontSize = 14.sp
+                )
+            }
         }
     }
 }
@@ -949,11 +996,11 @@ private fun WarningOverlay(
         alphaAnim.animateTo(1f, animationSpec = tween(300))
     }
 
-    // Pulsing red overlay
+    // Pulsing animation
     val infiniteTransition = rememberInfiniteTransition(label = "warning")
     val pulseAlpha by infiniteTransition.animateFloat(
-        initialValue = 0.3f,
-        targetValue = 0.6f,
+        initialValue = 0.8f,
+        targetValue = 1f,
         animationSpec = infiniteRepeatable(
             animation = tween(500, easing = LinearEasing),
             repeatMode = RepeatMode.Reverse
@@ -961,10 +1008,17 @@ private fun WarningOverlay(
         label = "pulse"
     )
 
+    // Countdown scale animation
+    val countdownScale = remember { Animatable(1f) }
+    LaunchedEffect(countdown) {
+        countdownScale.snapTo(1.1f)
+        countdownScale.animateTo(1f, animationSpec = tween(200))
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Black.copy(alpha = alphaAnim.value * 0.9f)),
+            .background(Color.Black.copy(alpha = alphaAnim.value * 0.95f)),
         contentAlignment = Alignment.Center
     ) {
         Column(
@@ -975,39 +1029,47 @@ private fun WarningOverlay(
                     Brush.verticalGradient(
                         listOf(
                             PhoenixRed.copy(alpha = pulseAlpha),
-                            PhoenixRed
+                            PhoenixRed.copy(alpha = 0.9f)
                         )
                     )
                 )
                 .padding(32.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(20.dp)
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
+            // Warning icon
+            Text(
+                text = "\u26A0\uFE0F",
+                fontSize = 48.sp
+            )
+
             Text(
                 text = "PUT DOWN YOUR PHONE",
-                fontSize = 24.sp,
+                fontSize = 22.sp,
                 fontWeight = FontWeight.ExtraBold,
                 color = Color.White,
                 letterSpacing = 2.sp
             )
 
             Text(
-                text = "Place your phone on a table or in your pocket to continue",
-                fontSize = 16.sp,
+                text = "Place your phone on a table or in your pocket to continue the timer",
+                fontSize = 14.sp,
                 color = Color.White.copy(alpha = 0.9f),
                 textAlign = TextAlign.Center
             )
 
+            // Countdown with animation
             Text(
                 text = countdown.toString(),
-                fontSize = 96.sp,
+                fontSize = 80.sp,
                 fontWeight = FontWeight.Black,
-                color = Color.White
+                color = Color.White,
+                modifier = Modifier.scale(countdownScale.value)
             )
 
             Text(
                 text = "Timer will restart if not followed",
-                fontSize = 14.sp,
+                fontSize = 12.sp,
                 color = Color.White.copy(alpha = 0.7f)
             )
 
@@ -1015,7 +1077,7 @@ private fun WarningOverlay(
                 onClick = onPhonePutDown,
                 modifier = Modifier
                     .fillMaxWidth(0.7f)
-                    .height(56.dp),
+                    .height(52.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Color.White)
             ) {
                 Text(

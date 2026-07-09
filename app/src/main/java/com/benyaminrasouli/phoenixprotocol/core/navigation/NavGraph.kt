@@ -73,7 +73,10 @@ fun NavGraph(navController: NavHostController) {
                         Screen.Profile.route -> ProfileScreen(navController)
                         Screen.Templates.route -> TemplatesListScreen(navController)
                         Screen.Categories.route -> CategoriesScreen(navController)
-                        Screen.FocusTimer.route -> FocusTimerScreen(navController)
+                        Screen.FocusTimer.route -> FocusTimerScreen(
+                            navController = navController,
+                            onFullScreenChanged = onStoryVisibilityChanged
+                        )
                         Screen.Shadow.route -> ShadowScreen(navController)
                         Screen.Analytics.route -> AnalyticsScreen(navController)
                         Screen.PrivacyPolicy.route -> PrivacyPolicyScreen(navController)
