@@ -36,7 +36,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -640,7 +639,7 @@ private fun TimerControls(
                 .background(SurfaceVariantDark, CircleShape)
         ) {
             Icon(
-                imageVector = Icons.Default.Menu,
+                imageVector = FullScreenIcon,
                 contentDescription = "Fullscreen",
                 tint = PhoenixGold,
                 modifier = Modifier.size(28.dp)
