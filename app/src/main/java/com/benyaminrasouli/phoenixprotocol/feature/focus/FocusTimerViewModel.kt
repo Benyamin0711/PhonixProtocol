@@ -1,9 +1,12 @@
 package com.benyaminrasouli.phoenixprotocol.feature.focus
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import android.content.Intent
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.FocusSession
 import com.benyaminrasouli.phoenixprotocol.core.domain.repository.FocusRepository
+import com.benyaminrasouli.phoenixprotocol.core.service.FocusTimerService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -33,9 +36,10 @@ data class FocusTimerState(
     val completedSessions: Int = 0
 ) {
     val totalDurationSeconds: Int
-        get() = when (mode) {
-            TimerMode.POMODORO -> selectedDuration * 60
-            TimerMode.CUSTOM -> selectedDuration * 60
+        get() = when (phase) {
+            SessionPhase.WORK -> selectedDuration * 60
+            SessionPhase.SHORT_BREAK -> 5 * 60
+            SessionPhase.LONG_BREAK -> 15 * 60
         }
 
     val remainingSeconds: Int
@@ -53,8 +57,9 @@ data class FocusTimerState(
 
 @HiltViewModel
 class FocusTimerViewModel @Inject constructor(
+    application: Application,
     private val focusRepository: FocusRepository
-) : ViewModel() {
+) : AndroidViewModel(application) {
 
     private val _state = MutableStateFlow(FocusTimerState())
     val state: StateFlow<FocusTimerState> = _state.asStateFlow()
@@ -98,8 +103,20 @@ class FocusTimerViewModel @Inject constructor(
 
     fun start() {
         if (_state.value.isRunning) return
+
         _state.update { it.copy(isRunning = true) }
+
+        // Start foreground service for background execution
+        startForegroundService()
+
         startTimerJob()
+    }
+
+    private fun startForegroundService() {
+        val intent = Intent(getApplication(), FocusTimerService::class.java).apply {
+            action = FocusTimerService.ACTION_START
+        }
+        getApplication<Application>().startForegroundService(intent)
     }
 
     private fun startTimerJob() {
@@ -175,12 +192,18 @@ class FocusTimerViewModel @Inject constructor(
     fun pause() {
         timerJob?.cancel()
         timerJob = null
+
+        stopForegroundService()
+
         _state.update { it.copy(isRunning = false) }
     }
 
     fun stop() {
         timerJob?.cancel()
         timerJob = null
+
+        stopForegroundService()
+
         _state.update {
             it.copy(
                 isRunning = false,
@@ -189,6 +212,13 @@ class FocusTimerViewModel @Inject constructor(
                 selectedDuration = if (it.mode == TimerMode.POMODORO) 25 else it.selectedDuration
             )
         }
+    }
+
+    private fun stopForegroundService() {
+        val intent = Intent(getApplication(), FocusTimerService::class.java).apply {
+            action = FocusTimerService.ACTION_STOP
+        }
+        getApplication<Application>().startService(intent)
     }
 
     fun toggleFullScreen() {

@@ -625,7 +625,7 @@ private fun TimerControls(
                 .background(buttonColor, CircleShape)
         ) {
             Icon(
-                imageVector = Icons.Default.PlayArrow,
+                imageVector = if (isRunning) PauseIcon else Icons.Default.PlayArrow,
                 contentDescription = if (isRunning) "Pause" else "Start",
                 tint = Color.White,
                 modifier = Modifier.size(40.dp)
@@ -922,7 +922,7 @@ private fun PremiumFullScreenTimer(
                         .clip(CircleShape)
                 ) {
                     Icon(
-                        imageVector = Icons.Default.PlayArrow,
+                        imageVector = if (state.isRunning) PauseIcon else Icons.Default.PlayArrow,
                         contentDescription = null,
                         tint = Color.White,
                         modifier = Modifier.size(40.dp)
