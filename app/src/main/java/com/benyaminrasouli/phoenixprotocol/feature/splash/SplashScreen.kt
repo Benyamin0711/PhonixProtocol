@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.LocalFireDepartment
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -47,7 +47,7 @@ fun SplashScreen(
 
         val isComplete = viewModel.isOnboardingComplete()
         navController.navigate(
-            if (isComplete) Screen.Dashboard.route else Screen.Onboarding.route
+            if (isComplete) Screen.Home.route else Screen.Onboarding.route
         ) {
             popUpTo(Screen.Splash.route) { inclusive = true }
         }
@@ -67,7 +67,7 @@ fun SplashScreen(
         contentAlignment = Alignment.Center
     ) {
         Icon(
-            imageVector = Icons.Filled.LocalFireDepartment,
+            imageVector = Icons.Filled.Favorite,
             contentDescription = "Phoenix Logo",
             modifier = Modifier
                 .size(120.dp)

@@ -1,5 +1,7 @@
 package com.benyaminrasouli.phoenixprotocol.core.data.db.entity
 
+import kotlinx.serialization.Serializable
+
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -12,3 +14,4 @@ data class CampaignDay(
     val relapseCount: Int = 0,
     val isAsh: Boolean = false
 )
+

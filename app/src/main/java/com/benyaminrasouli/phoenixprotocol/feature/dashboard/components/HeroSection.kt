@@ -36,11 +36,7 @@ fun HeroSection(modifier: Modifier = Modifier) {
         modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(24.dp))
-            .background(
-                Brush.linearGradient(
-                    colors = listOf(SurfaceDark, BackgroundDark)
-                )
-            )
+            .background(SurfaceDark)
             .padding(24.dp),
         contentAlignment = Alignment.Center
     ) {
@@ -49,11 +45,7 @@ fun HeroSection(modifier: Modifier = Modifier) {
                 modifier = Modifier
                     .size(100.dp)
                     .clip(CircleShape)
-                    .background(
-                        Brush.radialGradient(
-                            colors = listOf(PhoenixOrange, PhoenixPrimaryContainer)
-                        )
-                    ),
+                    .background(PhoenixPrimaryContainer),
                 contentAlignment = Alignment.Center
             ) {
                 Text(

@@ -12,22 +12,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Apps
-import androidx.compose.material.icons.filled.EmojiEvents
-import androidx.compose.material.icons.filled.BarChart
-import androidx.compose.material.icons.filled.List
-import androidx.compose.material.icons.filled.History
-import androidx.compose.material.icons.filled.Language
-import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.Timer
-import androidx.compose.material.icons.automirrored.filled.Help
-import androidx.compose.material.icons.filled.Insights
-import androidx.compose.material.icons.filled.Leaderboard
-import androidx.compose.material.icons.filled.Mood
-import androidx.compose.material.icons.filled.Repeat
-import androidx.compose.material.icons.filled.Shield
-import androidx.compose.material.icons.filled.VerifiedUser
+import androidx.compose.material.icons.automirrored.filled.List
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -53,15 +43,8 @@ fun DrawerScreen(
     onNavigateToAbout: () -> Unit = {},
     onNavigateToSupport: () -> Unit = {},
     onNavigateToStatistics: () -> Unit = {},
-    onNavigateToAchievements: () -> Unit = {},
-    onNavigateToBossHistory: () -> Unit = {},
-    onNavigateToDailyChallenges: () -> Unit = {},
-    onNavigateToLeaderboard: () -> Unit = {},
     onNavigateToProfile: () -> Unit = {},
-    onNavigateToTemplates: () -> Unit = {},
-    onNavigateToCategories: () -> Unit = {},
     onNavigateToFocusTimer: () -> Unit = {},
-    onNavigateToAnalytics: () -> Unit = {},
     onNavigateToShadow: () -> Unit = {},
     viewModel: DrawerViewModel = hiltViewModel()
 ) {
@@ -103,63 +86,28 @@ fun DrawerScreen(
 
         // Menu items
         DrawerMenuItem(
-            icon = Icons.Filled.VerifiedUser,
+            icon = Icons.Filled.AccountCircle,
             label = stringResource(R.string.drawer_profile),
             onClick = onNavigateToProfile
         )
         DrawerMenuItem(
-            icon = Icons.Filled.BarChart,
+            icon = Icons.AutoMirrored.Filled.List,
             label = stringResource(R.string.drawer_statistics),
             onClick = onNavigateToStatistics
         )
         DrawerMenuItem(
-            icon = Icons.Filled.Shield,
+            icon = Icons.Filled.Lock,
             label = stringResource(R.string.drawer_shadow),
             onClick = onNavigateToShadow
         )
         DrawerMenuItem(
-            icon = Icons.Filled.Apps,
-            label = stringResource(R.string.drawer_categories),
-            onClick = onNavigateToCategories
-        )
-        DrawerMenuItem(
-            icon = Icons.Filled.Timer,
+            icon = Icons.Filled.DateRange,
             label = stringResource(R.string.drawer_focus),
             onClick = onNavigateToFocusTimer
         )
         DrawerMenuItem(
-            icon = Icons.Filled.List,
-            label = stringResource(R.string.drawer_templates),
-            onClick = onNavigateToTemplates
-        )
-        DrawerMenuItem(
-            icon = Icons.Filled.EmojiEvents,
-            label = stringResource(R.string.drawer_achievements),
-            onClick = onNavigateToAchievements
-        )
-        DrawerMenuItem(
-            icon = Icons.Filled.History,
-            label = stringResource(R.string.drawer_boss_history),
-            onClick = onNavigateToBossHistory
-        )
-        DrawerMenuItem(
-            icon = Icons.Filled.EmojiEvents,
-            label = stringResource(R.string.drawer_challenges),
-            onClick = onNavigateToDailyChallenges
-        )
-        DrawerMenuItem(
-            icon = Icons.Filled.Insights,
-            label = stringResource(R.string.drawer_analytics),
-            onClick = onNavigateToAnalytics
-        )
-        DrawerMenuItem(
             icon = Icons.Filled.Settings,
             label = stringResource(R.string.drawer_settings),
-            onClick = onNavigateToSettings
-        )
-        DrawerMenuItem(
-            icon = Icons.Filled.Language,
-            label = stringResource(R.string.drawer_language),
             onClick = onNavigateToSettings
         )
         DrawerMenuItem(
@@ -175,7 +123,7 @@ fun DrawerScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         DrawerMenuItem(
-            icon = Icons.AutoMirrored.Filled.Help,
+            icon = Icons.Default.Info,
             label = stringResource(R.string.drawer_support),
             onClick = onNavigateToSupport
         )

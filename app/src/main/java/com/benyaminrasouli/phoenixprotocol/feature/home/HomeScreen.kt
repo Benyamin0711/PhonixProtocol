@@ -1,11 +1,13 @@
-package com.benyaminrasouli.phoenixprotocol.feature.home
+    package com.benyaminrasouli.phoenixprotocol.feature.home
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -24,6 +26,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -133,6 +136,7 @@ fun HomeScreen(
     val stats by viewModel.userStats.collectAsStateWithLifecycle(initialValue = null)
 
     var showStoryViewer by remember { mutableStateOf(false) }
+    var selectedStoryIndex by remember { mutableIntStateOf(0) }
     var selectedSlideIndex by remember { mutableIntStateOf(0) }
 
     BackHandler(enabled = showStoryViewer) {
@@ -141,19 +145,21 @@ fun HomeScreen(
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-        ) {
+        Column(modifier = Modifier.fillMaxSize()) {
             TopAppBar(
+                modifier = Modifier.statusBarsPadding(),
                 title = {
-                    Text(
-                        text = "PHOENIX",
-                        style = MaterialTheme.typography.titleLarge,
-                        fontWeight = FontWeight.Black,
-                        color = MaterialTheme.colorScheme.primary
-                    )
+                    Box(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "PHOENIX",
+                            style = MaterialTheme.typography.titleLarge,
+                            fontWeight = FontWeight.Black,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                    }
                 },
                 navigationIcon = {
                     IconButton(onClick = onOpenDrawer) {
@@ -165,7 +171,9 @@ fun HomeScreen(
                     }
                 },
                 actions = {
-                    IconButton(onClick = { /* TODO: notifications */ }) {
+                    IconButton(onClick = {
+                        navController.navigate(Screen.Notifications.route)
+                    }) {
                         Icon(
                             imageVector = Icons.Filled.Notifications,
                             contentDescription = "Notifications",
@@ -178,43 +186,62 @@ fun HomeScreen(
                 )
             )
 
-            StorySection(
-                stories = defaultStories,
-                onStoryClick = { index ->
-                    selectedSlideIndex = index * 3
-                    showStoryViewer = true
-                    onStoryVisibilityChanged(true)
-                }
-            )
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+            ) {
+                StorySection(
+                    stories = defaultStories,
+                    onStoryClick = { index ->
+                        selectedStoryIndex = index
+                        selectedSlideIndex = 0
+                        showStoryViewer = true
+                        onStoryVisibilityChanged(true)
+                    }
+                )
 
-            Spacer(modifier = Modifier.height(16.dp))
-            UserStatusCard(
-                username = profile?.fullName ?: "Phoenix User",
-                level = stats?.level ?: 1,
-                rank = stats?.rank?.let { "#$it" } ?: "#1",
-                currentXp = stats?.xp ?: 0,
-                maxXp = 1000
-            )
+                Spacer(modifier = Modifier.height(16.dp))
+                UserStatusCard(
+                    username = profile?.fullName ?: "Phoenix User",
+                    level = stats?.level ?: 1,
+                    rank = stats?.rank?.let { "#$it" } ?: "#1",
+                    currentXp = stats?.xp ?: 0,
+                    maxXp = 1000
+                )
 
-            Spacer(modifier = Modifier.height(16.dp))
-            FeatureGrid(
-                onNavigate = { route -> navController.navigate(route) }
-            )
+                Spacer(modifier = Modifier.height(16.dp))
+                FeatureGrid(
+                    onNavigate = { route -> navController.navigate(route) }
+                )
 
-            Spacer(modifier = Modifier.height(16.dp))
-            SupportFooter(
-                onNavigateToSupport = { navController.navigate(Screen.Support.route) }
-            )
-            Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(16.dp))
+                SupportFooter(
+                    onNavigateToSupport = { navController.navigate(Screen.Support.route) }
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+            }
         }
 
         if (showStoryViewer) {
+            val storyRoutes = listOf(
+                Screen.FocusTimer.route,
+                Screen.FocusTimer.route,
+                Screen.FocusTimer.route,
+                Screen.FocusTimer.route
+            )
             StoryViewer(
                 stories = defaultStories,
-                initialIndex = selectedSlideIndex,
+                storyIndex = selectedStoryIndex,
+                initialSlideIndex = selectedSlideIndex,
                 onDismiss = {
                     showStoryViewer = false
                     onStoryVisibilityChanged(false)
+                },
+                onOpen = {
+                    showStoryViewer = false
+                    onStoryVisibilityChanged(false)
+                    navController.navigate(storyRoutes[selectedStoryIndex])
                 }
             )
         }

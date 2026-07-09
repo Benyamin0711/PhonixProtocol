@@ -17,8 +17,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.automirrored.filled.List
+import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -47,17 +48,18 @@ fun HomeFABBar(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .height(72.dp)
+            .height(80.dp)
             .background(SurfaceDark.copy(alpha = 0.95f))
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 24.dp)
+                .padding(horizontal = 12.dp)
                 .align(Alignment.Center),
-            horizontalArrangement = Arrangement.SpaceBetween,
+            horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
+            // Left 2 items
             FABNavItem(
                 icon = Icons.Filled.PlayArrow,
                 label = "Timer",
@@ -66,30 +68,39 @@ fun HomeFABBar(
                 onClick = { onNavigate("focus") }
             )
             FABNavItem(
-                icon = Icons.Filled.Info,
-                label = "Support",
-                route = "support",
-                currentRoute = currentRoute,
-                onClick = { onNavigate("support") }
-            )
-
-            Spacer(modifier = Modifier.width(64.dp))
-
-            FABNavItem(
                 icon = Icons.AutoMirrored.Filled.List,
                 label = "Tasks",
                 route = "tasklist",
                 currentRoute = currentRoute,
                 onClick = { onNavigate("tasklist") }
             )
+
+            // Center spacer for FAB
+            Spacer(modifier = Modifier.width(72.dp))
+
+            // Right 2 items
+            FABNavItem(
+                icon = Icons.Filled.DateRange,
+                label = "Stats",
+                route = "statistics",
+                currentRoute = currentRoute,
+                onClick = { onNavigate("statistics") }
+            )
+            FABNavItem(
+                icon = Icons.Filled.Person,
+                label = "Profile",
+                route = "profile",
+                currentRoute = currentRoute,
+                onClick = { onNavigate("profile") }
+            )
         }
 
-        // Center FAB - square with rounded corners
+        // Center FAB - square with rounded corners, icon fills the square
         Box(
             modifier = Modifier
                 .align(Alignment.TopCenter)
-                .offset(y = (-20).dp)
-                .size(56.dp)
+                .offset(y = (-16).dp)
+                .size(60.dp)
                 .shadow(12.dp, RoundedCornerShape(16.dp))
                 .clip(RoundedCornerShape(16.dp))
                 .background(PhoenixOrange)
@@ -99,7 +110,7 @@ fun HomeFABBar(
             Image(
                 painter = painterResource(R.drawable.ic_launcher_foreground),
                 contentDescription = "Home",
-                modifier = Modifier.size(32.dp)
+                modifier = Modifier.size(48.dp)
             )
         }
     }
@@ -118,21 +129,35 @@ private fun FABNavItem(
         targetValue = if (isSelected) PhoenixOrange else TextSecondary,
         label = "fabNavItemColor"
     )
+    val bgColor by animateColorAsState(
+        targetValue = if (isSelected) PhoenixOrange.copy(alpha = 0.15f) else SurfaceDark,
+        label = "fabNavItemBg"
+    )
 
     Column(
         modifier = Modifier
             .width(56.dp)
             .clip(RoundedCornerShape(12.dp))
+            .background(bgColor)
             .clickable(onClick = onClick)
-            .padding(vertical = 4.dp),
+            .padding(vertical = 6.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Icon(
-            imageVector = icon,
-            contentDescription = label,
-            tint = contentColor,
-            modifier = Modifier.size(24.dp)
-        )
+        Box(
+            modifier = Modifier
+                .size(36.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .background(contentColor.copy(alpha = 0.15f)),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                imageVector = icon,
+                contentDescription = label,
+                tint = contentColor,
+                modifier = Modifier.size(22.dp)
+            )
+        }
+        Spacer(modifier = Modifier.height(4.dp))
         Text(
             text = label,
             color = contentColor,

@@ -18,15 +18,14 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.OpenInNew
+import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.FileDownload
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -432,14 +431,14 @@ fun SettingsScreen(
             item {
                 SettingsSection(title = stringResource(R.string.settings_data_privacy)) {
                     SettingsClickableItem(
-                        icon = Icons.Default.FileDownload,
+                        icon = Icons.Default.ArrowDropDown,
                         title = stringResource(R.string.settings_export_data),
                         subtitle = null,
                         onClick = { viewModel.exportData() }
                     )
                     HorizontalDivider(color = MaterialTheme.colorScheme.surfaceVariant)
                     SettingsClickableItem(
-                        icon = Icons.Default.FileDownload,
+                        icon = Icons.Default.ArrowDropDown,
                         title = stringResource(R.string.settings_import_data),
                         subtitle = null,
                         onClick = { filePickerLauncher.launch(arrayOf("application/json", "*/*")) }
@@ -482,7 +481,7 @@ fun SettingsScreen(
                             )
                             Spacer(modifier = Modifier.height(8.dp))
                             SettingsClickableItem(
-                                icon = Icons.AutoMirrored.Filled.OpenInNew,
+                                icon = Icons.Default.ArrowDropDown,
                                 title = stringResource(R.string.drawer_support),
                                 subtitle = null,
                                 onClick = { navController.navigate(Screen.Support.route) }
@@ -517,7 +516,7 @@ fun SettingsScreen(
                         showResetDialog = false
                         viewModel.resetAllData {
                             navController.navigate(Screen.Onboarding.route) {
-                                popUpTo(Screen.Dashboard.route) { inclusive = true }
+                                popUpTo(Screen.Home.route) { inclusive = true }
                             }
                         }
                     }
@@ -627,7 +626,7 @@ private fun SettingsClickableItem(
             }
         }
         Icon(
-            imageVector = Icons.Default.ChevronRight,
+            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
             contentDescription = null,
             tint = TextSecondary,
             modifier = Modifier.size(20.dp)

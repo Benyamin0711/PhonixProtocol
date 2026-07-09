@@ -1,6 +1,7 @@
 package com.benyaminrasouli.phoenixprotocol.feature.main
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -30,17 +31,18 @@ import kotlinx.coroutines.launch
 fun MainScreen(
     navController: NavController,
     currentRoute: String?,
-    content: @Composable (onStoryVisibilityChanged: (Boolean) -> Unit) -> Unit
+    content: @Composable (onStoryVisibilityChanged: (Boolean) -> Unit, onOpenDrawer: () -> Unit) -> Unit
 ) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     var showFABBar by remember { mutableStateOf(true) }
+    var isStoryViewerOpen by remember { mutableStateOf(false) }
 
     val noShellRoutes = listOf(Screen.Splash.route, Screen.Onboarding.route)
     val showShell = currentRoute !in noShellRoutes
 
     if (!showShell) {
-        content { }
+        content({ }, { })
         return
     }
 
@@ -51,24 +53,25 @@ fun MainScreen(
         }
     }
 
-    ModalNavigationDrawer(
-        drawerState = drawerState,
-        drawerContent = {
-            ModalDrawerSheet(
-                modifier = Modifier.width(280.dp)
-            ) {
-                DrawerScreen(
-                    onNavigateToSettings = { onNavigate(Screen.Settings.route) },
-                    onNavigateToAbout = { onNavigate(Screen.About.route) },
-                    onNavigateToSupport = { onNavigate(Screen.Support.route) },
-                    onNavigateToStatistics = { onNavigate(Screen.Statistics.route) },
-                    onNavigateToProfile = { onNavigate(Screen.Profile.route) },
-                    onNavigateToFocusTimer = { onNavigate(Screen.FocusTimer.route) },
-                    onNavigateToShadow = { onNavigate(Screen.Shadow.route) }
-                )
-            }
+    val onOpenDrawer: () -> Unit = {
+        scope.launch { drawerState.open() }
+    }
+
+    val drawerContent: @Composable () -> Unit = {
+        ModalDrawerSheet(modifier = Modifier.width(280.dp)) {
+            DrawerScreen(
+                onNavigateToSettings = { onNavigate(Screen.Settings.route) },
+                onNavigateToAbout = { onNavigate(Screen.About.route) },
+                onNavigateToSupport = { onNavigate(Screen.Support.route) },
+                onNavigateToStatistics = { onNavigate(Screen.Statistics.route) },
+                onNavigateToProfile = { onNavigate(Screen.Profile.route) },
+                onNavigateToFocusTimer = { onNavigate(Screen.FocusTimer.route) },
+                onNavigateToShadow = { onNavigate(Screen.Shadow.route) }
+            )
         }
-    ) {
+    }
+
+    val mainContent: @Composable () -> Unit = {
         Scaffold(
             bottomBar = {
                 if (showFABBar) {
@@ -85,20 +88,36 @@ fun MainScreen(
                                 "focus" -> onNavigate(Screen.FocusTimer.route)
                                 "profile" -> onNavigate(Screen.Profile.route)
                                 "support" -> onNavigate(Screen.Support.route)
+                                "statistics" -> onNavigate(Screen.Statistics.route)
                             }
                         }
                     )
                 }
             },
-            containerColor = MaterialTheme.colorScheme.background
+            containerColor = MaterialTheme.colorScheme.background,
+            contentWindowInsets = WindowInsets(0, 0, 0, 0)
         ) { paddingValues ->
             Box(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues)
             ) {
-                content { isVisible -> showFABBar = !isVisible }
+                content(
+                    { isVisible ->
+                        showFABBar = !isVisible
+                        isStoryViewerOpen = isVisible
+                    },
+                    onOpenDrawer
+                )
             }
         }
+    }
+
+    ModalNavigationDrawer(
+        drawerState = drawerState,
+        drawerContent = { drawerContent() },
+        gesturesEnabled = !isStoryViewerOpen
+    ) {
+        mainContent()
     }
 }

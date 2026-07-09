@@ -1,5 +1,7 @@
 package com.benyaminrasouli.phoenixprotocol.core.data.db.entity
 
+import kotlinx.serialization.Serializable
+
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -12,3 +14,4 @@ data class ShadowLog(
     val amount: Int,
     val description: String
 )
+

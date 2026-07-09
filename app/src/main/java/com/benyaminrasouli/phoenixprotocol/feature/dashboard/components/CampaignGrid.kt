@@ -32,13 +32,14 @@ import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.CampaignDay
 import com.benyaminrasouli.phoenixprotocol.ui.theme.BackgroundDark
 import com.benyaminrasouli.phoenixprotocol.ui.theme.CompletedGreen
 import com.benyaminrasouli.phoenixprotocol.ui.theme.PhoenixOrange
+import com.benyaminrasouli.phoenixprotocol.ui.theme.SurfaceDark
 import com.benyaminrasouli.phoenixprotocol.ui.theme.TextPrimary
 import com.benyaminrasouli.phoenixprotocol.ui.theme.TextSecondary
 
 @Composable
 fun CampaignGrid(
     currentDay: Int,
-    allDays: List<CampaignDay>,
+    dayActivityMap: Map<Int, Boolean>,
     onDayClick: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -69,13 +70,7 @@ fun CampaignGrid(
                     repeat(5) { colIndex ->
                         val dayNumber = rowIndex * 5 + colIndex + 1
                         if (dayNumber <= 60) {
-                            val dayData = allDays.find { it.dayNumber == dayNumber }
-                            val hasActivity = dayData?.let {
-                                it.completedMissions.isNotBlank() ||
-                                it.completedPrayers.isNotBlank() ||
-                                it.note.isNotBlank() ||
-                                it.relapseCount > 0
-                            } ?: false
+                            val hasActivity = dayActivityMap[dayNumber] ?: false
                             val isActive = dayNumber == currentDay
 
                             DayCell(
@@ -106,26 +101,17 @@ private fun DayCell(
     Box(
         modifier = modifier
             .aspectRatio(0.85f)
-            .clip(RoundedCornerShape(16.dp))
+            .clip(RoundedCornerShape(12.dp))
             .background(
                 when {
-                    isActive && hasActivity -> Brush.linearGradient(
-                        colors = listOf(Color(0xFF5C2800), Color(0xFF3D1A00))
-                    )
-                    isActive -> Brush.linearGradient(
-                        colors = listOf(Color(0xFF402000), Color(0xFF261200))
-                    )
-                    hasActivity -> Brush.linearGradient(
-                        colors = listOf(Color(0xFF0D2818), Color(0xFF0A1A10))
-                    )
-                    else -> Brush.linearGradient(
-                        colors = listOf(BackgroundDark, BackgroundDark)
-                    )
+                    isActive -> Color(0xFF3D1A00)
+                    hasActivity -> Color(0xFF0A1A10)
+                    else -> SurfaceDark
                 }
             )
             .then(
-                if (isActive) Modifier.border(2.dp, PhoenixOrange, RoundedCornerShape(16.dp))
-                else Modifier.border(1.dp, TextPrimary.copy(alpha = 0.05f), RoundedCornerShape(16.dp))
+                if (isActive) Modifier.border(2.dp, PhoenixOrange, RoundedCornerShape(12.dp))
+                else Modifier.border(1.dp, TextPrimary.copy(alpha = 0.05f), RoundedCornerShape(12.dp))
             )
             .clickable { onClick() }
             .padding(4.dp),
@@ -147,8 +133,8 @@ private fun DayCell(
             if (hasActivity) {
                 Box(
                     modifier = Modifier
-                        .padding(top = 4.dp)
-                        .size(8.dp)
+                        .padding(top = 2.dp)
+                        .size(6.dp)
                         .clip(CircleShape)
                         .background(CompletedGreen)
                 )

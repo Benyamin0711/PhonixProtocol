@@ -1,5 +1,7 @@
 package com.benyaminrasouli.phoenixprotocol.core.data.db.entity
 
+import kotlinx.serialization.Serializable
+
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -18,3 +20,4 @@ data class Boss(
     val streakAtSpawn: Int = 0,
     val xpAtSpawn: Int = 0
 )
+

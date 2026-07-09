@@ -1,5 +1,7 @@
 package com.benyaminrasouli.phoenixprotocol.core.data.db.entity
 
+import kotlinx.serialization.Serializable
+
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
@@ -15,3 +17,4 @@ data class Category(
     val color: String = "#FF6B35",
     val isDefault: Boolean = false
 )
+

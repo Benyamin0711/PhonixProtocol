@@ -88,8 +88,8 @@ private fun StoryCard(
 
     Card(
         modifier = Modifier
-            .width(200.dp)
-            .height(240.dp)
+            .width(150.dp)
+            .height(200.dp)
             .clickable(onClick = onClick),
         shape = RoundedCornerShape(16.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
@@ -104,20 +104,21 @@ private fun StoryCard(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(16.dp),
+                    .padding(12.dp),
                 verticalArrangement = Arrangement.Bottom
             ) {
                 Text(
                     text = firstSlide.title,
                     color = Color.White,
-                    fontSize = 18.sp,
+                    fontSize = 14.sp,
                     fontWeight = FontWeight.Bold
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = firstSlide.description,
                     color = Color.White.copy(alpha = 0.8f),
-                    fontSize = 12.sp
+                    fontSize = 11.sp,
+                    maxLines = 2
                 )
             }
         }

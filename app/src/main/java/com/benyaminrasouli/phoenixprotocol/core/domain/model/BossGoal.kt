@@ -1,8 +1,10 @@
 package com.benyaminrasouli.phoenixprotocol.core.domain.model
 
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
+@Serializable
 data class BossGoal(
     val type: GoalType,
     val target: Int,
@@ -13,15 +15,14 @@ data class BossGoal(
     val progress: Float get() = (current.toFloat() / target).coerceIn(0f, 1f)
 
     companion object {
-        private val gson = Gson()
+        private val json = Json { ignoreUnknownKeys = true }
 
         fun toJson(goals: List<BossGoal>): String {
-            return gson.toJson(goals)
+            return json.encodeToString(goals)
         }
 
-        fun fromJson(json: String): List<BossGoal> {
-            val type = object : TypeToken<List<BossGoal>>() {}.type
-            return gson.fromJson(json, type)
+        fun fromJson(jsonString: String): List<BossGoal> {
+            return json.decodeFromString(jsonString)
         }
     }
 }

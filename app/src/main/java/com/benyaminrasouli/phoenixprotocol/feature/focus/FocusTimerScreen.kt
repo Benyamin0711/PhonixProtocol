@@ -17,9 +17,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Pause
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.filled.Stop
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -256,7 +255,7 @@ private fun TimerControls(
                 .background(SurfaceVariantDark, CircleShape)
         ) {
             Icon(
-                Icons.Default.Stop,
+                Icons.Default.Close,
                 contentDescription = stringResource(R.string.focus_timer_stop),
                 tint = PhoenixRed,
                 modifier = Modifier.size(28.dp)
@@ -270,7 +269,7 @@ private fun TimerControls(
                 .background(PhoenixOrange, CircleShape)
         ) {
             Icon(
-                imageVector = if (isRunning) Icons.Default.Pause else Icons.Default.PlayArrow,
+                imageVector = Icons.Default.PlayArrow,
                 contentDescription = if (isRunning) stringResource(R.string.focus_timer_pause) else stringResource(R.string.focus_timer_start),
                 tint = Color.White,
                 modifier = Modifier.size(36.dp)

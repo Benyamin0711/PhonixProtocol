@@ -25,6 +25,7 @@ import com.benyaminrasouli.phoenixprotocol.feature.focus.FocusTimerScreen
 import com.benyaminrasouli.phoenixprotocol.feature.shadow.ShadowScreen
 import com.benyaminrasouli.phoenixprotocol.feature.analytics.AnalyticsScreen
 import com.benyaminrasouli.phoenixprotocol.feature.privacy.PrivacyPolicyScreen
+import com.benyaminrasouli.phoenixprotocol.feature.notifications.NotificationScreen
 
 @Composable
 fun NavGraph(navController: NavHostController) {
@@ -46,15 +47,17 @@ fun NavGraph(navController: NavHostController) {
             Screen.Settings.route, Screen.About.route, Screen.DailyChallenges.route,
             Screen.BossHistory.route, Screen.Support.route, Screen.Profile.route,
             Screen.Templates.route, Screen.Categories.route, Screen.FocusTimer.route,
-            Screen.Shadow.route, Screen.Analytics.route, Screen.PrivacyPolicy.route
+            Screen.Shadow.route, Screen.Analytics.route, Screen.PrivacyPolicy.route,
+            Screen.Notifications.route
         )
 
         routes.forEach { route ->
             composable(route) {
-                MainScreen(navController, currentRoute = route) { onStoryVisibilityChanged ->
+                MainScreen(navController, currentRoute = route) { onStoryVisibilityChanged, onOpenDrawer ->
                     when (route) {
                         Screen.Home.route -> HomeScreen(
                             navController,
+                            onOpenDrawer = onOpenDrawer,
                             onStoryVisibilityChanged = onStoryVisibilityChanged
                         )
                         Screen.TaskList.route -> TaskListScreen(navController)
@@ -74,6 +77,7 @@ fun NavGraph(navController: NavHostController) {
                         Screen.Shadow.route -> ShadowScreen(navController)
                         Screen.Analytics.route -> AnalyticsScreen(navController)
                         Screen.PrivacyPolicy.route -> PrivacyPolicyScreen(navController)
+                        Screen.Notifications.route -> NotificationScreen(navController)
                     }
                 }
             }

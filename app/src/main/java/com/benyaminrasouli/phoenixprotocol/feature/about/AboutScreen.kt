@@ -18,13 +18,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.OpenInNew
-import androidx.compose.material.icons.filled.Code
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Language
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Policy
-import androidx.compose.material.icons.filled.Web
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -171,7 +170,7 @@ private fun SocialLinksSection() {
         AboutLinkItem(
             title = stringResource(R.string.about_github),
             subtitle = githubUrl,
-            icon = { Icon(Icons.Default.Code, contentDescription = null, tint = PhoenixOrange, modifier = Modifier.size(24.dp)) },
+            icon = { Icon(Icons.Default.Build, contentDescription = null, tint = PhoenixOrange, modifier = Modifier.size(24.dp)) },
             onClick = {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://$githubUrl"))
                 context.startActivity(intent)
@@ -181,7 +180,7 @@ private fun SocialLinksSection() {
         AboutLinkItem(
             title = stringResource(R.string.about_website),
             subtitle = websiteUrl,
-            icon = { Icon(Icons.Default.Language, contentDescription = null, tint = PhoenixOrange, modifier = Modifier.size(24.dp)) },
+            icon = { Icon(Icons.Default.Info, contentDescription = null, tint = PhoenixOrange, modifier = Modifier.size(24.dp)) },
             onClick = {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://$websiteUrl"))
                 context.startActivity(intent)
@@ -199,7 +198,7 @@ private fun LegalSection(navController: NavController) {
         AboutLinkItem(
             title = stringResource(R.string.about_privacy_policy),
             subtitle = null,
-            icon = { Icon(Icons.Default.Policy, contentDescription = null, tint = PhoenixOrange, modifier = Modifier.size(24.dp)) },
+            icon = { Icon(Icons.AutoMirrored.Filled.List, contentDescription = null, tint = PhoenixOrange, modifier = Modifier.size(24.dp)) },
             onClick = {
                 navController.navigate(Screen.PrivacyPolicy.route)
             }
@@ -208,7 +207,7 @@ private fun LegalSection(navController: NavController) {
         AboutLinkItem(
             title = stringResource(R.string.about_terms_of_service),
             subtitle = null,
-            icon = { Icon(Icons.Default.Web, contentDescription = null, tint = PhoenixOrange, modifier = Modifier.size(24.dp)) },
+            icon = { Icon(Icons.Default.Info, contentDescription = null, tint = PhoenixOrange, modifier = Modifier.size(24.dp)) },
             onClick = {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://$websiteUrl/terms"))
                 context.startActivity(intent)
@@ -292,7 +291,7 @@ private fun AboutLinkItem(
             }
         }
         Icon(
-            imageVector = Icons.AutoMirrored.Filled.OpenInNew,
+            imageVector = Icons.AutoMirrored.Filled.ArrowForward,
             contentDescription = null,
             tint = TextSecondary,
             modifier = Modifier.size(20.dp)

@@ -47,7 +47,7 @@ import com.benyaminrasouli.phoenixprotocol.core.data.db.entity.UserStats
         DailyMission::class,
         Prayer::class
     ],
-    version = 13,
+    version = 12,
     exportSchema = false
 )
 abstract class PhoenixDatabase : RoomDatabase() {

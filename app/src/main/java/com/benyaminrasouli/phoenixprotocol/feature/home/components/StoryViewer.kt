@@ -20,6 +20,8 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -40,53 +42,31 @@ import androidx.compose.ui.unit.sp
 
 private const val STORY_DURATION_MS = 5000
 
-private data class SlideLocation(val storyIndex: Int, val slideIndex: Int)
-
-private fun locateSlide(
-    flatIndex: Int,
-    stories: List<StoryItem>
-): SlideLocation {
-    var remaining = flatIndex
-    for (i in stories.indices) {
-        val slidesInStory = stories[i].slides.size
-        if (remaining < slidesInStory) {
-            return SlideLocation(storyIndex = i, slideIndex = remaining)
-        }
-        remaining -= slidesInStory
-    }
-    // Fallback to last slide
-    val lastStory = stories.lastIndex
-    return SlideLocation(lastStory, stories[lastStory].slides.lastIndex)
-}
-
-private fun getFlatIndex(location: SlideLocation, stories: List<StoryItem>): Int {
-    var index = 0
-    for (i in 0 until location.storyIndex) {
-        index += stories[i].slides.size
-    }
-    return index + location.slideIndex
-}
-
-private fun totalSlides(stories: List<StoryItem>): Int =
-    stories.sumOf { it.slides.size }
-
 @Composable
 fun StoryViewer(
     stories: List<StoryItem>,
-    initialIndex: Int,
-    onDismiss: () -> Unit
+    storyIndex: Int,
+    initialSlideIndex: Int,
+    onDismiss: () -> Unit,
+    onOpen: () -> Unit = {}
 ) {
-    val total = totalSlides(stories)
-    var currentFlatIndex by remember { mutableIntStateOf(initialIndex.coerceIn(0, total - 1)) }
+    val story = stories[storyIndex.coerceIn(0, stories.lastIndex)]
+    val totalSlidesInStory = story.slides.size
+    var currentSlideIndex by remember {
+        mutableIntStateOf(initialSlideIndex.coerceIn(0, totalSlidesInStory - 1))
+    }
     var isPaused by remember { mutableStateOf(false) }
     val progressAnimatable = remember { Animatable(0f) }
 
-    val location = locateSlide(currentFlatIndex, stories)
-    val currentStory = stories[location.storyIndex]
-    val currentSlide = currentStory.slides[location.slideIndex]
+    // Sync index when story changes
+    LaunchedEffect(storyIndex, initialSlideIndex) {
+        currentSlideIndex = initialSlideIndex.coerceIn(0, totalSlidesInStory - 1)
+    }
+
+    val currentSlide = story.slides[currentSlideIndex]
 
     // Auto-advance timer
-    LaunchedEffect(currentFlatIndex, isPaused) {
+    LaunchedEffect(currentSlideIndex, isPaused) {
         if (!isPaused) {
             progressAnimatable.snapTo(0f)
             progressAnimatable.animateTo(
@@ -96,9 +76,8 @@ fun StoryViewer(
                     easing = LinearEasing
                 )
             )
-            // Auto-advance to next slide
-            if (currentFlatIndex < total - 1) {
-                currentFlatIndex++
+            if (currentSlideIndex < totalSlidesInStory - 1) {
+                currentSlideIndex++
             } else {
                 onDismiss()
             }
@@ -109,7 +88,6 @@ fun StoryViewer(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.Black)
-            // Swipe down to dismiss
             .pointerInput(Unit) {
                 detectVerticalDragGestures(
                     onDragEnd = {},
@@ -121,8 +99,7 @@ fun StoryViewer(
                     }
                 )
             }
-            // Tap to navigate, hold to pause
-            .pointerInput(currentFlatIndex) {
+            .pointerInput(currentSlideIndex) {
                 detectTapGestures(
                     onPress = { _ ->
                         isPaused = true
@@ -132,14 +109,12 @@ fun StoryViewer(
                     onTap = { offset ->
                         val screenWidth = size.width
                         if (offset.x < screenWidth / 3) {
-                            // Left third -> previous slide
-                            if (currentFlatIndex > 0) {
-                                currentFlatIndex--
+                            if (currentSlideIndex > 0) {
+                                currentSlideIndex--
                             }
                         } else if (offset.x > screenWidth * 2 / 3) {
-                            // Right third -> next slide
-                            if (currentFlatIndex < total - 1) {
-                                currentFlatIndex++
+                            if (currentSlideIndex < totalSlidesInStory - 1) {
+                                currentSlideIndex++
                             } else {
                                 onDismiss()
                             }
@@ -163,27 +138,22 @@ fun StoryViewer(
                 .fillMaxWidth()
                 .statusBarsPadding()
         ) {
-            // Progress bars - one per slide across all stories
+            // Progress bars - one per slide in this story only
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp, vertical = 8.dp),
                 horizontalArrangement = Arrangement.spacedBy(3.dp)
             ) {
-                var flatIndex = 0
-                stories.forEach { story ->
-                    story.slides.forEach { slide ->
-                        val thisFlatIndex = flatIndex
-                        StoryProgressBar(
-                            progress = when {
-                                thisFlatIndex < currentFlatIndex -> 1f
-                                thisFlatIndex == currentFlatIndex -> progressAnimatable.value
-                                else -> 0f
-                            },
-                            modifier = Modifier.weight(1f)
-                        )
-                        flatIndex++
-                    }
+                repeat(totalSlidesInStory) { index ->
+                    StoryProgressBar(
+                        progress = when {
+                            index < currentSlideIndex -> 1f
+                            index == currentSlideIndex -> progressAnimatable.value
+                            else -> 0f
+                        },
+                        modifier = Modifier.weight(1f)
+                    )
                 }
             }
 
@@ -194,7 +164,6 @@ fun StoryViewer(
                     .padding(horizontal = 12.dp, vertical = 4.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                // Avatar placeholder
                 Box(
                     modifier = Modifier
                         .size(36.dp)
@@ -221,7 +190,7 @@ fun StoryViewer(
             }
         }
 
-        // Center content (image area - gradient placeholder)
+        // Center content
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
@@ -261,6 +230,22 @@ fun StoryViewer(
                 color = Color.White.copy(alpha = 0.85f),
                 fontSize = 14.sp
             )
+            if (currentSlideIndex == totalSlidesInStory - 1) {
+                Spacer(modifier = Modifier.height(12.dp))
+                Button(
+                    onClick = onOpen,
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.White
+                    ),
+                    shape = RoundedCornerShape(8.dp)
+                ) {
+                    Text(
+                        text = "Open",
+                        color = Color.Black,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            }
         }
     }
 }

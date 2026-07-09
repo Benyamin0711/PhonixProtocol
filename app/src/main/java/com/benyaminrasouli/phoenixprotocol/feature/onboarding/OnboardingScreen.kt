@@ -106,7 +106,7 @@ fun OnboardingScreen(
                 onClick = {
                     if (state.currentStep == 3) {
                         viewModel.saveProfile {
-                            navController.navigate(Screen.Dashboard.route) {
+                            navController.navigate(Screen.Home.route) {
                                 popUpTo(Screen.Onboarding.route) { inclusive = true }
                             }
                         }
