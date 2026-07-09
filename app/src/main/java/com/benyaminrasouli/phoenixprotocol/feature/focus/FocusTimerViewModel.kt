@@ -22,7 +22,12 @@ data class FocusTimerState(
     val elapsedSeconds: Int = 0,
     val isRunning: Boolean = false,
     val totalFocusSeconds: Int = 0,
-    val completedSessions: Int = 0
+    val completedSessions: Int = 0,
+    val isFullScreen: Boolean = false,
+    val strictMode: Boolean = false,
+    val isWarningActive: Boolean = false,
+    val warningCountdown: Int = 7,
+    val lastWarningDismissTime: Long = 0L
 ) {
     val remainingSeconds: Int
         get() = (selectedDuration * 60) - elapsedSeconds
@@ -43,6 +48,11 @@ class FocusTimerViewModel @Inject constructor(
     val state: StateFlow<FocusTimerState> = _state.asStateFlow()
 
     private var timerJob: Job? = null
+    private var warningJob: Job? = null
+
+    companion object {
+        const val WARNING_GRACE_MILLIS = 2000L
+    }
 
     init {
         loadStatsFromDb()
@@ -114,8 +124,65 @@ class FocusTimerViewModel @Inject constructor(
         _state.update { it.copy(isRunning = false, elapsedSeconds = 0) }
     }
 
+    fun toggleFullScreen() {
+        _state.update { it.copy(isFullScreen = !it.isFullScreen) }
+    }
+
+    fun toggleStrictMode() {
+        _state.update { it.copy(strictMode = !it.strictMode) }
+    }
+
+    fun onPhonePickupDetected() {
+        val currentState = _state.value
+        if (!currentState.strictMode || !currentState.isRunning || currentState.isWarningActive) return
+
+        val now = System.currentTimeMillis()
+        if (now < currentState.lastWarningDismissTime + WARNING_GRACE_MILLIS) return
+
+        _state.update {
+            it.copy(
+                isWarningActive = true,
+                warningCountdown = 7,
+                isRunning = false
+            )
+        }
+        startWarningCountdown()
+    }
+
+    private fun startWarningCountdown() {
+        warningJob?.cancel()
+        warningJob = viewModelScope.launch {
+            while (_state.value.isWarningActive && _state.value.warningCountdown > 0) {
+                delay(1000)
+                _state.update { it.copy(warningCountdown = it.warningCountdown - 1) }
+            }
+            if (_state.value.isWarningActive && _state.value.warningCountdown == 0) {
+                _state.update {
+                    it.copy(
+                        isWarningActive = false,
+                        lastWarningDismissTime = System.currentTimeMillis(),
+                        isRunning = false,
+                        elapsedSeconds = 0
+                    )
+                }
+            }
+        }
+    }
+
+    fun dismissWarning() {
+        warningJob?.cancel()
+        _state.update {
+            it.copy(
+                isWarningActive = false,
+                lastWarningDismissTime = System.currentTimeMillis(),
+                isRunning = true
+            )
+        }
+    }
+
     override fun onCleared() {
         super.onCleared()
         timerJob?.cancel()
+        warningJob?.cancel()
     }
 }
