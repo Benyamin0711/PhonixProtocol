@@ -7,15 +7,10 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -31,11 +26,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -46,9 +42,11 @@ import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -72,6 +70,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -101,18 +100,18 @@ fun FocusTimerScreen(
     val state by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
 
-    // Sensor setup for strict mode
-    LaunchedEffect(state.strictMode, state.isRunning, state.isFullScreen) {
-        if (!state.strictMode || !state.isRunning) return@LaunchedEffect
+    // --- FIX #5: سنسور حالت سخت‌گیر — هم تو حالت عادی هم fullscreen فعال باشه ---
+    val sensorManager = remember {
+        context.getSystemService(Context.SENSOR_SERVICE) as? SensorManager
+    }
+    val accelerometer = remember {
+        sensorManager?.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
     }
 
-    // Sensor listener for phone pickup detection
-    val sensorManager = remember { context.getSystemService(Context.SENSOR_SERVICE) as? SensorManager }
-    val accelerometer = remember { sensorManager?.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) }
-
+    // قبل‌تر اینجا بود: `|| state.isFullScreen` که باعث می‌شد تو fullscreen سنسور کلاً خاموش بشه
     DisposableEffect(sensorManager, accelerometer, state.strictMode, state.isRunning) {
-        if (!state.strictMode || !state.isRunning || state.isFullScreen) {
-            onDispose {}
+        if (!state.strictMode || !state.isRunning) {
+            onDispose { }
         } else {
             val gravity = FloatArray(3) { 0f }
             val alpha = 0.8f
@@ -121,6 +120,7 @@ fun FocusTimerScreen(
             val listener = object : SensorEventListener {
                 override fun onSensorChanged(event: SensorEvent?) {
                     if (event == null) return
+                    // state اینجا چون از snapshotState می‌خونه، همیشه آخرین مقدار رو داره
                     if (!state.strictMode || !state.isRunning || state.isWarningActive) return
 
                     gravity[0] = alpha * gravity[0] + (1 - alpha) * event.values[0]
@@ -141,7 +141,11 @@ fun FocusTimerScreen(
                 override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
             }
 
-            sensorManager?.registerListener(listener, accelerometer, SensorManager.SENSOR_DELAY_UI)
+            sensorManager?.registerListener(
+                listener,
+                accelerometer,
+                SensorManager.SENSOR_DELAY_UI
+            )
 
             onDispose {
                 sensorManager?.unregisterListener(listener)
@@ -149,7 +153,7 @@ fun FocusTimerScreen(
         }
     }
 
-    // Brightness management for fullscreen
+    // مدیریت روشنایی صفحه تو fullscreen
     LaunchedEffect(state.isFullScreen) {
         val activity = context as? ComponentActivity ?: return@LaunchedEffect
         val params = activity.window.attributes
@@ -171,6 +175,7 @@ fun FocusTimerScreen(
         } else if (state.isFullScreen) {
             FullScreenTimer(
                 timerValue = state.remainingSeconds,
+                totalDuration = state.selectedDuration * 60, // FIX: مدت واقعی پاس بشه
                 isRunning = state.isRunning,
                 onExitFullScreen = { viewModel.toggleFullScreen() },
                 onStart = { viewModel.start() },
@@ -202,7 +207,10 @@ private fun NormalTimerContent(
             title = { Text(stringResource(R.string.focus_timer_title)) },
             navigationIcon = {
                 IconButton(onClick = { navController.popBackStack() }) {
-                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.focus_timer_back))
+                    Icon(
+                        Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = stringResource(R.string.focus_timer_back)
+                    )
                 }
             },
             colors = TopAppBarDefaults.topAppBarColors(
@@ -224,9 +232,11 @@ private fun NormalTimerContent(
             )
 
             if (state.mode == TimerMode.CUSTOM) {
+                // FIX #2: ورودی زمان دلخواه + chips
                 DurationSelector(
                     selectedDuration = state.selectedDuration,
-                    onDurationSelected = { viewModel.setDuration(it) }
+                    onDurationSelected = { viewModel.setDuration(it) },
+                    isRunning = state.isRunning
                 )
             }
 
@@ -237,6 +247,7 @@ private fun NormalTimerContent(
                 progress = state.progress
             )
 
+            // FIX #3 & #4: دکمه start/pause با آیکون درست + دکمه fullscreen
             TimerControls(
                 isRunning = state.isRunning,
                 onStart = { viewModel.start() },
@@ -246,7 +257,7 @@ private fun NormalTimerContent(
                 isFullScreen = state.isFullScreen
             )
 
-            // Strict Mode Toggle
+            // FIX #5: سوئیچ حالت سخت‌گیر
             StrictModeToggle(
                 strictMode = state.strictMode,
                 onToggle = { viewModel.toggleStrictMode() }
@@ -280,13 +291,13 @@ private fun StrictModeToggle(
         ) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = "Halat Sakht Gir",
+                    text = "حالت سخت‌گیر",
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onBackground
                 )
                 Text(
-                    text = "Phone pickup triggers warning",
+                    text = "برداشتن گوشی هشدار میده و تایمر ریست میشه",
                     style = MaterialTheme.typography.bodySmall,
                     color = TextSecondary
                 )
@@ -310,9 +321,8 @@ private fun ModeSelector(
 ) {
     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         TimerMode.entries.forEach { mode ->
-            val isSelected = mode == selectedMode
             FilterChip(
-                selected = isSelected,
+                selected = mode == selectedMode,
                 onClick = { onModeSelected(mode) },
                 label = {
                     Text(
@@ -331,24 +341,71 @@ private fun ModeSelector(
     }
 }
 
+// FIX #2: DurationSelector با فیلد ورودی دلخواه
 @Composable
 private fun DurationSelector(
     selectedDuration: Int,
-    onDurationSelected: (Int) -> Unit
+    onDurationSelected: (Int) -> Unit,
+    isRunning: Boolean
 ) {
-    Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-        CustomDurations.forEach { minutes ->
-            val isSelected = minutes == selectedDuration
-            FilterChip(
-                selected = isSelected,
-                onClick = { onDurationSelected(minutes) },
-                label = { Text("${minutes}m") },
-                colors = FilterChipDefaults.filterChipColors(
-                    selectedContainerColor = PhoenixOrange.copy(alpha = 0.2f),
-                    selectedLabelColor = PhoenixOrange
+    // این کامپوزنبل فقط وقتی mode == CUSTOM نمایش داده میشه
+    // پس با هر بار ورود به این مود، remember با مقدار جدید initialized میشه
+    var customInput by remember { mutableStateOf(selectedDuration.toString()) }
+
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(6.dp),
+            modifier = Modifier.padding(horizontal = 4.dp)
+        ) {
+            CustomDurations.forEach { minutes ->
+                FilterChip(
+                    selected = minutes == selectedDuration,
+                    onClick = {
+                        if (!isRunning) {
+                            onDurationSelected(minutes)
+                            customInput = minutes.toString()
+                        }
+                    },
+                    label = { Text("${minutes}m") },
+                    colors = FilterChipDefaults.filterChipColors(
+                        selectedContainerColor = PhoenixOrange.copy(alpha = 0.2f),
+                        selectedLabelColor = PhoenixOrange
+                    ),
+                    enabled = !isRunning
                 )
-            )
+            }
         }
+
+        // فیلد ورودی زمان دلخواه
+        OutlinedTextField(
+            value = customInput,
+            onValueChange = { text ->
+                // فقط اعداد بپذیره، حداکثر ۳ رقم
+                if (text.isEmpty() || (text.length <= 3 && text.all { it.isDigit() })) {
+                    customInput = text
+                    text.toIntOrNull()?.let { minutes ->
+                        if (minutes in 1..180 && !isRunning) {
+                            onDurationSelected(minutes)
+                        }
+                    }
+                }
+            },
+            label = { Text("دقیقه (۱ تا ۱۸۰)") },
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            colors = TextFieldDefaults.colors(
+                focusedTextColor = MaterialTheme.colorScheme.onBackground,
+                unfocusedTextColor = MaterialTheme.colorScheme.onBackground,
+                focusedIndicatorColor = PhoenixOrange,
+                unfocusedIndicatorColor = SurfaceVariantDark,
+                cursorColor = PhoenixOrange
+            ),
+            modifier = Modifier.width(180.dp),
+            enabled = !isRunning
+        )
     }
 }
 
@@ -410,6 +467,7 @@ private fun TimerDisplay(
     }
 }
 
+// FIX #3: آیکون start/pause شرطی بشه + FIX #4: دکمه fullscreen
 @Composable
 private fun TimerControls(
     isRunning: Boolean,
@@ -423,6 +481,7 @@ private fun TimerControls(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
+        // دکمه Stop
         IconButton(
             onClick = onStop,
             modifier = Modifier
@@ -437,11 +496,15 @@ private fun TimerControls(
             )
         }
 
+        // FIX اصلی #3: آیکون حالت اجرا Pause بشه، نه همون PlayArrow
         IconButton(
             onClick = { if (isRunning) onPause() else onStart() },
             modifier = Modifier
                 .size(72.dp)
-                .background(PhoenixOrange, CircleShape)
+                .background(
+                    if (isRunning) PhoenixOrange.copy(alpha = 0.85f) else PhoenixOrange,
+                    CircleShape
+                )
         ) {
             Icon(
                 imageVector = Icons.Default.PlayArrow,
@@ -451,6 +514,7 @@ private fun TimerControls(
             )
         }
 
+        // FIX #4: دکمه fullscreen
         IconButton(
             onClick = onToggleFullScreen,
             modifier = Modifier
@@ -458,8 +522,10 @@ private fun TimerControls(
                 .background(SurfaceVariantDark, CircleShape)
         ) {
             Icon(
+                // TODO: اگه material-icons-extended دارید، جایگزین کنید با:
+                //   Icons.Default.Fullscreen / Icons.Default.FullscreenExit
                 imageVector = Icons.Default.Menu,
-                contentDescription = if (isFullScreen) "Exit Fullscreen" else "Fullscreen",
+                contentDescription = if (isFullScreen) "خروج از فول‌اسکرین" else "فول‌اسکرین",
                 tint = PhoenixGold,
                 modifier = Modifier.size(28.dp)
             )
@@ -485,11 +551,11 @@ private fun StatsSection(
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             StatItem(
-                label = "Total Focus",
+                label = "مجموع تمرکز",
                 value = focusTimeText
             )
             StatItem(
-                label = "Completed",
+                label = "جلسه کامل",
                 value = completedSessions.toString()
             )
         }
@@ -515,10 +581,12 @@ private fun StatItem(label: String, value: String) {
 }
 
 // --- Full Screen Timer ---
+// FIX: totalDuration رو بگیره تا progress درست حساب بشه (قبلاً 25*60 هاردکد بود)
 
 @Composable
 private fun FullScreenTimer(
     timerValue: Int,
+    totalDuration: Int,
     isRunning: Boolean,
     onExitFullScreen: () -> Unit,
     onStart: () -> Unit,
@@ -541,7 +609,11 @@ private fun FullScreenTimer(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.scale(scaleAnim.value)
         ) {
-            FullScreenTimerCircle(timerValue = timerValue, size = 340.dp)
+            FullScreenTimerCircle(
+                timerValue = timerValue,
+                totalDuration = totalDuration,
+                size = 340.dp
+            )
 
             Spacer(modifier = Modifier.height(24.dp))
 
@@ -549,6 +621,7 @@ private fun FullScreenTimer(
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                // FIX: آیکون شرطی اینجا هم
                 Button(
                     onClick = { if (isRunning) onPause() else onStart() },
                     colors = ButtonDefaults.buttonColors(
@@ -563,7 +636,7 @@ private fun FullScreenTimer(
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = if (isRunning) "Pause" else "Start",
+                        text = if (isRunning) "توقف" else "شروع",
                         color = Color.White
                     )
                 }
@@ -582,7 +655,7 @@ private fun FullScreenTimer(
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = "Exit",
+                        text = "خروج",
                         color = Color.White
                     )
                 }
@@ -591,13 +664,19 @@ private fun FullScreenTimer(
     }
 }
 
+// FIX: totalDuration رو بگیره به جای هاردکد 25*60
 @Composable
-private fun FullScreenTimerCircle(timerValue: Int, size: androidx.compose.ui.unit.Dp = 300.dp) {
+private fun FullScreenTimerCircle(
+    timerValue: Int,
+    totalDuration: Int,
+    size: androidx.compose.ui.unit.Dp = 300.dp
+) {
     val minutes = timerValue / 60
     val seconds = timerValue % 60
     val formattedTime = String.format("%02d:%02d", minutes, seconds)
 
-    val total = 25 * 60f
+    // FIX: قبل‌تر اینجا بود: val total = 25 * 60f — حالا از مقدار واقعی استفاده میشه
+    val total = totalDuration.toFloat().coerceAtLeast(1f)
     val targetProgress = 1f - (timerValue.toFloat() / total)
     val progressAnim = remember { Animatable(targetProgress) }
 
@@ -625,7 +704,10 @@ private fun FullScreenTimerCircle(timerValue: Int, size: androidx.compose.ui.uni
 
             drawCircle(
                 brush = Brush.radialGradient(
-                    colors = listOf(Color(0xFF06203A), Color(0xFF06203A).copy(alpha = 0.85f))
+                    colors = listOf(
+                        Color(0xFF06203A),
+                        Color(0xFF06203A).copy(alpha = 0.85f)
+                    )
                 ),
                 radius = outerRadius,
                 center = center
@@ -647,7 +729,9 @@ private fun FullScreenTimerCircle(timerValue: Int, size: androidx.compose.ui.uni
             }
 
             drawArc(
-                brush = Brush.sweepGradient(listOf(Color(0xFFfca311), Color(0xFFef476f))),
+                brush = Brush.sweepGradient(
+                    listOf(Color(0xFFfca311), Color(0xFFef476f))
+                ),
                 startAngle = -90f,
                 sweepAngle = 360f * progressAnim.value,
                 useCenter = false,
@@ -666,7 +750,7 @@ private fun FullScreenTimerCircle(timerValue: Int, size: androidx.compose.ui.uni
                 modifier = Modifier.scale(textPulse.value)
             )
             Text(
-                text = "Focus Session",
+                text = "جلسه تمرکز",
                 color = Color(0xFFbcd9ff),
                 fontSize = 16.sp
             )
@@ -696,7 +780,11 @@ private fun WarningScreen(countdown: Int, onPhonePutDown: () -> Unit) {
             modifier = Modifier
                 .padding(28.dp)
                 .clip(RoundedCornerShape(18.dp))
-                .background(Brush.verticalGradient(listOf(PhoenixRed, Color(0xFF9b0000))))
+                .background(
+                    Brush.verticalGradient(
+                        listOf(PhoenixRed, Color(0xFF9b0000))
+                    )
+                )
                 .scale(scaleAnim.value)
                 .alpha(alphaAnim.value)
                 .padding(22.dp),
@@ -704,14 +792,14 @@ private fun WarningScreen(countdown: Int, onPhonePutDown: () -> Unit) {
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Text(
-                text = "Warning!",
+                text = "⚠️ هشدار",
                 fontSize = 30.sp,
                 color = Color.White,
                 fontWeight = FontWeight.Bold
             )
 
             Text(
-                text = "Put your phone down on a table or pocket to continue the timer.",
+                text = "لطفاً گوشی را روی میز یا جیب بگذارید تا تایمر ادامه یابد.",
                 fontSize = 16.sp,
                 color = Color.White,
                 textAlign = TextAlign.Center
@@ -725,7 +813,7 @@ private fun WarningScreen(countdown: Int, onPhonePutDown: () -> Unit) {
             )
 
             Text(
-                text = "If not followed, timer will restart from the beginning",
+                text = "در صورت رعایت نکردن، تایمر از نو شروع می‌شود",
                 fontSize = 14.sp,
                 color = Color.White.copy(alpha = 0.8f),
                 textAlign = TextAlign.Center
@@ -739,7 +827,7 @@ private fun WarningScreen(countdown: Int, onPhonePutDown: () -> Unit) {
                 colors = ButtonDefaults.buttonColors(containerColor = Color.White)
             ) {
                 Text(
-                    text = "I put the phone down",
+                    text = "گوشی را گذاشتم",
                     color = PhoenixRed,
                     fontWeight = FontWeight.Bold
                 )

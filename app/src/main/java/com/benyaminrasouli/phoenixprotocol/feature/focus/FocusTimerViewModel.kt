@@ -71,9 +71,16 @@ class FocusTimerViewModel @Inject constructor(
         }
     }
 
+    // FIX: وقتی مود عوض شد، اگه Pomodoro هست duration رو ۲۵ کن و elapsed رو صفر
     fun setMode(mode: TimerMode) {
         if (_state.value.isRunning) return
-        _state.update { it.copy(mode = mode) }
+        _state.update {
+            it.copy(
+                mode = mode,
+                selectedDuration = if (mode == TimerMode.POMODORO) 25 else it.selectedDuration,
+                elapsedSeconds = 0
+            )
+        }
     }
 
     fun setDuration(minutes: Int) {
@@ -92,7 +99,8 @@ class FocusTimerViewModel @Inject constructor(
                 delay(1000)
                 _state.update { it.copy(elapsedSeconds = it.elapsedSeconds + 1) }
             }
-            if (_state.value.remainingSeconds <= 0) {
+            // فقط اگه تایمر به صفر رسیده (نه pause شده)
+            if (_state.value.remainingSeconds <= 0 && !_state.value.isWarningActive) {
                 val session = FocusSession(
                     startedAt = startedAt,
                     endedAt = System.currentTimeMillis(),
@@ -156,6 +164,7 @@ class FocusTimerViewModel @Inject constructor(
                 delay(1000)
                 _state.update { it.copy(warningCountdown = it.warningCountdown - 1) }
             }
+            // ۷ ثانیه تموم شد و کاربر گوشی رو نذاشت → ریست از اول
             if (_state.value.isWarningActive && _state.value.warningCountdown == 0) {
                 _state.update {
                     it.copy(
