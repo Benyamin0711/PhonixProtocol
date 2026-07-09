@@ -1,15 +1,23 @@
 package com.benyaminrasouli.phoenixprotocol.feature.focus
 
+import android.app.Activity
 import android.content.Context
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import android.view.View
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -60,6 +68,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
@@ -67,6 +76,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -74,11 +84,13 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.benyaminrasouli.phoenixprotocol.R
-import com.benyaminrasouli.phoenixprotocol.core.util.toFocusTimeText
 import com.benyaminrasouli.phoenixprotocol.ui.theme.BackgroundDark
 import com.benyaminrasouli.phoenixprotocol.ui.theme.EnergyGreen
 import com.benyaminrasouli.phoenixprotocol.ui.theme.PhoenixGold
@@ -87,6 +99,8 @@ import com.benyaminrasouli.phoenixprotocol.ui.theme.PhoenixRed
 import com.benyaminrasouli.phoenixprotocol.ui.theme.SurfaceDark
 import com.benyaminrasouli.phoenixprotocol.ui.theme.SurfaceVariantDark
 import com.benyaminrasouli.phoenixprotocol.ui.theme.TextSecondary
+import kotlin.math.cos
+import kotlin.math.sin
 import kotlin.math.sqrt
 
 private val CustomDurations = listOf(5, 15, 25, 30, 45, 60)
@@ -100,7 +114,43 @@ fun FocusTimerScreen(
     val state by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
 
-    // --- FIX #5: سنسور حالت سخت‌گیر — هم تو حالت عادی هم fullscreen فعال باشه ---
+    // True fullscreen - hide system UI
+    val window = (context as? Activity)?.window
+    val view = (context as? Activity)?.window?.decorView
+
+    LaunchedEffect(state.isFullScreen) {
+        if (window != null && view != null) {
+            if (state.isFullScreen) {
+                // Enter immersive fullscreen
+                WindowCompat.setDecorFitsSystemWindows(window, false)
+                val controller = WindowInsetsControllerCompat(window, view)
+                controller.hide(WindowInsetsCompat.Type.systemBars())
+                controller.systemBarsBehavior =
+                    WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+                window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+            } else {
+                // Exit fullscreen
+                WindowCompat.setDecorFitsSystemWindows(window, true)
+                val controller = WindowInsetsControllerCompat(window, view)
+                controller.show(WindowInsetsCompat.Type.systemBars())
+                window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+            }
+        }
+    }
+
+    // Restore system UI when leaving screen
+    DisposableEffect(Unit) {
+        onDispose {
+            if (window != null && view != null) {
+                WindowCompat.setDecorFitsSystemWindows(window, true)
+                val controller = WindowInsetsControllerCompat(window, view)
+                controller.show(WindowInsetsCompat.Type.systemBars())
+                window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+            }
+        }
+    }
+
+    // Sensor for strict mode
     val sensorManager = remember {
         context.getSystemService(Context.SENSOR_SERVICE) as? SensorManager
     }
@@ -108,10 +158,9 @@ fun FocusTimerScreen(
         sensorManager?.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
     }
 
-    // قبل‌تر اینجا بود: `|| state.isFullScreen` که باعث می‌شد تو fullscreen سنسور کلاً خاموش بشه
     DisposableEffect(sensorManager, accelerometer, state.strictMode, state.isRunning) {
         if (!state.strictMode || !state.isRunning) {
-            onDispose { }
+            onDispose {}
         } else {
             val gravity = FloatArray(3) { 0f }
             val alpha = 0.8f
@@ -120,7 +169,6 @@ fun FocusTimerScreen(
             val listener = object : SensorEventListener {
                 override fun onSensorChanged(event: SensorEvent?) {
                     if (event == null) return
-                    // state اینجا چون از snapshotState می‌خونه، همیشه آخرین مقدار رو داره
                     if (!state.strictMode || !state.isRunning || state.isWarningActive) return
 
                     gravity[0] = alpha * gravity[0] + (1 - alpha) * event.values[0]
@@ -141,11 +189,7 @@ fun FocusTimerScreen(
                 override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
             }
 
-            sensorManager?.registerListener(
-                listener,
-                accelerometer,
-                SensorManager.SENSOR_DELAY_UI
-            )
+            sensorManager?.registerListener(listener, accelerometer, SensorManager.SENSOR_DELAY_UI)
 
             onDispose {
                 sensorManager?.unregisterListener(listener)
@@ -153,33 +197,18 @@ fun FocusTimerScreen(
         }
     }
 
-    // مدیریت روشنایی صفحه تو fullscreen
-    LaunchedEffect(state.isFullScreen) {
-        val activity = context as? ComponentActivity ?: return@LaunchedEffect
-        val params = activity.window.attributes
-        if (state.isFullScreen) {
-            params.screenBrightness = 0.15f
-            activity.window.attributes = params
-        } else {
-            params.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE
-            activity.window.attributes = params
-        }
-    }
-
     Box(modifier = Modifier.fillMaxSize()) {
         if (state.isWarningActive) {
-            WarningScreen(
+            WarningOverlay(
                 countdown = state.warningCountdown,
                 onPhonePutDown = { viewModel.dismissWarning() }
             )
         } else if (state.isFullScreen) {
-            FullScreenTimer(
-                timerValue = state.remainingSeconds,
-                totalDuration = state.selectedDuration * 60, // FIX: مدت واقعی پاس بشه
-                isRunning = state.isRunning,
-                onExitFullScreen = { viewModel.toggleFullScreen() },
+            PremiumFullScreenTimer(
+                state = state,
                 onStart = { viewModel.start() },
-                onPause = { viewModel.pause() }
+                onPause = { viewModel.pause() },
+                onExitFullScreen = { viewModel.toggleFullScreen() }
             )
         } else {
             NormalTimerContent(
@@ -224,15 +253,21 @@ private fun NormalTimerContent(
                 .fillMaxSize()
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            ModeSelector(
-                selectedMode = state.mode,
-                onModeSelected = { viewModel.setMode(it) }
+            // Phase indicator
+            PhaseIndicator(
+                phase = state.phase,
+                sessionsCompleted = state.sessionsCompleted
             )
 
-            if (state.mode == TimerMode.CUSTOM) {
-                // FIX #2: ورودی زمان دلخواه + chips
+            ModeSelector(
+                selectedMode = state.mode,
+                onModeSelected = { viewModel.setMode(it) },
+                isRunning = state.isRunning
+            )
+
+            if (state.mode == TimerMode.CUSTOM && state.phase == SessionPhase.WORK) {
                 DurationSelector(
                     selectedDuration = state.selectedDuration,
                     onDurationSelected = { viewModel.setDuration(it) },
@@ -242,12 +277,14 @@ private fun NormalTimerContent(
 
             Spacer(modifier = Modifier.height(4.dp))
 
-            TimerDisplay(
+            // Premium timer display
+            PremiumTimerDisplay(
                 remainingSeconds = state.remainingSeconds,
-                progress = state.progress
+                totalSeconds = state.totalDurationSeconds,
+                phase = state.phase
             )
 
-            // FIX #3 & #4: دکمه start/pause با آیکون درست + دکمه fullscreen
+            // Controls
             TimerControls(
                 isRunning = state.isRunning,
                 onStart = { viewModel.start() },
@@ -257,67 +294,76 @@ private fun NormalTimerContent(
                 isFullScreen = state.isFullScreen
             )
 
-            // FIX #5: سوئیچ حالت سخت‌گیر
+            // Strict mode
             StrictModeToggle(
                 strictMode = state.strictMode,
-                onToggle = { viewModel.toggleStrictMode() }
+                onToggle = { viewModel.toggleStrictMode() },
+                isRunning = state.isRunning
             )
 
             Spacer(modifier = Modifier.weight(1f))
 
+            // Stats
             StatsSection(
                 totalFocusSeconds = state.totalFocusSeconds,
-                completedSessions = state.completedSessions
+                completedSessions = state.completedSessions,
+                currentSession = state.sessionsCompleted
             )
         }
     }
 }
 
 @Composable
-private fun StrictModeToggle(
-    strictMode: Boolean,
-    onToggle: () -> Unit
+private fun PhaseIndicator(
+    phase: SessionPhase,
+    sessionsCompleted: Int
 ) {
-    Card(
-        colors = CardDefaults.cardColors(containerColor = SurfaceDark),
-        modifier = Modifier.fillMaxWidth()
+    val phaseText = when (phase) {
+        SessionPhase.WORK -> "WORK"
+        SessionPhase.SHORT_BREAK -> "SHORT BREAK"
+        SessionPhase.LONG_BREAK -> "LONG BREAK"
+    }
+
+    val phaseColor = when (phase) {
+        SessionPhase.WORK -> PhoenixOrange
+        SessionPhase.SHORT_BREAK -> EnergyGreen
+        SessionPhase.LONG_BREAK -> PhoenixGold
+    }
+
+    Row(
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = "حالت سخت‌گیر",
-                    style = MaterialTheme.typography.titleSmall,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onBackground
-                )
-                Text(
-                    text = "برداشتن گوشی هشدار میده و تایمر ریست میشه",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = TextSecondary
-                )
-            }
-            Switch(
-                checked = strictMode,
-                onCheckedChange = { onToggle() },
-                colors = SwitchDefaults.colors(
-                    checkedThumbColor = PhoenixOrange,
-                    checkedTrackColor = PhoenixOrange.copy(alpha = 0.3f)
-                )
+        // Session dots
+        repeat(4) { index ->
+            val isCompleted = index < (sessionsCompleted % 4)
+            Box(
+                modifier = Modifier
+                    .size(10.dp)
+                    .clip(CircleShape)
+                    .background(if (isCompleted) PhoenixOrange else SurfaceVariantDark)
             )
+            if (index < 3) {
+                Spacer(modifier = Modifier.width(6.dp))
+            }
         }
+
+        Spacer(modifier = Modifier.width(16.dp))
+
+        Text(
+            text = phaseText,
+            color = phaseColor,
+            fontWeight = FontWeight.Bold,
+            fontSize = 14.sp
+        )
     }
 }
 
 @Composable
 private fun ModeSelector(
     selectedMode: TimerMode,
-    onModeSelected: (TimerMode) -> Unit
+    onModeSelected: (TimerMode) -> Unit,
+    isRunning: Boolean
 ) {
     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         TimerMode.entries.forEach { mode ->
@@ -335,21 +381,19 @@ private fun ModeSelector(
                 colors = FilterChipDefaults.filterChipColors(
                     selectedContainerColor = PhoenixOrange.copy(alpha = 0.2f),
                     selectedLabelColor = PhoenixOrange
-                )
+                ),
+                enabled = !isRunning
             )
         }
     }
 }
 
-// FIX #2: DurationSelector با فیلد ورودی دلخواه
 @Composable
 private fun DurationSelector(
     selectedDuration: Int,
     onDurationSelected: (Int) -> Unit,
     isRunning: Boolean
 ) {
-    // این کامپوزنبل فقط وقتی mode == CUSTOM نمایش داده میشه
-    // پس با هر بار ورود به این مود، remember با مقدار جدید initialized میشه
     var customInput by remember { mutableStateOf(selectedDuration.toString()) }
 
     Column(
@@ -357,8 +401,7 @@ private fun DurationSelector(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Row(
-            horizontalArrangement = Arrangement.spacedBy(6.dp),
-            modifier = Modifier.padding(horizontal = 4.dp)
+            horizontalArrangement = Arrangement.spacedBy(6.dp)
         ) {
             CustomDurations.forEach { minutes ->
                 FilterChip(
@@ -379,11 +422,9 @@ private fun DurationSelector(
             }
         }
 
-        // فیلد ورودی زمان دلخواه
         OutlinedTextField(
             value = customInput,
             onValueChange = { text ->
-                // فقط اعداد بپذیره، حداکثر ۳ رقم
                 if (text.isEmpty() || (text.length <= 3 && text.all { it.isDigit() })) {
                     customInput = text
                     text.toIntOrNull()?.let { minutes ->
@@ -393,7 +434,7 @@ private fun DurationSelector(
                     }
                 }
             },
-            label = { Text("دقیقه (۱ تا ۱۸۰)") },
+            label = { Text("Minutes (1-180)") },
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             colors = TextFieldDefaults.colors(
@@ -403,52 +444,97 @@ private fun DurationSelector(
                 unfocusedIndicatorColor = SurfaceVariantDark,
                 cursorColor = PhoenixOrange
             ),
-            modifier = Modifier.width(180.dp),
+            modifier = Modifier.width(160.dp),
             enabled = !isRunning
         )
     }
 }
 
 @Composable
-private fun TimerDisplay(
+private fun PremiumTimerDisplay(
     remainingSeconds: Int,
-    progress: Float
+    totalSeconds: Int,
+    phase: SessionPhase
 ) {
     val minutes = remainingSeconds / 60
     val seconds = remainingSeconds % 60
     val timeText = "%02d:%02d".format(minutes, seconds)
 
-    val trackColor = SurfaceVariantDark
-    val progressColor by animateColorAsState(
-        targetValue = when {
-            progress >= 1f -> EnergyGreen
-            progress >= 0.75f -> PhoenixGold
-            else -> PhoenixOrange
-        },
-        label = "timerColor"
+    val progress = if (totalSeconds > 0) {
+        1f - (remainingSeconds.toFloat() / totalSeconds)
+    } else 0f
+
+    val phaseColor = when (phase) {
+        SessionPhase.WORK -> PhoenixOrange
+        SessionPhase.SHORT_BREAK -> EnergyGreen
+        SessionPhase.LONG_BREAK -> PhoenixGold
+    }
+
+    // Glow animation
+    val infiniteTransition = rememberInfiniteTransition(label = "glow")
+    val glowAlpha by infiniteTransition.animateFloat(
+        initialValue = 0.3f,
+        targetValue = 0.6f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(1500, easing = LinearEasing),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "glowAlpha"
     )
+
+    // Pulse animation for text
+    val pulseAnim = remember { Animatable(1f) }
+    LaunchedEffect(remainingSeconds) {
+        if (remainingSeconds > 0) {
+            pulseAnim.snapTo(1f)
+            pulseAnim.animateTo(1.02f, animationSpec = tween(100))
+            pulseAnim.animateTo(1f, animationSpec = tween(150))
+        }
+    }
 
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier.size(220.dp)
+        modifier = Modifier.size(260.dp)
     ) {
         Canvas(modifier = Modifier.fillMaxSize()) {
-            val strokeWidth = 12.dp.toPx()
+            val strokeWidth = 16.dp.toPx()
             val diameter = size.minDimension - strokeWidth
             val topLeft = Offset(strokeWidth / 2f, strokeWidth / 2f)
+            val center = Offset(size.width / 2, size.height / 2)
+            val radius = diameter / 2
 
-            drawArc(
-                color = trackColor,
-                startAngle = -90f,
-                sweepAngle = 360f,
-                useCenter = false,
-                topLeft = topLeft,
-                size = Size(diameter, diameter),
+            // Outer glow
+            drawCircle(
+                brush = Brush.radialGradient(
+                    colors = listOf(
+                        phaseColor.copy(alpha = glowAlpha * 0.3f),
+                        Color.Transparent
+                    ),
+                    center = center,
+                    radius = radius + 40.dp.toPx()
+                ),
+                radius = radius + 40.dp.toPx(),
+                center = center
+            )
+
+            // Background track
+            drawCircle(
+                color = SurfaceVariantDark.copy(alpha = 0.5f),
+                radius = radius,
+                center = center,
                 style = Stroke(width = strokeWidth, cap = StrokeCap.Round)
             )
 
+            // Progress arc
             drawArc(
-                color = progressColor,
+                brush = Brush.sweepGradient(
+                    colors = listOf(
+                        phaseColor,
+                        phaseColor.copy(alpha = 0.7f),
+                        phaseColor
+                    ),
+                    center = center
+                ),
                 startAngle = -90f,
                 sweepAngle = 360f * progress,
                 useCenter = false,
@@ -456,18 +542,48 @@ private fun TimerDisplay(
                 size = Size(diameter, diameter),
                 style = Stroke(width = strokeWidth, cap = StrokeCap.Round)
             )
+
+            // Tick marks
+            val innerRadius = radius - strokeWidth / 2 - 8.dp.toPx()
+            val outerRadius = radius - strokeWidth / 2 + 4.dp.toPx()
+            for (i in 0 until 60) {
+                val angle = Math.toRadians((i * 6 - 90).toDouble()).toFloat()
+                val isMainTick = i % 5 == 0
+                val sx = center.x + outerRadius * cos(angle)
+                val sy = center.y + outerRadius * sin(angle)
+                val ex = center.x + innerRadius * cos(angle)
+                val ey = center.y + innerRadius * sin(angle)
+                drawLine(
+                    color = if (isMainTick) phaseColor.copy(alpha = 0.6f) else Color.White.copy(alpha = 0.15f),
+                    start = Offset(sx, sy),
+                    end = Offset(ex, ey),
+                    strokeWidth = if (isMainTick) 2.dp.toPx() else 1.dp.toPx()
+                )
+            }
         }
 
-        Text(
-            text = timeText,
-            fontSize = 56.sp,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.onBackground
-        )
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Text(
+                text = timeText,
+                fontSize = 64.sp,
+                fontWeight = FontWeight.ExtraBold,
+                color = Color.White,
+                modifier = Modifier.scale(pulseAnim.value)
+            )
+            Text(
+                text = when (phase) {
+                    SessionPhase.WORK -> "Focus Time"
+                    SessionPhase.SHORT_BREAK -> "Short Break"
+                    SessionPhase.LONG_BREAK -> "Long Break"
+                },
+                color = phaseColor.copy(alpha = 0.8f),
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Medium
+            )
+        }
     }
 }
 
-// FIX #3: آیکون start/pause شرطی بشه + FIX #4: دکمه fullscreen
 @Composable
 private fun TimerControls(
     isRunning: Boolean,
@@ -478,10 +594,10 @@ private fun TimerControls(
     isFullScreen: Boolean
 ) {
     Row(
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        horizontalArrangement = Arrangement.spacedBy(20.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // دکمه Stop
+        // Stop button
         IconButton(
             onClick = onStop,
             modifier = Modifier
@@ -496,13 +612,18 @@ private fun TimerControls(
             )
         }
 
-        // FIX اصلی #3: آیکون حالت اجرا Pause بشه، نه همون PlayArrow
+        // Play/Pause button
         IconButton(
             onClick = { if (isRunning) onPause() else onStart() },
             modifier = Modifier
-                .size(72.dp)
+                .size(80.dp)
                 .background(
-                    if (isRunning) PhoenixOrange.copy(alpha = 0.85f) else PhoenixOrange,
+                    Brush.radialGradient(
+                        colors = listOf(
+                            PhoenixOrange,
+                            PhoenixOrange.copy(alpha = 0.8f)
+                        )
+                    ),
                     CircleShape
                 )
         ) {
@@ -510,11 +631,11 @@ private fun TimerControls(
                 imageVector = Icons.Default.PlayArrow,
                 contentDescription = if (isRunning) "Pause" else "Start",
                 tint = Color.White,
-                modifier = Modifier.size(36.dp)
+                modifier = Modifier.size(40.dp)
             )
         }
 
-        // FIX #4: دکمه fullscreen
+        // Fullscreen button
         IconButton(
             onClick = onToggleFullScreen,
             modifier = Modifier
@@ -522,10 +643,8 @@ private fun TimerControls(
                 .background(SurfaceVariantDark, CircleShape)
         ) {
             Icon(
-                // TODO: اگه material-icons-extended دارید، جایگزین کنید با:
-                //   Icons.Default.Fullscreen / Icons.Default.FullscreenExit
                 imageVector = Icons.Default.Menu,
-                contentDescription = if (isFullScreen) "خروج از فول‌اسکرین" else "فول‌اسکرین",
+                contentDescription = "Fullscreen",
                 tint = PhoenixGold,
                 modifier = Modifier.size(28.dp)
             )
@@ -534,11 +653,57 @@ private fun TimerControls(
 }
 
 @Composable
+private fun StrictModeToggle(
+    strictMode: Boolean,
+    onToggle: () -> Unit,
+    isRunning: Boolean
+) {
+    Card(
+        colors = CardDefaults.cardColors(containerColor = SurfaceDark),
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(12.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = "Strict Mode",
+                    style = MaterialTheme.typography.titleSmall,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onBackground
+                )
+                Text(
+                    text = "Phone pickup triggers warning & restart",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = TextSecondary
+                )
+            }
+            Switch(
+                checked = strictMode,
+                onCheckedChange = { onToggle() },
+                enabled = !isRunning,
+                colors = SwitchDefaults.colors(
+                    checkedThumbColor = PhoenixOrange,
+                    checkedTrackColor = PhoenixOrange.copy(alpha = 0.3f)
+                )
+            )
+        }
+    }
+}
+
+@Composable
 private fun StatsSection(
     totalFocusSeconds: Int,
-    completedSessions: Int
+    completedSessions: Int,
+    currentSession: Int
 ) {
-    val focusTimeText = totalFocusSeconds.toFocusTimeText()
+    val hours = totalFocusSeconds / 3600
+    val minutes = (totalFocusSeconds % 3600) / 60
+    val focusText = if (hours > 0) "${hours}h ${minutes}m" else "${minutes}m"
 
     Card(
         colors = CardDefaults.cardColors(containerColor = SurfaceDark),
@@ -550,14 +715,9 @@ private fun StatsSection(
                 .padding(16.dp),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            StatItem(
-                label = "مجموع تمرکز",
-                value = focusTimeText
-            )
-            StatItem(
-                label = "جلسه کامل",
-                value = completedSessions.toString()
-            )
+            StatItem(label = "Total Focus", value = focusText)
+            StatItem(label = "Sessions", value = completedSessions.toString())
+            StatItem(label = "Today", value = "$currentSession/4")
         }
     }
 }
@@ -567,7 +727,7 @@ private fun StatItem(label: String, value: String) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
             text = value,
-            style = MaterialTheme.typography.headlineMedium,
+            style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold,
             color = PhoenixGold
         )
@@ -580,256 +740,289 @@ private fun StatItem(label: String, value: String) {
     }
 }
 
-// --- Full Screen Timer ---
-// FIX: totalDuration رو بگیره تا progress درست حساب بشه (قبلاً 25*60 هاردکد بود)
+// --- Premium Fullscreen Timer ---
 
 @Composable
-private fun FullScreenTimer(
-    timerValue: Int,
-    totalDuration: Int,
-    isRunning: Boolean,
-    onExitFullScreen: () -> Unit,
+private fun PremiumFullScreenTimer(
+    state: FocusTimerState,
     onStart: () -> Unit,
-    onPause: () -> Unit
+    onPause: () -> Unit,
+    onExitFullScreen: () -> Unit
 ) {
-    val alphaAnim = remember { Animatable(0f) }
-    val scaleAnim = remember { Animatable(0.98f) }
-    LaunchedEffect(Unit) {
-        alphaAnim.animateTo(1f, animationSpec = tween(320, easing = FastOutSlowInEasing))
-        scaleAnim.animateTo(1f, animationSpec = tween(320, easing = FastOutSlowInEasing))
+    val phaseColor = when (state.phase) {
+        SessionPhase.WORK -> PhoenixOrange
+        SessionPhase.SHORT_BREAK -> EnergyGreen
+        SessionPhase.LONG_BREAK -> PhoenixGold
     }
+
+    // Entrance animation
+    val alphaAnim = remember { Animatable(0f) }
+    val scaleAnim = remember { Animatable(0.95f) }
+    LaunchedEffect(Unit) {
+        alphaAnim.animateTo(1f, animationSpec = tween(400, easing = FastOutSlowInEasing))
+        scaleAnim.animateTo(1f, animationSpec = tween(400, easing = FastOutSlowInEasing))
+    }
+
+    // Background particles
+    val infiniteTransition = rememberInfiniteTransition(label = "particles")
+    val particleOffset by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = 1f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(3000, easing = LinearEasing),
+            repeatMode = RepeatMode.Restart
+        ),
+        label = "particle"
+    )
 
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Black.copy(alpha = alphaAnim.value * 0.95f)),
-        contentAlignment = Alignment.Center
+            .background(Color.Black)
     ) {
+        // Animated background gradient
+        Canvas(modifier = Modifier.fillMaxSize()) {
+            drawRect(
+                brush = Brush.radialGradient(
+                    colors = listOf(
+                        phaseColor.copy(alpha = 0.15f),
+                        Color.Black
+                    ),
+                    center = Offset(size.width / 2, size.height / 2),
+                    radius = size.width * 0.7f
+                )
+            )
+        }
+
         Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(32.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.scale(scaleAnim.value)
+            verticalArrangement = Arrangement.Center
         ) {
-            FullScreenTimerCircle(
-                timerValue = timerValue,
-                totalDuration = totalDuration,
-                size = 340.dp
+            // Phase text
+            Text(
+                text = when (state.phase) {
+                    SessionPhase.WORK -> "FOCUS"
+                    SessionPhase.SHORT_BREAK -> "BREAK"
+                    SessionPhase.LONG_BREAK -> "LONG BREAK"
+                },
+                color = phaseColor,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                letterSpacing = 4.sp,
+                modifier = Modifier.alpha(alphaAnim.value)
             )
 
             Spacer(modifier = Modifier.height(24.dp))
 
+            // Large timer
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .size(320.dp)
+                    .scale(scaleAnim.value)
+            ) {
+                Canvas(modifier = Modifier.fillMaxSize()) {
+                    val strokeWidth = 20.dp.toPx()
+                    val diameter = size.minDimension - strokeWidth
+                    val topLeft = Offset(strokeWidth / 2f, strokeWidth / 2f)
+                    val center = Offset(size.width / 2, size.height / 2)
+                    val radius = diameter / 2
+
+                    // Glow
+                    drawCircle(
+                        brush = Brush.radialGradient(
+                            colors = listOf(
+                                phaseColor.copy(alpha = 0.2f),
+                                Color.Transparent
+                            ),
+                            center = center,
+                            radius = radius + 60.dp.toPx()
+                        ),
+                        radius = radius + 60.dp.toPx(),
+                        center = center
+                    )
+
+                    // Track
+                    drawCircle(
+                        color = Color.White.copy(alpha = 0.1f),
+                        radius = radius,
+                        center = center,
+                        style = Stroke(width = strokeWidth, cap = StrokeCap.Round)
+                    )
+
+                    // Progress
+                    val progress = if (state.totalDurationSeconds > 0) {
+                        1f - (state.remainingSeconds.toFloat() / state.totalDurationSeconds)
+                    } else 0f
+
+                    drawArc(
+                        brush = Brush.sweepGradient(
+                            colors = listOf(phaseColor, phaseColor.copy(alpha = 0.5f), phaseColor),
+                            center = center
+                        ),
+                        startAngle = -90f,
+                        sweepAngle = 360f * progress,
+                        useCenter = false,
+                        topLeft = topLeft,
+                        size = Size(diameter, diameter),
+                        style = Stroke(width = strokeWidth, cap = StrokeCap.Round)
+                    )
+                }
+
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text(
+                        text = "%02d:%02d".format(state.displayMinutes, state.displaySeconds),
+                        fontSize = 80.sp,
+                        fontWeight = FontWeight.ExtraBold,
+                        color = Color.White
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(48.dp))
+
+            // Controls
             Row(
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalArrangement = Arrangement.spacedBy(24.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                // FIX: آیکون شرطی اینجا هم
+                // Play/Pause
                 Button(
-                    onClick = { if (isRunning) onPause() else onStart() },
+                    onClick = { if (state.isRunning) onPause() else onStart() },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = if (isRunning) PhoenixRed else PhoenixOrange
+                        containerColor = phaseColor
                     ),
-                    modifier = Modifier.height(48.dp)
+                    modifier = Modifier
+                        .size(72.dp)
+                        .clip(CircleShape)
                 ) {
                     Icon(
                         imageVector = Icons.Default.PlayArrow,
                         contentDescription = null,
-                        tint = Color.White
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = if (isRunning) "توقف" else "شروع",
-                        color = Color.White
+                        tint = Color.White,
+                        modifier = Modifier.size(36.dp)
                     )
                 }
 
+                // Exit fullscreen
                 Button(
                     onClick = onExitFullScreen,
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color.White.copy(alpha = 0.15f)
                     ),
-                    modifier = Modifier.height(48.dp)
+                    modifier = Modifier
+                        .height(56.dp)
+                        .clip(RoundedCornerShape(28.dp))
                 ) {
-                    Icon(
-                        imageVector = Icons.Default.Close,
-                        contentDescription = null,
-                        tint = Color.White
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = "خروج",
-                        color = Color.White
+                        text = "EXIT",
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold,
+                        letterSpacing = 2.sp
                     )
                 }
             }
+
+            // Session info
+            Spacer(modifier = Modifier.height(32.dp))
+            Text(
+                text = "Session ${state.sessionsCompleted + 1}",
+                color = Color.White.copy(alpha = 0.5f),
+                fontSize = 14.sp
+            )
         }
     }
 }
 
-// FIX: totalDuration رو بگیره به جای هاردکد 25*60
+// --- Warning Overlay ---
+
 @Composable
-private fun FullScreenTimerCircle(
-    timerValue: Int,
-    totalDuration: Int,
-    size: androidx.compose.ui.unit.Dp = 300.dp
+private fun WarningOverlay(
+    countdown: Int,
+    onPhonePutDown: () -> Unit
 ) {
-    val minutes = timerValue / 60
-    val seconds = timerValue % 60
-    val formattedTime = String.format("%02d:%02d", minutes, seconds)
-
-    // FIX: قبل‌تر اینجا بود: val total = 25 * 60f — حالا از مقدار واقعی استفاده میشه
-    val total = totalDuration.toFloat().coerceAtLeast(1f)
-    val targetProgress = 1f - (timerValue.toFloat() / total)
-    val progressAnim = remember { Animatable(targetProgress) }
-
-    LaunchedEffect(targetProgress) {
-        progressAnim.animateTo(
-            targetValue = targetProgress,
-            animationSpec = tween(durationMillis = 500, easing = FastOutSlowInEasing)
-        )
-    }
-
-    val textPulse = remember { Animatable(1f) }
-    LaunchedEffect(timerValue) {
-        textPulse.snapTo(1f)
-        textPulse.animateTo(1.06f, animationSpec = tween(110))
-        textPulse.animateTo(1f, animationSpec = tween(220))
-    }
-
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier.size(size)
-    ) {
-        Canvas(modifier = Modifier.size(size)) {
-            val center = Offset(size.toPx() / 2, size.toPx() / 2)
-            val outerRadius = size.toPx() / 2
-
-            drawCircle(
-                brush = Brush.radialGradient(
-                    colors = listOf(
-                        Color(0xFF06203A),
-                        Color(0xFF06203A).copy(alpha = 0.85f)
-                    )
-                ),
-                radius = outerRadius,
-                center = center
-            )
-
-            val innerRadius = outerRadius - 12f
-            for (i in 0 until 60) {
-                val angle = Math.toRadians(i * 6.0 - 90.0).toFloat()
-                val sx = center.x + outerRadius * kotlin.math.cos(angle)
-                val sy = center.y + outerRadius * kotlin.math.sin(angle)
-                val ex = center.x + innerRadius * kotlin.math.cos(angle)
-                val ey = center.y + innerRadius * kotlin.math.sin(angle)
-                drawLine(
-                    color = if (i % 5 == 0) Color(0xFFfca311) else Color(0x55ffffff),
-                    start = Offset(sx, sy),
-                    end = Offset(ex, ey),
-                    strokeWidth = if (i % 5 == 0) 3f else 1f
-                )
-            }
-
-            drawArc(
-                brush = Brush.sweepGradient(
-                    listOf(Color(0xFFfca311), Color(0xFFef476f))
-                ),
-                startAngle = -90f,
-                sweepAngle = 360f * progressAnim.value,
-                useCenter = false,
-                style = Stroke(width = 12f, cap = StrokeCap.Round),
-                topLeft = Offset(0f, 0f),
-                size = Size(size.toPx(), size.toPx())
-            )
-        }
-
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(
-                text = formattedTime,
-                color = Color.White,
-                fontSize = 64.sp,
-                fontWeight = FontWeight.ExtraBold,
-                modifier = Modifier.scale(textPulse.value)
-            )
-            Text(
-                text = "جلسه تمرکز",
-                color = Color(0xFFbcd9ff),
-                fontSize = 16.sp
-            )
-        }
-    }
-}
-
-// --- Warning Screen ---
-
-@Composable
-private fun WarningScreen(countdown: Int, onPhonePutDown: () -> Unit) {
     val alphaAnim = remember { Animatable(0f) }
-    val scaleAnim = remember { Animatable(0.94f) }
     LaunchedEffect(Unit) {
-        alphaAnim.animateTo(1f, animationSpec = tween(260, easing = FastOutSlowInEasing))
-        scaleAnim.animateTo(1f, animationSpec = tween(360, easing = FastOutSlowInEasing))
+        alphaAnim.animateTo(1f, animationSpec = tween(300))
     }
+
+    // Pulsing red overlay
+    val infiniteTransition = rememberInfiniteTransition(label = "warning")
+    val pulseAlpha by infiniteTransition.animateFloat(
+        initialValue = 0.3f,
+        targetValue = 0.6f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(500, easing = LinearEasing),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "pulse"
+    )
 
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xB0000010))
-            .alpha(1f),
+            .background(Color.Black.copy(alpha = alphaAnim.value * 0.9f)),
         contentAlignment = Alignment.Center
     ) {
         Column(
             modifier = Modifier
-                .padding(28.dp)
-                .clip(RoundedCornerShape(18.dp))
+                .padding(32.dp)
+                .clip(RoundedCornerShape(24.dp))
                 .background(
                     Brush.verticalGradient(
-                        listOf(PhoenixRed, Color(0xFF9b0000))
+                        listOf(
+                            PhoenixRed.copy(alpha = pulseAlpha),
+                            PhoenixRed
+                        )
                     )
                 )
-                .scale(scaleAnim.value)
-                .alpha(alphaAnim.value)
-                .padding(22.dp),
+                .padding(32.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             Text(
-                text = "⚠️ هشدار",
-                fontSize = 30.sp,
+                text = "PUT DOWN YOUR PHONE",
+                fontSize = 24.sp,
+                fontWeight = FontWeight.ExtraBold,
                 color = Color.White,
-                fontWeight = FontWeight.Bold
+                letterSpacing = 2.sp
             )
 
             Text(
-                text = "لطفاً گوشی را روی میز یا جیب بگذارید تا تایمر ادامه یابد.",
+                text = "Place your phone on a table or in your pocket to continue",
                 fontSize = 16.sp,
-                color = Color.White,
+                color = Color.White.copy(alpha = 0.9f),
                 textAlign = TextAlign.Center
             )
 
             Text(
                 text = countdown.toString(),
-                fontSize = 72.sp,
-                color = Color.White,
-                fontWeight = FontWeight.ExtraBold
+                fontSize = 96.sp,
+                fontWeight = FontWeight.Black,
+                color = Color.White
             )
 
             Text(
-                text = "در صورت رعایت نکردن، تایمر از نو شروع می‌شود",
+                text = "Timer will restart if not followed",
                 fontSize = 14.sp,
-                color = Color.White.copy(alpha = 0.8f),
-                textAlign = TextAlign.Center
+                color = Color.White.copy(alpha = 0.7f)
             )
 
             Button(
                 onClick = onPhonePutDown,
                 modifier = Modifier
-                    .fillMaxWidth(0.65f)
-                    .height(52.dp),
+                    .fillMaxWidth(0.7f)
+                    .height(56.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Color.White)
             ) {
                 Text(
-                    text = "گوشی را گذاشتم",
+                    text = "PHONE IS DOWN",
                     color = PhoenixRed,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    letterSpacing = 1.sp
                 )
             }
         }

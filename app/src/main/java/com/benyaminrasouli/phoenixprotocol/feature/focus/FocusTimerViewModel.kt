@@ -15,28 +15,40 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 enum class TimerMode { POMODORO, CUSTOM }
+enum class SessionPhase { WORK, SHORT_BREAK, LONG_BREAK }
 
 data class FocusTimerState(
     val mode: TimerMode = TimerMode.POMODORO,
     val selectedDuration: Int = 25,
+    val phase: SessionPhase = SessionPhase.WORK,
     val elapsedSeconds: Int = 0,
     val isRunning: Boolean = false,
-    val totalFocusSeconds: Int = 0,
-    val completedSessions: Int = 0,
     val isFullScreen: Boolean = false,
     val strictMode: Boolean = false,
     val isWarningActive: Boolean = false,
     val warningCountdown: Int = 7,
-    val lastWarningDismissTime: Long = 0L
+    val lastWarningDismissTime: Long = 0L,
+    val sessionsCompleted: Int = 0,
+    val totalFocusSeconds: Int = 0,
+    val completedSessions: Int = 0
 ) {
+    val totalDurationSeconds: Int
+        get() = when (mode) {
+            TimerMode.POMODORO -> selectedDuration * 60
+            TimerMode.CUSTOM -> selectedDuration * 60
+        }
+
     val remainingSeconds: Int
-        get() = (selectedDuration * 60) - elapsedSeconds
+        get() = totalDurationSeconds - elapsedSeconds
 
     val progress: Float
-        get() {
-            val total = selectedDuration * 60
-            return if (total > 0) elapsedSeconds.toFloat() / total else 0f
-        }
+        get() = if (totalDurationSeconds > 0) elapsedSeconds.toFloat() / totalDurationSeconds else 0f
+
+    val displayMinutes: Int
+        get() = remainingSeconds / 60
+
+    val displaySeconds: Int
+        get() = remainingSeconds % 60
 }
 
 @HiltViewModel
@@ -52,6 +64,9 @@ class FocusTimerViewModel @Inject constructor(
 
     companion object {
         const val WARNING_GRACE_MILLIS = 2000L
+        const val SHORT_BREAK_MINUTES = 5
+        const val LONG_BREAK_MINUTES = 15
+        const val SESSIONS_BEFORE_LONG_BREAK = 4
     }
 
     init {
@@ -71,16 +86,9 @@ class FocusTimerViewModel @Inject constructor(
         }
     }
 
-    // FIX: وقتی مود عوض شد، اگه Pomodoro هست duration رو ۲۵ کن و elapsed رو صفر
     fun setMode(mode: TimerMode) {
         if (_state.value.isRunning) return
-        _state.update {
-            it.copy(
-                mode = mode,
-                selectedDuration = if (mode == TimerMode.POMODORO) 25 else it.selectedDuration,
-                elapsedSeconds = 0
-            )
-        }
+        _state.update { it.copy(mode = mode, phase = SessionPhase.WORK, elapsedSeconds = 0) }
     }
 
     fun setDuration(minutes: Int) {
@@ -91,33 +99,77 @@ class FocusTimerViewModel @Inject constructor(
     fun start() {
         if (_state.value.isRunning) return
         _state.update { it.copy(isRunning = true) }
+        startTimerJob()
+    }
+
+    private fun startTimerJob() {
+        timerJob?.cancel()
         timerJob = viewModelScope.launch {
-            val durationMinutes = _state.value.selectedDuration
-            val modeName = _state.value.mode.name
             val startedAt = System.currentTimeMillis()
             while (_state.value.isRunning && _state.value.remainingSeconds > 0) {
                 delay(1000)
                 _state.update { it.copy(elapsedSeconds = it.elapsedSeconds + 1) }
             }
-            // فقط اگه تایمر به صفر رسیده (نه pause شده)
-            if (_state.value.remainingSeconds <= 0 && !_state.value.isWarningActive) {
+            if (_state.value.remainingSeconds <= 0) {
+                onTimerComplete(startedAt)
+            }
+        }
+    }
+
+    private fun onTimerComplete(startedAt: Long) {
+        val currentState = _state.value
+
+        // Save work session to DB
+        if (currentState.phase == SessionPhase.WORK) {
+            viewModelScope.launch {
                 val session = FocusSession(
                     startedAt = startedAt,
                     endedAt = System.currentTimeMillis(),
-                    durationSeconds = durationMinutes * 60,
+                    durationSeconds = currentState.totalDurationSeconds,
                     completed = true,
-                    mode = modeName
+                    mode = currentState.mode.name
                 )
                 focusRepository.insertSession(session)
                 loadStatsFromDb()
-                _state.update {
-                    it.copy(
-                        isRunning = false,
-                        elapsedSeconds = 0
-                    )
-                }
             }
         }
+
+        // Handle phase transition
+        val newSessionsCompleted = if (currentState.phase == SessionPhase.WORK) {
+            currentState.sessionsCompleted + 1
+        } else {
+            currentState.sessionsCompleted
+        }
+
+        val nextPhase = when (currentState.phase) {
+            SessionPhase.WORK -> {
+                if (newSessionsCompleted % SESSIONS_BEFORE_LONG_BREAK == 0) {
+                    SessionPhase.LONG_BREAK
+                } else {
+                    SessionPhase.SHORT_BREAK
+                }
+            }
+            SessionPhase.SHORT_BREAK, SessionPhase.LONG_BREAK -> SessionPhase.WORK
+        }
+
+        val nextDuration = when (nextPhase) {
+            SessionPhase.WORK -> currentState.selectedDuration
+            SessionPhase.SHORT_BREAK -> SHORT_BREAK_MINUTES
+            SessionPhase.LONG_BREAK -> LONG_BREAK_MINUTES
+        }
+
+        _state.update {
+            it.copy(
+                isRunning = false,
+                elapsedSeconds = 0,
+                phase = nextPhase,
+                selectedDuration = nextDuration,
+                sessionsCompleted = newSessionsCompleted
+            )
+        }
+
+        // Auto-start next phase
+        start()
     }
 
     fun pause() {
@@ -129,7 +181,14 @@ class FocusTimerViewModel @Inject constructor(
     fun stop() {
         timerJob?.cancel()
         timerJob = null
-        _state.update { it.copy(isRunning = false, elapsedSeconds = 0) }
+        _state.update {
+            it.copy(
+                isRunning = false,
+                elapsedSeconds = 0,
+                phase = SessionPhase.WORK,
+                selectedDuration = if (it.mode == TimerMode.POMODORO) 25 else it.selectedDuration
+            )
+        }
     }
 
     fun toggleFullScreen() {
@@ -154,6 +213,7 @@ class FocusTimerViewModel @Inject constructor(
                 isRunning = false
             )
         }
+        timerJob?.cancel()
         startWarningCountdown()
     }
 
@@ -164,7 +224,6 @@ class FocusTimerViewModel @Inject constructor(
                 delay(1000)
                 _state.update { it.copy(warningCountdown = it.warningCountdown - 1) }
             }
-            // ۷ ثانیه تموم شد و کاربر گوشی رو نذاشت → ریست از اول
             if (_state.value.isWarningActive && _state.value.warningCountdown == 0) {
                 _state.update {
                     it.copy(
@@ -187,6 +246,7 @@ class FocusTimerViewModel @Inject constructor(
                 isRunning = true
             )
         }
+        startTimerJob()
     }
 
     override fun onCleared() {
